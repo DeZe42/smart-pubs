@@ -1,0 +1,36 @@
+<section class="register">
+    <h1>{{ 'register' | translate }}</h1>
+    <form [formGroup]="registerForm">
+        <mat-form-field appearance="outline" color="primary">
+            <mat-label>{{ 'register.email' | translate }}</mat-label>
+            <input matInput type="text" formControlName="email">
+            <mat-error>{{ 'register.error' }}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" color="primary">
+            <mat-label>{{ 'register.password' | translate }}</mat-label>
+            <input matInput type="password" formControlName="password">
+            <mat-error>{{ 'register.error' }}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" color="primary">
+            <mat-label>{{ 'register.password' | translate }}</mat-label>
+            <input matInput type="password" formControlName="passwordAgain">
+            <mat-error>{{ 'register.error' }}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" color="primary">
+            <mat-label>{{ 'register.leader.name' | translate }}</mat-label>
+            <input matInput type="text" formControlName="leaderName">
+            <mat-error>{{ 'register.error' }}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" color="primary">
+            <mat-label>{{ 'register.pub.name' | translate }}</mat-label>
+            <input matInput type="text" formControlName="pubName">
+            <mat-error>{{ 'register.error' }}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" color="primary">
+            <mat-label>{{ 'register.pub.description' | translate }}</mat-label>
+            <input matInput type="text" formControlName="pubDescription">
+            <mat-error>{{ 'register.error' }}</mat-error>
+        </mat-form-field>
+    </form>
+    <button mat-raised-button color="accent" (click)="register()" [disabled]="registerForm.invalid">{{ 'register' | translate }}</button>
+</section>

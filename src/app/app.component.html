@@ -1,1 +1,29 @@
-<router-outlet></router-outlet>
+<mat-drawer-container class="container" autosize>
+    <mat-drawer #drawer class="container__sidenav" mode="side">
+      <p>Auto-resizing sidenav</p>
+      <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p>
+      <button (click)="showFiller = !showFiller" mat-raised-button>
+        Toggle extra text
+      </button>
+    </mat-drawer>
+    <div class="container__content">
+        <div class="container__content--header">
+            <mat-toolbar color="primary" class="toolbar">
+                <!-- <button mat-icon-button (click)="drawer.toggle()">
+                  <mat-icon>menu</mat-icon>
+                </button> -->
+                <div class="toolbar__title">
+                    <span>Smart Pubs</span>
+                </div>
+                <div class="toolbar__actions">
+                    <button mat-raised-button color="primary" routerLink="/auth/login">{{ 'home.header.login' | translate }}</button>
+                    <button mat-stroked-button color="accent" routerLink="/auth/register">{{ 'home.header.register' | translate }}</button>
+                    <button mat-stroked-button color="primary" (click)="signOut()">{{ 'home.header.sign.out' | translate }}</button>
+                </div>
+              </mat-toolbar>
+        </div>
+        <div class="container__content--content">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</mat-drawer-container>

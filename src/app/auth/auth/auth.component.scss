@@ -1,0 +1,13 @@
+.auth {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    &__header {
+
+    }
+    &__content {
+        display: flex;
+        flex-direction: column;
+        width: 600px;
+    }
+}
