@@ -1,4 +1,22 @@
 {
-    "home.header.login": "Bejelentkezés",
-    "home.header.register": "Regisztráció"
+    "header.login": "Bejelentkezés",
+    "header.register": "Regisztráció",
+    "header.languages.hu": "Magyar",
+    "header.languages.ro": "Román",
+    "home.title": "Foglalj asztalt a kedvenc szórakozóhelyeden, hogy akkor kezdődjön az este, amikor Te akarod!",
+    "home.search.place.holder": "Szórakozóhely keresése...",
+    "home.search": "Keresés",
+    "home.all.pubs": "Az összes elérhető szórakozóhely",
+    "home.opening.hours": "Nyitva tartás",
+    "home.current.space": "hely foglalt jelenleg",
+    "home.register.title": "Szeretnéd, ha a saját szórakozóhelyed megjelenne a weboldalunkon?",
+    "home.register.text": "Regisztráld be hozzánk szórakozóhelyedet teljesen ingyen, hogy a vendégeid könnyedén asztalt foglalhassanak hozzád!",
+    "home.register.button": "Szórakozóhely beregisztrálása",
+    "home.questions.title": "Van bármi kérdésed?",
+    "home.questions.text": "Írj nekünk levelet bátran a neved és e-mail címed megadásával! Azonnal válaszolunk!",
+    "home.form.name.place.holder": "Teljes neved",
+    "home.form.email.place.holder": "E-mail címed",
+    "home.form.text.place.holder": "Az üzenet...",
+    "home.questions.button": "Küldés",
+    "footer.copyright": "Copyright 2020. Minden jog fenntartva."
 }

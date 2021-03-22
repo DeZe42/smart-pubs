@@ -1,4 +1,53 @@
-/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/theming";
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+@include mat-core();
+
+$orange: (
+    50: #FCEFE0,
+    100: #F7D7B3,
+    200: #F2BD80,
+    300: #EDA24D,
+    400: #E98E26,
+    500: #E57A00,
+    600: #E27200,
+    700: #DE6700,
+    800: #DA5D00,
+    900: #D34A00,
+    A100: #FFFCFB,
+    A200: #FFD7C8,
+    A400: #FFB395,
+    A700: #FFA17B,
+    contrast: (
+      50: $dark-primary-text,
+      100: $dark-primary-text,
+      200: $dark-primary-text,
+      300: $dark-primary-text,
+      400: $dark-primary-text,
+      500: $dark-primary-text,
+      600: $dark-primary-text,
+      700: $light-primary-text,
+      800: $light-primary-text,
+      900: $light-primary-text,
+      A100: $dark-primary-text,
+      A200: $dark-primary-text,
+      A400: $dark-primary-text,
+      A700: $dark-primary-text,
+    )
+);
+
+$smart-pubs-app-primary: mat-palette($orange);
+$smart-pubs-app-accent: mat-palette($mat-indigo);
+$smart-pubs-app-warn: mat-palette($mat-red);
+
+$smart-pubs-app-main-theme: mat-light-theme($smart-pubs-app-primary, $smart-pubs-app-accent, $smart-pubs-app-warn);
+
+@include angular-material-theme($smart-pubs-app-main-theme);
+
+$custom-typography: mat-typography-config(
+  $font-family: 'Montserrat'
+);
+
+@include angular-material-typography($custom-typography);

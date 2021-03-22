@@ -6,24 +6,52 @@
         Toggle extra text
       </button>
     </mat-drawer>
-    <div class="container__content">
+    <mat-drawer-content class="container__content">
         <div class="container__content--header">
-            <mat-toolbar color="primary" class="toolbar">
-                <!-- <button mat-icon-button (click)="drawer.toggle()">
-                  <mat-icon>menu</mat-icon>
-                </button> -->
-                <div class="toolbar__title">
-                    <span>Smart Pubs</span>
-                </div>
-                <div class="toolbar__actions">
-                    <button mat-raised-button color="primary" routerLink="/auth/login">{{ 'home.header.login' | translate }}</button>
-                    <button mat-stroked-button color="accent" routerLink="/auth/register">{{ 'home.header.register' | translate }}</button>
-                    <button mat-stroked-button color="primary" (click)="signOut()">{{ 'home.header.sign.out' | translate }}</button>
-                </div>
-              </mat-toolbar>
+          <mat-toolbar class="toolbar">
+            <!-- <button mat-icon-button (click)="drawer.toggle()">
+              <mat-icon>menu</mat-icon>
+            </button> -->
+            <div class="toolbar__title" routerLink="/">
+                <span class="toolbar__title--text">smart</span><span class="toolbar__title--text colored">Pubs</span>
+            </div>
+            <div class="toolbar__links">
+              <nav mat-tab-nav-bar>
+                <a mat-tab-link [active]="router.url == '/pubs'" routerLink="/pubs">{{ 'home.header.pubs' | translate }}</a>
+              </nav>
+            </div>
+            <div class="toolbar__actions">
+              <div class="toolbar__actions--language" #languagesMenuTrigger="matMenuTrigger" [matMenuTriggerFor]="languagesMenu">
+                <div class="language-text" *ngIf="currentLanguage == 'hu'">HU</div>
+                <div class="language-text" *ngIf="currentLanguage == 'ro'">RO</div>
+                <mat-icon color="primary">{{languagesMenuTrigger.menuOpen ? 'arrow_drop_up' : 'arrow_drop_down'}}</mat-icon>
+              </div>
+              <mat-menu #languagesMenu="matMenu">
+                  <div class="lang">
+                      <a mat-menu-item (click)="useLanguage('ro')"><mat-icon color="primary" *ngIf="currentLanguage == 'ro'">checked</mat-icon><span class="text" [ngClass]="{'empty': currentLanguage == 'hu', 'active': currentLanguage == 'ro'}">{{ 'header.languages.ro' | translate }}</span></a>
+                  </div>
+                  <div class="lang">
+                      <a mat-menu-item (click)="useLanguage('hu')"><mat-icon color="primary" *ngIf="currentLanguage == 'hu'">checked</mat-icon><span class="text" [ngClass]="{'empty': currentLanguage == 'ro', 'active': currentLanguage == 'hu'}">{{ 'header.languages.hu' | translate }}</span></a>
+                  </div>
+              </mat-menu>
+              <mat-divider [vertical]="true"></mat-divider>
+              <button class="toolbar__actions--login-button" routerLink="/auth/login" matRipple><mat-icon color="primary">account_circle</mat-icon><span>{{ 'header.login' | translate }}</span></button>
+              <!-- <button mat-stroked-button color="accent" routerLink="/auth/register">{{ 'home.header.register' | translate }}</button>
+              <button mat-stroked-button color="primary" (click)="signOut()">{{ 'home.header.sign.out' | translate }}</button> -->
+            </div>
+          </mat-toolbar>
         </div>
+        <mat-progress-bar *ngIf="loading" mode="indeterminate" class="container__content--loading-bar"></mat-progress-bar>
         <div class="container__content--content">
-            <router-outlet></router-outlet>
+          <router-outlet></router-outlet>
         </div>
-    </div>
+        <div class="container__content--footer">
+          <div class="footer-container">
+            <div class="footer-container__title" routerLink="/">
+              <span class="footer-container__title--text">smart</span><span class="footer-container__title--text colored">Pubs</span>
+            </div>
+            <span class="footer-container__text">{{ 'footer.copyright' | translate }}</span>
+          </div>
+        </div>
+    </mat-drawer-content>
 </mat-drawer-container>

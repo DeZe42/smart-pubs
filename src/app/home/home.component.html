@@ -1,0 +1,53 @@
+<section class="home">
+    <div class="home__header">
+        <div class="home__header--container">
+            <span class="title">{{ 'home.title' | translate }}</span>
+            <div class="search-container">
+                <div class="search-container__input-container">
+                    <input type="text" [placeholder]="'home.search.place.holder' | translate">
+                    <mat-icon>search</mat-icon>
+                </div>
+                <button class="search-container__search-button" matRipple>{{ 'home.search' | translate | uppercase }}</button>
+            </div>
+        </div>
+    </div>
+    <div class="home__content">
+        <span class="home__content--title">{{ 'home.all.pubs' | translate }}</span>
+        <div class="home__content--card-container">
+            <div class="card mat-elevation-z3" *ngFor="let pub of pubs">
+                <div class="card__image">
+                    <img src="">
+                </div>
+                <div class="card__details">
+                    <span class="card__details--title">{{ pub.name }}</span>
+                    <span class="card__details--opening-hours">{{ 'home.opening.hours' | translate }}:<br>{{ pub.openStartingHour }} - {{ pub.openEndingHour }}</span>
+                    <div class="card__details--space">
+                        <span class="space-number">{{ pub.currentSpace }}/{{ pub.space }}</span>
+                        <span class="space-text">{{ 'home.current.space' | translate }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="home__content--register">
+            <div class="container">
+                <span class="container__title">{{ 'home.register.title' | translate }}</span>
+                <span class="container__text">{{ 'home.register.text' | translate }}</span>
+                <div class="container__button">
+                    <button matRipple>{{ 'home.register.button' | translate | uppercase }}</button>
+                </div>
+            </div>
+        </div>
+        <div class="home__content--questions">
+            <span class="question-title">{{ 'home.questions.title' | translate }}</span>
+            <span class="question-text">{{ 'home.questions.text' | translate }}</span>
+            <form [formGroup]="questionForm">
+                <input type="text" formControlName="name" [placeholder]="'home.form.name.place.holder' | translate">
+                <input type="text" formControlName="email" [placeholder]="'home.form.email.place.holder' | translate">
+                <textarea formControlName="text" [placeholder]="'home.form.text.place.holder' | translate"></textarea>
+            </form>
+            <div class="question-button">
+                <button matRipple>{{ 'home.questions.button' | translate | uppercase }}</button>
+            </div>
+        </div>
+    </div>
+</section>
