@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Pubs } from '../shared/models';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ApiService } from '../api.service';
+import { Pub } from '../shared/models';
 
 @Component({
   selector: 'app-home',
@@ -9,11 +10,14 @@ import { Pubs } from '../shared/models';
 })
 export class HomeComponent implements OnInit {
   
-  pubs: Pubs[] = [];
+  pubs: Pub[] = [];
+  originalPubs: Pub[] = [];
   questionForm: FormGroup;
+  searchCtrl = new FormControl('');
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private apiService: ApiService
   ) { }
 
   ngOnInit(): void {
@@ -21,9 +25,22 @@ export class HomeComponent implements OnInit {
       name: ['', Validators.required],
       email: ['', Validators.required],
       text: ['', Validators.required]
-    })
-    for (let index = 0; index <= 10; index++) {
-      this.pubs.push({ imageSrc: 'asd', name: 'valami etterem', openStartingHour: '12:00', openEndingHour: '22:00', currentSpace: 16, space: 88 });
-    }
+    });
+    this.apiService.pubs$.subscribe((data: Pub[]) => {
+      if (data) {
+        this.pubs = data;
+        this.originalPubs = data;
+      }
+    });
+  }
+
+  search(value) {
+    this.pubs = this.originalPubs.filter(e=>{
+      const string: string = e.name;
+      if (string.toUpperCase().includes(value.toUpperCase())) {
+        return true;
+      }
+      return false;
+    });
   }
 }

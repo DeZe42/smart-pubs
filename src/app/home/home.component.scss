@@ -93,19 +93,29 @@
             max-width: 1440px;
             width: 100%;
             margin: 0 0 160px 0;
+            &.active {
+                margin: 0 0 72px 0;
+            }
+            .empty-text {
+                font-size: 24px;
+                font-weight: 500;
+                width: 100%;
+                text-align: center;
+            }
             .card {
                 display: flex;
                 flex-direction: column;
                 width: 342px;
                 background-color: $white;
                 border-radius: 4px 4px 0 0;
-                box-shadow: 0px 8px 32px rgba(0,0,0,0.05);
+                box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.05);
                 margin: 0 24px 24px 0;
+                cursor: pointer;
                 &:nth-child(4n) {
                     margin: 0 0 24px 0;
                 }
                 &:hover {
-                    box-shadow: 0px 8px 32px rgba(0,0,0,0.5);
+                    box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.3);
                 }
                 &__image {
                     height: 240px;

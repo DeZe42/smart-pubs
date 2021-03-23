@@ -15,11 +15,11 @@
             <div class="toolbar__title" routerLink="/">
                 <span class="toolbar__title--text">smart</span><span class="toolbar__title--text colored">Pubs</span>
             </div>
-            <div class="toolbar__links">
+            <!-- <div class="toolbar__links">
               <nav mat-tab-nav-bar>
                 <a mat-tab-link [active]="router.url == '/pubs'" routerLink="/pubs">{{ 'home.header.pubs' | translate }}</a>
               </nav>
-            </div>
+            </div> -->
             <div class="toolbar__actions">
               <div class="toolbar__actions--language" #languagesMenuTrigger="matMenuTrigger" [matMenuTriggerFor]="languagesMenu">
                 <div class="language-text" *ngIf="currentLanguage == 'hu'">HU</div>

@@ -4,7 +4,7 @@
             <span class="title">{{ 'home.title' | translate }}</span>
             <div class="search-container">
                 <div class="search-container__input-container">
-                    <input type="text" [placeholder]="'home.search.place.holder' | translate">
+                    <input type="text" [placeholder]="'home.search.place.holder' | translate" (keyup)="search($event.target.value)" [formControl]="searchCtrl">
                     <mat-icon>search</mat-icon>
                 </div>
                 <button class="search-container__search-button" matRipple>{{ 'home.search' | translate | uppercase }}</button>
@@ -13,10 +13,11 @@
     </div>
     <div class="home__content">
         <span class="home__content--title">{{ 'home.all.pubs' | translate }}</span>
-        <div class="home__content--card-container">
+        <div class="home__content--card-container" [ngClass]="{'active': pubs.length == 0}">
+            <span class="empty-text" *ngIf="pubs.length == 0">{{ 'home.pubs.is.empty.1' | translate }} "<b>{{ searchCtrl.value }}</b>" {{ 'home.pubs.is.empty.2' | translate }}</span>
             <div class="card mat-elevation-z3" *ngFor="let pub of pubs">
                 <div class="card__image">
-                    <img src="">
+                    <img [src]="pub.imageSrc">
                 </div>
                 <div class="card__details">
                     <span class="card__details--title">{{ pub.name }}</span>
@@ -33,7 +34,7 @@
                 <span class="container__title">{{ 'home.register.title' | translate }}</span>
                 <span class="container__text">{{ 'home.register.text' | translate }}</span>
                 <div class="container__button">
-                    <button matRipple>{{ 'home.register.button' | translate | uppercase }}</button>
+                    <button matRipple routerLink="/auth/register">{{ 'home.register.button' | translate | uppercase }}</button>
                 </div>
             </div>
         </div>

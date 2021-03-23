@@ -20,6 +20,7 @@ export class AppComponent implements OnInit {
     public router: Router
   ) {
     translate.setDefaultLang('hu');
+    translate.addLangs(['ro']);
     if (localStorage.getItem('language')) {
       this.translate.use(localStorage.getItem('language'));
     }
@@ -55,7 +56,7 @@ export class AppComponent implements OnInit {
 
   useLanguage(language: string) {
     this.translate.use(language);
-    this.currentLanguage = language;
+    this.currentLanguage = this.translate.currentLang;
     localStorage.setItem('language', this.currentLanguage);
   }
 

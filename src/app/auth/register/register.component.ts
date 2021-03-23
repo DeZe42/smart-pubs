@@ -11,6 +11,10 @@ import { EMAIL_REGEX, UPPER_CASE_REGEX, LOWER_CASE_REGEX } from '../utils';
 export class RegisterComponent implements OnInit {
 
   registerForm: FormGroup;
+  password: boolean = true;
+  passwordAgain: boolean = true;
+  imgURL;
+  imagePath;
 
   constructor(
     private fb: FormBuilder,
@@ -19,6 +23,8 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.registerForm = this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.pattern(EMAIL_REGEX)]],
       password: ['', [
         Validators.required,
@@ -31,17 +37,19 @@ export class RegisterComponent implements OnInit {
         Validators.minLength(8),
         this.upperAndLowerCases,
         this.hasNumber
-      ]],
-      leaderName: [''],
-      pubName: [''],
-      pubDescription: [''],
+      ]]
     }, {validators: [
       this.isEqual()
     ]});
   }
 
   register() {
-    this.authService.signUp(this.registerForm.controls.email.value, this.registerForm.controls.password.value);
+    this.authService.signUp(
+      this.registerForm.controls.firstName.value,
+      this.registerForm.controls.lastName.value,
+      this.registerForm.controls.email.value,
+      this.registerForm.controls.password.value
+    );
   }
 
   upperAndLowerCases(control: AbstractControl): ValidationErrors {
