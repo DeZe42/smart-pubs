@@ -95,6 +95,9 @@ $smart-pubs-dark-theme: mat-dark-theme($smart-pubs-app-primary, $smart-pubs-app-
   .mat-menu-panel {
     color: #FFFFFF !important;
   }
+  input[type=time] {
+    background-color: #303030 !important;
+  }
 }
 
 $custom-typography: mat-typography-config(

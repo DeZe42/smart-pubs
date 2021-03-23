@@ -11,8 +11,6 @@ import { map } from 'rxjs/operators';
 export class ApiService {
 
     pubs$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-    imgURL;
-    imagePath;
 
     constructor(
         private db: AngularFirestore,
@@ -27,15 +25,41 @@ export class ApiService {
           .pipe(map(e =>{
             return e.map( a =>
               {
-                const data: Pub = a.payload.doc.data() as Pub;
-                const uid = data.uid;
-                const imageSrc = data.imageSrc;
-                const name = data.name;
-                const openStartingHour = data.openStartingHour;
-                const openEndingHour = data.openEndingHour;
-                const currentSpace = data.currentSpace;
-                const space = data.space;
-                return { uid, imageSrc, name, openStartingHour, openEndingHour, currentSpace, space };
+                const pub: any = a.payload.doc.data() as any;
+                const uid = pub.uid;
+                const imageSrc = pub.imageSrc;
+                const companyName = pub.companyName;
+                const country = pub.country;
+                const contry = pub.contry;
+                const city = pub.city;
+                const address = pub.address;
+                const space = pub.space;
+                const description = pub.description;
+                const openStateMonday = pub.openStateMonday;
+                const openStateTuesday = pub.openStateTuesday;
+                const openStateWednesday = pub.openStateWednesday;
+                const openStateThursday = pub.openStateThursday;
+                const openStateFriday = pub.openStateFriday;
+                const openStateSaturday = pub.openStateSaturday;
+                const openStateSunday = pub.openStateSunday;
+                const startingHourMonday = pub.startingHourMonday;
+                const endingHourMonday = pub.endingHourMonday;
+                const startingHourTuesday = pub.startingHourTuesday;
+                const endingHourTuesday = pub.endingHourTuesday;
+                const startingHourWednesday = pub.startingHourWednesday;
+                const endingHourWednesday = pub.endingHourWednesday;
+                const startingHourThursday = pub.startingHourThursday;
+                const endingHourThursday = pub.endingHourThursday;
+                const startingHourFriday = pub.startingHourFriday;
+                const endingHourFriday = pub.endingHourFriday;
+                const startingHourSaturday = pub.startingHourSaturday;
+                const endingHourSaturday = pub.endingHourSaturday;
+                const startingHourSunday = pub.startingHourSunday;
+                const endingHourSunday = pub.endingHourSunday;
+                return { uid, imageSrc, companyName, country, contry, city, address, space, description, openStateMonday, openStateTuesday, openStateWednesday,
+                  openStateThursday, openStateFriday, openStateSaturday, openStateSunday, startingHourMonday, endingHourMonday, startingHourTuesday, endingHourTuesday,
+                  startingHourWednesday, endingHourWednesday, startingHourThursday, endingHourThursday, startingHourFriday, endingHourFriday, startingHourSaturday,
+                  endingHourSaturday, startingHourSunday, endingHourSunday};
               });
           }
         ))
@@ -44,15 +68,37 @@ export class ApiService {
         });
     }
 
-    createPub(image, pub) {
+    createPub(imageList, pub) {
         const dataRef: AngularFirestoreCollection<any> = this.db.collection("pubs");
         const data = {
-            imageSrc: null,
-            name: pub.name,
-            openStartingHour: pub.openStartingHour,
-            openEndingHour: pub.openEndingHour,
-            currentSpace: pub.currentSpace,
-            space: pub.space
+            companyName: pub.companyName,
+            country: pub.country,
+            contry: pub.contry,
+            city: pub.city,
+            address: pub.address,
+            space: pub.space,
+            description: pub.description,
+            openStateMonday: pub.openStateMonday,
+            openStateTuesday: pub.openStateTuesday,
+            openStateWednesday: pub.openStateWednesday,
+            openStateThursday: pub.openStateThursday,
+            openStateFriday: pub.openStateFriday,
+            openStateSaturday: pub.openStateSaturday,
+            openStateSunday: pub.openStateSunday,
+            startingHourMonday: pub.startingHourMonday,
+            endingHourMonday: pub.endingHourMonday,
+            startingHourTuesday: pub.startingHourTuesday,
+            endingHourTuesday: pub.endingHourTuesday,
+            startingHourWednesday: pub.startingHourWednesday,
+            endingHourWednesday: pub.endingHourWednesday,
+            startingHourThursday: pub.startingHourThursday,
+            endingHourThursday: pub.endingHourThursday,
+            startingHourFriday: pub.startingHourFriday,
+            endingHourFriday: pub.endingHourFriday,
+            startingHourSaturday: pub.startingHourSaturday,
+            endingHourSaturday: pub.endingHourSaturday,
+            startingHourSunday: pub.startingHourSunday,
+            endingHourSunday: pub.endingHourSunday
         }
         dataRef.add(data).then(newRef => {
             let pubRef: AngularFirestoreDocument<any> = this.db.collection("pubs").doc(newRef.id);
@@ -62,7 +108,9 @@ export class ApiService {
             pubRef.set(data, {
                 merge: true
             });
-            this.uploadImage(image, newRef.id, pub.name);
+            imageList.forEach(element => {
+              this.uploadImage(element, newRef.id, pub.companyName);
+            });
         });
     }
 
@@ -81,20 +129,5 @@ export class ApiService {
             });
           });
         this.loadPubs();
-    }
-
-    preview(files) {
-        if (files.length === 0)
-          return;
-        var mimeType = files[0].type;
-        if (mimeType.match(/image\/*/) == null) {
-          return;
-        }
-        var reader = new FileReader();
-        this.imagePath = files;
-        reader.readAsDataURL(files[0]); 
-        reader.onload = (_event) => { 
-          this.imgURL = reader.result; 
-        }
     }
 }

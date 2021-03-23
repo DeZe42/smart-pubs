@@ -33,7 +33,11 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.authService.signIn(this.loginForm.controls.email.value, this.loginForm.controls.password.value);
+    if (this.router.url == '/auth/private_login') {
+      this.authService.signIn(this.loginForm.controls.email.value, this.loginForm.controls.password.value);
+    } else {
+      
+    }
   }
 
   disableButton() {

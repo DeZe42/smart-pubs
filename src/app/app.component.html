@@ -32,8 +32,8 @@
                   </div>
               </mat-menu>
               <mat-divider [vertical]="true"></mat-divider>
-              <button *ngIf="!authService.isLoggedIn" class="toolbar__actions--login-button" routerLink="/auth" mat-button color="accent"><mat-icon color="primary">account_circle</mat-icon><span>{{ 'header.login' | translate }}</span></button>
-              <button *ngIf="authService.isLoggedIn" class="toolbar__actions--login-button" mat-button color="accent" #profileMenuTrigger="matMenuTrigger" [matMenuTriggerFor]="profileMenu"><mat-icon color="primary">account_circle</mat-icon><span>{{ 'header.profile' | translate }}</span></button>
+              <button *ngIf="!(isLoggedIn | async)" class="toolbar__actions--login-button" routerLink="/auth" mat-button color="accent"><mat-icon color="primary">account_circle</mat-icon><span>{{ 'header.login' | translate }}</span></button>
+              <button *ngIf="(isLoggedIn | async)" class="toolbar__actions--login-button" mat-button color="accent" #profileMenuTrigger="matMenuTrigger" [matMenuTriggerFor]="profileMenu"><mat-icon color="primary">account_circle</mat-icon><span>{{ 'header.profile' | translate }}</span></button>
               <mat-menu #profileMenu="matMenu">
                 <div class="profile-menu">
                     <span>{{ user?.name }}</span>

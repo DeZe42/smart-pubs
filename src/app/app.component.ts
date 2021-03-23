@@ -3,6 +3,7 @@ import { Component, HostBinding, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Event, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterOutlet } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
 import { AuthService } from './auth/auth.service';
 import { slider } from './route-animations';
 
@@ -20,6 +21,7 @@ export class AppComponent implements OnInit {
   showFiller = false;
   loading: boolean = false;
   darkModeCtrl = new FormControl(false);
+  isLoggedIn: Observable<any>;
   user;
 
   constructor(
@@ -28,6 +30,7 @@ export class AppComponent implements OnInit {
     public authService: AuthService,
     public router: Router
   ) {
+    this.isLoggedIn = this.authService.isLoggedIn();
     translate.setDefaultLang('hu');
     translate.addLangs(['ro']);
     if (localStorage.getItem('language')) {
