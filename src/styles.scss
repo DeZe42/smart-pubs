@@ -38,8 +38,41 @@ $orange: (
     )
 );
 
+$white: (
+    50: #FFFFFF,
+    100: #FFFFFF,
+    200: #FFFFFF,
+    300: #FFFFFF,
+    400: #FFFFFF,
+    500: #FFFFFF,
+    600: #FFFFFF,
+    700: #FFFFFF,
+    800: #FFFFFF,
+    900: #FFFFFF,
+    A100: #FFFFFF,
+    A200: #FFFFFF,
+    A400: #FFFFFF,
+    A700: #FFFFFF,
+    contrast: (
+      50: $dark-primary-text,
+      100: $dark-primary-text,
+      200: $dark-primary-text,
+      300: $dark-primary-text,
+      400: $dark-primary-text,
+      500: $dark-primary-text,
+      600: $dark-primary-text,
+      700: $dark-primary-text,
+      800: $dark-primary-text,
+      900: $dark-primary-text,
+      A100: $dark-primary-text,
+      A200: $dark-primary-text,
+      A400: $dark-primary-text,
+      A700: $dark-primary-text,
+    )
+);
+
 $smart-pubs-app-primary: mat-palette($orange);
-$smart-pubs-app-accent: mat-palette($mat-indigo);
+$smart-pubs-app-accent: mat-palette($white);
 $smart-pubs-app-warn: mat-palette($mat-red);
 
 $smart-pubs-light-theme: mat-light-theme($smart-pubs-app-primary, $smart-pubs-app-accent, $smart-pubs-app-warn);
@@ -50,6 +83,18 @@ $smart-pubs-dark-theme: mat-dark-theme($smart-pubs-app-primary, $smart-pubs-app-
 
 .dark-mode {
   @include angular-material-color($smart-pubs-dark-theme);
+  .container__content--header {
+    background-color: #303030 !important;
+  }
+  .auth .private {
+    background-color: #303030 !important;
+  }
+  .toolbar__actions--login-button {
+    color: #FFFFFF !important;
+  }
+  .mat-menu-panel {
+    color: #FFFFFF !important;
+  }
 }
 
 $custom-typography: mat-typography-config(

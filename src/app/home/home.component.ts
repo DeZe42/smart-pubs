@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ApiService } from '../api.service';
 import { Pub } from '../shared/models';
 
@@ -17,7 +18,8 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private apiService: ApiService
+    private apiService: ApiService,
+    public router: Router
   ) { }
 
   ngOnInit(): void {

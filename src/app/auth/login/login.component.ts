@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { EMAIL_REGEX, UPPER_CASE_REGEX, LOWER_CASE_REGEX } from '../utils';
 
@@ -14,11 +15,13 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    public router: Router
   ) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
+      companyName: ['', Validators.required],
       email: ['', [Validators.required, Validators.pattern(EMAIL_REGEX)]],
       password: ['', [
         Validators.required,
@@ -31,6 +34,16 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.authService.signIn(this.loginForm.controls.email.value, this.loginForm.controls.password.value);
+  }
+
+  disableButton() {
+    if (this.router.url == '/auth/private_login') {
+      if (this.loginForm.controls.email.invalid || this.loginForm.controls.password.invalid) {
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
   
   keyEvent(event: KeyboardEvent): void {

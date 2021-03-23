@@ -1,14 +1,18 @@
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Event, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
+import { Event, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterOutlet } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from './auth/auth.service';
+import { slider } from './route-animations';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  animations: [
+    slider
+  ]
 })
 export class AppComponent implements OnInit {
 
@@ -16,12 +20,13 @@ export class AppComponent implements OnInit {
   showFiller = false;
   loading: boolean = false;
   darkModeCtrl = new FormControl(false);
+  user;
 
   constructor(
     private translate: TranslateService,
-    private authService: AuthService,
-    public router: Router,
-    private overlay: OverlayContainer
+    private overlay: OverlayContainer,
+    public authService: AuthService,
+    public router: Router
   ) {
     translate.setDefaultLang('hu');
     translate.addLangs(['ro']);
@@ -54,6 +59,9 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.authService.user$.subscribe(data => {
+      this.user = data;
+    });
     this.translate.onLangChange.subscribe(data => {
       this.currentLanguage = data.lang;
     });
@@ -72,6 +80,10 @@ export class AppComponent implements OnInit {
         this.overlay.getContainerElement().classList.remove(darkClassName);
       }
     });
+  }
+
+  prepareRoute(routerOutlet: RouterOutlet): string {
+    return routerOutlet && routerOutlet.activatedRouteData && routerOutlet.activatedRouteData[ 'animation' ];
   }
 
   useLanguage(language: string) {

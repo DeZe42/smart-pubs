@@ -29,10 +29,10 @@ export function createTranslateLoader(http: HttpClient) {
     FormsModule,
     ReactiveFormsModule,
     BrowserModule,
+    BrowserAnimationsModule,
     MaterialModule,
     HttpClientModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     TranslateModule.forRoot({

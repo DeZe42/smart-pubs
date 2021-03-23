@@ -1,8 +1,30 @@
-<section class="auth">
-    <div class="auth__header">
-
+<section class="auth" [ngClass]="{'active': router.url == '/auth/legal_register'}">
+    <div class="auth__back">
+        <button mat-stroked-button color="primary" (click)="back()"><mat-icon>arrow_back</mat-icon>{{ 'auth.back.button' | translate | uppercase }}</button>
     </div>
-    <div class="auth__content">
-        <router-outlet></router-outlet>
+    <div class="auth__content private" [ngClass]="{'close': router.url != '/auth'}">
+        <div class="auth__content--login">
+            <span class="login-private">{{ 'auth.login.private.member' | translate }}</span>
+            <span class="login-private-text">{{ 'auth.login.private.member.text' | translate }}</span>
+            <button class="login" mat-raised-button color="primary" routerLink="/auth/private_login">{{ 'header.login' | translate | uppercase }}</button>
+            <span class="register-text">{{ 'auth.login.private.no.account' | translate }}</span>
+            <button class="register" mat-stroked-button color="primary" routerLink="/auth/private_register">{{ 'register' | translate | uppercase }}</button>
+        </div>
     </div>
+    <div class="auth__logo" routerLink="/">
+        <span class="text">smart</span><span class="text colored">Pubs</span>
+    </div>
+    <div class="auth__router" [ngClass]="{'active': router.url != '/auth'}" [@routeAnimations]="prepareRoute(outlet)">
+        <router-outlet #outlet="outlet"></router-outlet>
+    </div>
+    <div class="auth__content legal" [ngClass]="{'close': router.url != '/auth'}">
+        <div class="auth__content--login">
+            <span class="login-private">{{ 'auth.login.legal.member' | translate }}</span>
+            <span class="login-private-text">{{ 'auth.login.legal.member.text' | translate }}</span>
+            <button class="login-legal" mat-raised-button color="accent"  routerLink="/auth/legal_login">{{ 'header.login' | translate | uppercase }}</button>
+            <span class="register-text">{{ 'auth.login.legal.no.account' | translate }}</span>
+            <button class="register-legal" mat-stroked-button color="accent" routerLink="/auth/legal_register">{{ 'register' | translate | uppercase }}</button>
+        </div>
+    </div>
+    <span class="auth__footer-text">{{ 'footer.copyright' | translate }}</span>
 </section>

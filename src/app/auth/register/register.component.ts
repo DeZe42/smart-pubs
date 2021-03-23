@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
-import { EMAIL_REGEX, UPPER_CASE_REGEX, LOWER_CASE_REGEX } from '../utils';
+import { EMAIL_REGEX, UPPER_CASE_REGEX, LOWER_CASE_REGEX, PHONE_REGEX } from '../utils';
 
 @Component({
   selector: 'app-register',
@@ -18,14 +19,15 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    public router: Router
   ) { }
 
   ngOnInit(): void {
     this.registerForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
+      name: ['', Validators.required],
       email: ['', [Validators.required, Validators.pattern(EMAIL_REGEX)]],
+      phoneNumber: ['', [Validators.required, Validators.pattern(PHONE_REGEX)]],
       password: ['', [
         Validators.required,
         Validators.minLength(8),
@@ -37,19 +39,55 @@ export class RegisterComponent implements OnInit {
         Validators.minLength(8),
         this.upperAndLowerCases,
         this.hasNumber
-      ]]
+      ]],
+      companyName: ['', Validators.required],
+      country: ['', Validators.required],
+      contry: ['', Validators.required],
+      city: ['', Validators.required],
+      address: ['', Validators.required],
+      description: ['', Validators.required]
     }, {validators: [
       this.isEqual()
     ]});
   }
 
   register() {
-    this.authService.signUp(
-      this.registerForm.controls.firstName.value,
-      this.registerForm.controls.lastName.value,
-      this.registerForm.controls.email.value,
-      this.registerForm.controls.password.value
-    );
+    if (this.router.url == '/auth/private_register') {
+      this.authService.signUp(
+        this.registerForm.controls.email.value,
+        this.registerForm.controls.password.value,
+        this.registerForm.controls.name.value,
+        this.registerForm.controls.phoneNumber.value
+      );
+    } else {
+
+    }
+  }
+
+  disableButton() {
+    if (this.router.url == '/auth/private_register') {
+      if (
+        this.registerForm.controls.name.invalid ||
+        this.registerForm.controls.email.invalid ||
+        this.registerForm.controls.phoneNumber.invalid ||
+        this.registerForm.controls.password.invalid ||
+        this.registerForm.controls.passwordAgain.invalid
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      
+    }
+  }
+
+  justNumbers(x) {
+    if (x.data >= '0' && x.data <= '9') {
+      this.registerForm.controls.phoneNumber.setValue(x.target.value);
+    } else {
+      this.registerForm.controls.phoneNumber.setValue(this.registerForm.controls.phoneNumber.value.slice(0, -1));
+    }
   }
 
   upperAndLowerCases(control: AbstractControl): ValidationErrors {

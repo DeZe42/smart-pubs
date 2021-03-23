@@ -3,7 +3,6 @@ import { AngularFirestore, AngularFirestoreDocument } from "@angular/fire/firest
 import { AngularFireAuth } from "@angular/fire/auth";
 import { Router } from "@angular/router";
 import { BehaviorSubject } from "rxjs";
-import { map } from "rxjs/operators";
 
 @Injectable({
     providedIn: 'root'
@@ -17,33 +16,49 @@ export class AuthService {
         public afAuth: AngularFireAuth,
         public router: Router
     ) {
+        this.loadUser();
+    }
+
+    loadUser() {
         this.afAuth.authState.subscribe(user => {
             if (user) {
-              this.user$.next(user);
-              localStorage.setItem('user', JSON.stringify(user));
-              JSON.parse(localStorage.getItem('user'));
-            } else {
-              localStorage.setItem('user', null);
-              JSON.parse(localStorage.getItem('user'));
+                this.afs.collection("users").doc(user.uid).valueChanges().subscribe((localeUser: any) => {
+                    this.user$.next({
+                        uid: localeUser.uid,
+                        name: localeUser.name,
+                        email: localeUser.email,
+                        phoneNumber: localeUser.phoneNumber,
+                    });
+                });
             }
         });
     }
 
     signIn(email, password) {
-        return this.afAuth.signInWithEmailAndPassword(email, password)
-          .then((result) => {
-            this.router.navigateByUrl('/auth/login');
-            this.setUserData(result.user);
-          }).catch((error) => {
-            window.alert(error.message)
-          });
+        return this.afAuth.signInWithEmailAndPassword(email, password).then((result) => {
+                this.router.navigateByUrl('/');
+                this.setUserData(result.user);
+            }).catch((error) => {
+                window.alert(error.message)
+            });
     }
 
-    signUp(firstName, lastName, email, password) {
+    signUp(email, password, name, phoneNumber) {
         return this.afAuth.createUserWithEmailAndPassword(email, password)
             .then((result) => {
                 result.user.sendEmailVerification();
-                this.setUserData(result.user, firstName, lastName);
+                const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${result.user.uid}`);
+                const userData = {
+                    uid: result.user.uid,
+                    email: result.user.email,
+                    name: name,
+                    phoneNumber: phoneNumber,
+                    emailVerified: result.user.emailVerified,
+                    pubsUid: null
+                }
+                userRef.set(userData, {
+                    merge: true
+                });
                 this.router.navigateByUrl('/auth/verify_email');
             }).catch((error) => {
                 window.alert(error.message)
@@ -65,12 +80,10 @@ export class AuthService {
         return (user !== null && user.emailVerified !== false) ? true : false;
     }
 
-    setUserData(user, firstName?, lastName?) {
+    setUserData(user) {
         const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
         const userData = {
             uid: user.uid,
-            firstName: firstName != null ? firstName : null,
-            lastName: lastName != null ? lastName : null,
             email: user.email,
             emailVerified: user.emailVerified
         }

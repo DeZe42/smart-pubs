@@ -1,17 +1,51 @@
+@import '../../../shared.scss';
+
 .login {
     display: flex;
     flex-direction: column;
-    h1 {
-        font-size: 32px;
-        font-weight: bold;
-        margin: 0 0 40px 0;
+    margin: auto;
+    max-width: 570px;
+    width: 100%;
+    text-align: center;
+    &__private {
+        font-size: 40px;
+        line-height: 56px;
+        font-weight: 500;
+        margin: 0 0 32px 0;
+    }
+    &__private-text {
+        font-size: 20px;
+        font-weight: 500;
+        margin: 0 0 56px 0;
     }
     form {
         display: flex;
         flex-direction: column;
         margin: 0 0 40px 0;
+        mat-form-field {
+            margin: 0 0 16px 0;
+        }
     }
     button {
-        margin: 0 0 8px 0;
+        font-size: 16px;
+        font-weight: 500;
+        height: 46px;
+        margin: 0 0 16px 0;
+    }
+    .white-button {
+        margin: 0 0 128px 0 !important;
+        border: 2px solid $orange !important;
+    }
+    .mat-raised-button {
+        color: $white;
+    }
+    .register-text {
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 24px;
+        margin: 0 0 32px 0;
+    }
+    .register {
+        border: 2px solid $orange !important;
     }
 }

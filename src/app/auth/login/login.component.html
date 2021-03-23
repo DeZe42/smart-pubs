@@ -1,9 +1,17 @@
 <section class="login">
-    <h1>{{ 'header.login' | translate }}</h1>
+    <span *ngIf="router.url == '/auth/private_login'" class="login__private">{{ 'auth.login.private.member' | translate }}</span>
+    <span *ngIf="router.url == '/auth/private_login'" class="login__private-text">{{ 'auth.login.private.member.text' | translate }}</span>
+    <span *ngIf="router.url == '/auth/legal_login'" class="login__private">{{ 'auth.login.legal.member' | translate }}</span>
+    <span *ngIf="router.url == '/auth/legal_login'" class="login__private-text">{{ 'auth.login.legal.member.text' | translate }}</span>
     <form [formGroup]="loginForm">
-        <mat-form-field appearance="outline" color="primary">
+        <mat-form-field appearance="outline" color="primary" *ngIf="router.url == '/auth/private_login'">
             <mat-label>{{ 'login.email' | translate }}</mat-label>
             <input matInput type="text" formControlName="email">
+            <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" color="primary" *ngIf="router.url == '/auth/legal_login'">
+            <mat-label>{{ 'login.company.name' | translate }}</mat-label>
+            <input matInput type="text" formControlName="companyName">
             <mat-error>{{ 'register.error.required' | translate }}</mat-error>
         </mat-form-field>
         <mat-form-field appearance="outline" color="primary">
@@ -12,6 +20,9 @@
             <mat-error>{{ 'register.error.required' | translate }}</mat-error>
         </mat-form-field>
     </form>
-    <button mat-raised-button color="primary" (click)="login()" [disabled]="loginForm.invalid">{{ 'header.login' | translate }}</button>
-    <button mat-stroked-button color="primary" routerLink="/auth/forgot_password">{{ 'login.cant.login' | translate }}</button>
+    <button mat-raised-button color="primary" (click)="login()" [disabled]="disableButton()">{{ 'header.login' | translate | uppercase }}</button>
+    <button class="white-button" mat-stroked-button color="primary" routerLink="/auth/forgot_password">{{ 'login.cant.login' | translate | uppercase }}</button>
+    <span *ngIf="router.url == '/auth/private_login'" class="register-text">{{ 'auth.login.private.no.account' | translate }}</span>
+    <span *ngIf="router.url == '/auth/legal_login'" class="register-text">{{ 'auth.login.legal.no.account' | translate }}</span>
+    <button class="register" mat-stroked-button color="primary" routerLink="/auth/private_register">{{ 'register' | translate | uppercase }}</button>
 </section>

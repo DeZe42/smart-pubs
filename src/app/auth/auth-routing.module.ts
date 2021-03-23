@@ -7,13 +7,15 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
 
 const routes: Routes = [
-    { path: '', component: AuthComponent, children: [
-            { path: 'login', component: LoginComponent },
-            { path: 'register', component: RegisterComponent },
-            { path: 'forgot_password', component: ForgotPasswordComponent },
-            { path: 'verify_email', component: VerifyEmailComponent }
+    { path: '', component: AuthComponent, data: { animation: 'auth' }, children: [
+        { path: 'private_login', component: LoginComponent, data: { animation: 'private_login' } },
+        { path: 'legal_login', component: LoginComponent, data: { animation: 'legal_login' } },
+        { path: 'private_register', component: RegisterComponent, data: { animation: 'private_register' } },
+        { path: 'legal_register', component: RegisterComponent, data: { animation: 'legal_register' } },
+        { path: 'forgot_password', component: ForgotPasswordComponent, data: { animation: 'forgot_password' } },
+        { path: 'verify_email', component: VerifyEmailComponent, data: { animation: 'verify_email' } }
         ]
-    }
+    },
 ];
 
 @NgModule({

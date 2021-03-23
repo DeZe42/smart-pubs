@@ -1,4 +1,4 @@
-<section class="home">
+<section class="home" [ngClass]="{'active': router.url.startsWith('/auth')}">
     <div class="home__header">
         <div class="home__header--container">
             <span class="title">{{ 'home.title' | translate }}</span>
@@ -8,7 +8,7 @@
                         <input type="text" [placeholder]="'home.search.place.holder' | translate" (keyup)="search($event.target.value)" [formControl]="searchCtrl">
                         <mat-icon color="primary">search</mat-icon>
                     </div>
-                    <button class="search-container__search-button" matRipple>{{ 'home.search' | translate | uppercase }}</button>
+                    <button class="search-container__search-button" mat-flat-button color="primary">{{ 'home.search' | translate | uppercase }}</button>
                 </div>
             </div>
         </div>
@@ -16,7 +16,7 @@
     <div class="home__content">
         <span class="home__content--title">{{ 'home.all.pubs' | translate }}</span>
         <div class="home__content--card-container" [ngClass]="{'active': pubs.length == 0}">
-            <span class="empty-text" *ngIf="pubs.length == 0">{{ 'home.pubs.is.empty.1' | translate }} "<b>{{ searchCtrl.value }}</b>" {{ 'home.pubs.is.empty.2' | translate }}</span>
+            <span class="empty-text" *ngIf="pubs.length == 0">{{ 'home.pubs.is.empty.1' | translate }} "<b>{{ searchCtrl.value }}</b>" {{ 'home.pubs.is.empty.2' | translate }}<b style="color: #E57A00;">{{ 'home.pubs.is.empty.3' | translate }}</b> {{ 'home.pubs.is.empty.4' | translate }}</span>
             <mat-card class="card" *ngFor="let pub of pubs">
                 <div class="card__image">
                     <img [src]="pub.imageSrc == null ? 'assets/images/no_image.png' : pub.imageSrc | safe">
@@ -36,7 +36,7 @@
                 <span class="container__title">{{ 'home.register.title' | translate }}</span>
                 <span class="container__text">{{ 'home.register.text' | translate }}</span>
                 <div class="container__button">
-                    <button matRipple routerLink="/auth/register">{{ 'home.register.button' | translate | uppercase }}</button>
+                    <button mat-flat-button color="accent" routerLink="/auth/legal_register">{{ 'home.register.button' | translate | uppercase }}</button>
                 </div>
             </div>
         </div>
@@ -49,7 +49,7 @@
                 <textarea formControlName="text" [placeholder]="'home.form.text.place.holder' | translate"></textarea>
             </form>
             <div class="question-button">
-                <button matRipple>{{ 'home.questions.button' | translate | uppercase }}</button>
+                <button mat-flat-button color="primary">{{ 'home.questions.button' | translate | uppercase }}</button>
             </div>
         </div>
     </div>

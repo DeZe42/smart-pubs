@@ -1,17 +1,59 @@
+@import '../../../shared.scss';
+
 .register {
     display: flex;
     flex-direction: column;
-    h1 {
-        font-size: 32px;
-        font-weight: bold;
-        margin: 0 0 40px 0;
+    margin: auto;
+    max-width: 570px;
+    width: 100%;
+    text-align: center;
+    padding: 160px 0;
+    box-sizing: border-box;
+    &__private {
+        font-size: 40px;
+        line-height: 56px;
+        font-weight: 500;
     }
     form {
         display: flex;
         flex-direction: column;
         margin: 0 0 40px 0;
+        min-width: 570px;
+        &.active {
+            margin: 80px 0 40px 0;
+        }
+        mat-form-field {
+            font-size: 16px;
+            margin: 0 0 12px 0;
+        }
+        .password {
+            margin: 0 0 28px 0;
+        }
     }
     button {
-        margin: 0 0 8px 0;
+        font-size: 16px;
+        font-weight: 500;
+        height: 46px;
+        margin: 0 0 16px 0;
+    }
+    .white-button {
+        border: 2px solid $orange !important;
+    }
+    .mat-raised-button {
+        color: $white;
+    }
+    textarea {
+        height: 240px;
+        resize: none;
+    }
+    &__sub-title {
+        font-size: 20px;
+        font-weight: bold;
+        margin: 80px 0 32px 0;
+        text-align: left;
+    }
+    &__legal-member {
+        display: flex;
+        flex-direction: column;
     }
 }

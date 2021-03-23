@@ -7,19 +7,11 @@
       </button>
     </mat-drawer>
     <mat-drawer-content class="container__content">
-        <div class="container__content--header">
+        <div class="container__content--header" [ngClass]="{'hide': router.url.startsWith('/auth')}">
           <div class="toolbar">
-            <!-- <button mat-icon-button (click)="drawer.toggle()">
-              <mat-icon>menu</mat-icon>
-            </button> -->
             <div class="toolbar__title" routerLink="/">
                 <span class="toolbar__title--text">smart</span><span class="toolbar__title--text colored">Pubs</span>
             </div>
-            <!-- <div class="toolbar__links">
-              <nav mat-tab-nav-bar>
-                <a mat-tab-link [active]="router.url == '/pubs'" routerLink="/pubs">{{ 'home.header.pubs' | translate }}</a>
-              </nav>
-            </div> -->
             <div class="toolbar__actions">
               <div class="toolbar__actions--dark-mode">
                 <mat-icon color="primary">brightness_5</mat-icon>
@@ -40,22 +32,30 @@
                   </div>
               </mat-menu>
               <mat-divider [vertical]="true"></mat-divider>
-              <button class="toolbar__actions--login-button" routerLink="/auth/login" matRipple><mat-icon color="primary">account_circle</mat-icon><span>{{ 'header.login' | translate }}</span></button>
-              <!-- <button mat-stroked-button color="accent" routerLink="/auth/register">{{ 'home.header.register' | translate }}</button>
-              <button mat-stroked-button color="primary" (click)="signOut()">{{ 'home.header.sign.out' | translate }}</button> -->
+              <button *ngIf="!authService.isLoggedIn" class="toolbar__actions--login-button" routerLink="/auth" mat-button color="accent"><mat-icon color="primary">account_circle</mat-icon><span>{{ 'header.login' | translate }}</span></button>
+              <button *ngIf="authService.isLoggedIn" class="toolbar__actions--login-button" mat-button color="accent" #profileMenuTrigger="matMenuTrigger" [matMenuTriggerFor]="profileMenu"><mat-icon color="primary">account_circle</mat-icon><span>{{ 'header.profile' | translate }}</span></button>
+              <mat-menu #profileMenu="matMenu">
+                <div class="profile-menu">
+                    <span>{{ user?.name }}</span>
+                    <span>{{ user?.email }}</span>
+                    <span>{{ user?.phoneNumber }}</span>
+                    <mat-divider></mat-divider>
+                    <button mat-flat-button color="primary" (click)="signOut()">{{ 'header.logout' | translate | uppercase }}</button>
+                </div>
+              </mat-menu>
             </div>
           </div>
+          <mat-progress-bar *ngIf="loading" [ngClass]="{'hide': router.url.startsWith('/auth')}" mode="indeterminate" class="loading-bar"></mat-progress-bar>
         </div>
-        <mat-progress-bar *ngIf="loading" mode="indeterminate" class="container__content--loading-bar"></mat-progress-bar>
-        <div class="container__content--content">
-          <router-outlet></router-outlet>
-        </div>
-        <div class="container__content--footer">
-          <div class="footer-container">
-            <div class="footer-container__title" routerLink="/">
-              <span class="footer-container__title--text">smart</span><span class="footer-container__title--text colored">Pubs</span>
+        <div class="container__content--content" [ngClass]="{'active': router.url.startsWith('/auth')}" [@routeAnimations]="prepareRoute(outlet)">
+          <router-outlet #outlet="outlet"></router-outlet>
+          <div class="footer" *ngIf="!router.url.startsWith('/auth')">
+            <div class="footer__footer-container">
+              <div class="footer__footer-container--title" routerLink="/">
+                <span class="text">smart</span><span class="text colored">Pubs</span>
+              </div>
+              <span class="footer__footer-container--text">{{ 'footer.copyright' | translate }}</span>
             </div>
-            <span class="footer-container__text">{{ 'footer.copyright' | translate }}</span>
           </div>
         </div>
     </mat-drawer-content>
