@@ -42,12 +42,46 @@ $smart-pubs-app-primary: mat-palette($orange);
 $smart-pubs-app-accent: mat-palette($mat-indigo);
 $smart-pubs-app-warn: mat-palette($mat-red);
 
-$smart-pubs-app-main-theme: mat-light-theme($smart-pubs-app-primary, $smart-pubs-app-accent, $smart-pubs-app-warn);
+$smart-pubs-light-theme: mat-light-theme($smart-pubs-app-primary, $smart-pubs-app-accent, $smart-pubs-app-warn);
 
-@include angular-material-theme($smart-pubs-app-main-theme);
+@include angular-material-theme($smart-pubs-light-theme);
+
+$smart-pubs-dark-theme: mat-dark-theme($smart-pubs-app-primary, $smart-pubs-app-accent, $smart-pubs-app-warn);
+
+.dark-mode {
+  @include angular-material-color($smart-pubs-dark-theme);
+}
 
 $custom-typography: mat-typography-config(
   $font-family: 'Montserrat'
 );
 
 @include angular-material-typography($custom-typography);
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  color: rgba(255, 255, 255, 0.15);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #F2BD80;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #E57A00;
+}
+
+.mat-form-field-outline-start, .mat-form-field-outline-end {
+  border-radius: 0 !important;
+}
+
+.mat-button,
+.mat-raised-button,
+.mat-flat-button,
+.mat-icon-button,
+.mat-stroked-button {
+  border-radius: 0px !important;
+}

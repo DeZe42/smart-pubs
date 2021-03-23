@@ -10,7 +10,6 @@
         &--header {
             display: flex;
             justify-content: center;
-            background-color: $white;
             position: fixed;
             width: 100%;
             height: 64px;
@@ -22,10 +21,11 @@
                 max-width: 1440px;
                 width: 100%;
                 justify-content: space-between;
-                background-color: $white;
                 box-sizing: border-box;
                 height: 100%;
                 &__title {
+                    display: flex;
+                    align-items: center;
                     cursor: pointer;
                     &:focus {
                         outline: none;
@@ -45,6 +45,14 @@
                 }
                 &__actions {
                     display: flex;
+                    &--dark-mode {
+                        display: flex;
+                        align-items: center;
+                        margin: 0 16px 0 0;
+                        mat-slide-toggle {
+                            margin: 0 8px;
+                        }
+                    }
                     &--language {
                         display: flex;
                         align-items: center;
@@ -80,6 +88,7 @@
                         border: none;
                         cursor: pointer;
                         font-family: unset;
+                        margin: auto 0;
                         mat-icon {
                             margin: 0 8px 0 0;
                         }
@@ -130,7 +139,6 @@
                 }
                 &__text {
                     font-size: 14px;
-                    color: #0E0E0E;
                 }
             }
         }

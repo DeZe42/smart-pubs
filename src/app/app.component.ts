@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { OverlayContainer } from '@angular/cdk/overlay';
+import { Component, HostBinding, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Event, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from './auth/auth.service';
@@ -13,16 +15,24 @@ export class AppComponent implements OnInit {
   currentLanguage;
   showFiller = false;
   loading: boolean = false;
+  darkModeCtrl = new FormControl(false);
 
   constructor(
     private translate: TranslateService,
     private authService: AuthService,
-    public router: Router
+    public router: Router,
+    private overlay: OverlayContainer
   ) {
     translate.setDefaultLang('hu');
     translate.addLangs(['ro']);
     if (localStorage.getItem('language')) {
       this.translate.use(localStorage.getItem('language'));
+    }
+    if (localStorage.getItem('mode')) {
+      this.className = localStorage.getItem('mode');
+      if (this.className != '') {
+        this.darkModeCtrl.setValue(true);
+      }
     }
     this.router.events.subscribe((event: Event) => {
       switch (true) {
@@ -52,6 +62,16 @@ export class AppComponent implements OnInit {
     } else {
       this.currentLanguage = 'hu';
     }
+    this.darkModeCtrl.valueChanges.subscribe((darkMode) => {
+      const darkClassName = 'dark-mode';
+      this.className = darkMode ? darkClassName : '';
+      localStorage.setItem('mode', this.className);
+      if (darkMode) {
+        this.overlay.getContainerElement().classList.add(darkClassName);
+      } else {
+        this.overlay.getContainerElement().classList.remove(darkClassName);
+      }
+    });
   }
 
   useLanguage(language: string) {
@@ -63,4 +83,6 @@ export class AppComponent implements OnInit {
   signOut() {
     this.authService.signOut();
   }
+
+  @HostBinding('class') className = '';
 }

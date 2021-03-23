@@ -4,7 +4,6 @@ import { AngularFireStorage } from '@angular/fire/storage';
 import { BehaviorSubject } from "rxjs";
 import { Pub } from "./shared/models";
 import { map } from 'rxjs/operators';
-import * as firebase from 'firebase/app';
 
 @Injectable({
     providedIn: 'root'
@@ -12,6 +11,8 @@ import * as firebase from 'firebase/app';
 export class ApiService {
 
     pubs$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+    imgURL;
+    imagePath;
 
     constructor(
         private db: AngularFirestore,
@@ -44,7 +45,6 @@ export class ApiService {
     }
 
     createPub(image, pub) {
-        // const userRef: AngularFirestoreCollection<any> = this.db.collection("users").doc();
         const dataRef: AngularFirestoreCollection<any> = this.db.collection("pubs");
         const data = {
             imageSrc: null,
@@ -68,20 +68,33 @@ export class ApiService {
 
     uploadImage(input, uid, pubName) {
         let files = input;
+        let ref = this.storageRef.ref(`images/${pubName}/${uid}`);
         let pubRef: AngularFirestoreDocument<any> = this.db.collection("pubs").doc(uid);
-        let task = this.storageRef.upload(`images/${pubName}/${uid}`, files);
-        task
-        .snapshotChanges().subscribe(url => {
-            pubRef.update({
-                imageSrc: url
+        ref.put(files).then(res=>{
+            ref.getDownloadURL().subscribe(res => {
+              const pubs = {
+                imageSrc: res,
+              }
+              return pubRef.set(pubs, {
+                merge: true
+              });
             });
-        });
+          });
         this.loadPubs();
     }
 
-    addPubToUser(pubUid, userUid) {
-        this.db.collection("users").doc(userUid).update({
-          pubUid: pubUid
-        });
+    preview(files) {
+        if (files.length === 0)
+          return;
+        var mimeType = files[0].type;
+        if (mimeType.match(/image\/*/) == null) {
+          return;
+        }
+        var reader = new FileReader();
+        this.imagePath = files;
+        reader.readAsDataURL(files[0]); 
+        reader.onload = (_event) => { 
+          this.imgURL = reader.result; 
+        }
     }
 }

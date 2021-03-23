@@ -8,7 +8,7 @@
     </mat-drawer>
     <mat-drawer-content class="container__content">
         <div class="container__content--header">
-          <mat-toolbar class="toolbar">
+          <div class="toolbar">
             <!-- <button mat-icon-button (click)="drawer.toggle()">
               <mat-icon>menu</mat-icon>
             </button> -->
@@ -21,6 +21,11 @@
               </nav>
             </div> -->
             <div class="toolbar__actions">
+              <div class="toolbar__actions--dark-mode">
+                <mat-icon color="primary">brightness_5</mat-icon>
+                <mat-slide-toggle  color="primary" [formControl]="darkModeCtrl"></mat-slide-toggle>
+                <mat-icon color="primary">bedtime</mat-icon>
+              </div>
               <div class="toolbar__actions--language" #languagesMenuTrigger="matMenuTrigger" [matMenuTriggerFor]="languagesMenu">
                 <div class="language-text" *ngIf="currentLanguage == 'hu'">HU</div>
                 <div class="language-text" *ngIf="currentLanguage == 'ro'">RO</div>
@@ -39,7 +44,7 @@
               <!-- <button mat-stroked-button color="accent" routerLink="/auth/register">{{ 'home.header.register' | translate }}</button>
               <button mat-stroked-button color="primary" (click)="signOut()">{{ 'home.header.sign.out' | translate }}</button> -->
             </div>
-          </mat-toolbar>
+          </div>
         </div>
         <mat-progress-bar *ngIf="loading" mode="indeterminate" class="container__content--loading-bar"></mat-progress-bar>
         <div class="container__content--content">

@@ -2,12 +2,14 @@
     <div class="home__header">
         <div class="home__header--container">
             <span class="title">{{ 'home.title' | translate }}</span>
-            <div class="search-container">
-                <div class="search-container__input-container">
-                    <input type="text" [placeholder]="'home.search.place.holder' | translate" (keyup)="search($event.target.value)" [formControl]="searchCtrl">
-                    <mat-icon>search</mat-icon>
+            <div class="inline-flex">
+                <div class="search-container">
+                    <div class="search-container__input-container">
+                        <input type="text" [placeholder]="'home.search.place.holder' | translate" (keyup)="search($event.target.value)" [formControl]="searchCtrl">
+                        <mat-icon color="primary">search</mat-icon>
+                    </div>
+                    <button class="search-container__search-button" matRipple>{{ 'home.search' | translate | uppercase }}</button>
                 </div>
-                <button class="search-container__search-button" matRipple>{{ 'home.search' | translate | uppercase }}</button>
             </div>
         </div>
     </div>
@@ -15,9 +17,9 @@
         <span class="home__content--title">{{ 'home.all.pubs' | translate }}</span>
         <div class="home__content--card-container" [ngClass]="{'active': pubs.length == 0}">
             <span class="empty-text" *ngIf="pubs.length == 0">{{ 'home.pubs.is.empty.1' | translate }} "<b>{{ searchCtrl.value }}</b>" {{ 'home.pubs.is.empty.2' | translate }}</span>
-            <div class="card mat-elevation-z3" *ngFor="let pub of pubs">
+            <mat-card class="card" *ngFor="let pub of pubs">
                 <div class="card__image">
-                    <img [src]="pub.imageSrc">
+                    <img [src]="pub.imageSrc == null ? 'assets/images/no_image.png' : pub.imageSrc | safe">
                 </div>
                 <div class="card__details">
                     <span class="card__details--title">{{ pub.name }}</span>
@@ -27,7 +29,7 @@
                         <span class="space-text">{{ 'home.current.space' | translate }}</span>
                     </div>
                 </div>
-            </div>
+            </mat-card>
         </div>
         <div class="home__content--register">
             <div class="container">

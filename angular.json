@@ -122,6 +122,10 @@
               "devServerTarget": "smart-pubs:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
     }
