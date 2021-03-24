@@ -2,12 +2,11 @@
 
 .auth {
     display: flex;
-    height: 100vh;
-    position: relative;
+    flex-direction: column;
+    position: fixed;
+    height: 100%;
+    width: 100%;
     overflow: hidden;
-    &.active {
-        height: 270vh;
-    }
     .private {
         position: absolute;
         background-color: $white;
@@ -33,7 +32,7 @@
     }
     &__back {
         z-index: 101;
-        position: fixed;
+        position: absolute;
         top: 80px;
         left: 80px;
         button {
@@ -113,7 +112,7 @@
     &__logo {
         display: flex;
         align-items: center;
-        position: fixed;
+        position: absolute;
         bottom: 24px;
         left: 80px;
         cursor: pointer;
@@ -129,7 +128,7 @@
         }
     }
     &__footer-text {
-        position: fixed;
+        position: absolute;
         right: 80px;
         bottom: 24px;
         font-size: 14px;
@@ -139,6 +138,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        overflow-y: auto;
         width: 0;
         height: 0;
         opacity: 0;

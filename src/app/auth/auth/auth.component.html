@@ -1,4 +1,4 @@
-<section class="auth" [ngClass]="{'active': router.url == '/auth/legal_register'}">
+<section class="auth" [ngClass]="{'active': router.url.startsWith('/auth')}">
     <div class="auth__back">
         <button mat-stroked-button color="primary" (click)="back()"><mat-icon>arrow_back</mat-icon>{{ 'auth.back.button' | translate | uppercase }}</button>
     </div>

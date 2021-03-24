@@ -133,3 +133,7 @@ $custom-typography: mat-typography-config(
 .mat-stroked-button {
   border-radius: 0px !important;
 }
+
+router-outlet + *:not(app-home) {
+  height: 100%;
+}
