@@ -10,7 +10,7 @@
     .private {
         position: absolute;
         background-color: $white;
-        padding: 240px 80px 24px 80px;
+        padding: 160px 80px 24px 80px;
         transition: all 0.5s;
         left: 0%;
         &.close {
@@ -22,7 +22,7 @@
         position: absolute;
         color: $white;
         background-color: $orange;
-        padding: 240px 80px 24px 80px;
+        padding: 160px 80px 24px 80px;
         transition: all 0.5s;
         right: 0%;
         &.close {
@@ -78,14 +78,14 @@
                 color: $white;
                 font-size: 16px;
                 font-weight: 500;
-                margin: 0 0 226px 0;
+                margin: 0 0 70px 0;
             }
             .login-legal {
                 height: 56px;
                 color: $orange;
                 font-size: 16px;
                 font-weight: 500;
-                margin: 0 0 226px 0;
+                margin: 0 0 70px 0;
             }
             .register-text {
                 font-size: 16px;
