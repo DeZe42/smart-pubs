@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit {
   originalPubs: Pub[] = [];
   questionForm: FormGroup;
   searchCtrl = new FormControl('');
+  numberOfDay: number = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -23,6 +24,7 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.numberOfDay = new Date().getDay();
     this.questionForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', Validators.required],
@@ -30,6 +32,7 @@ export class HomeComponent implements OnInit {
     });
     this.apiService.pubs$.subscribe((data: Pub[]) => {
       if (data) {
+        console.log(data)
         this.pubs = data;
         this.originalPubs = data;
       }
@@ -38,11 +41,29 @@ export class HomeComponent implements OnInit {
 
   search(value) {
     this.pubs = this.originalPubs.filter(e=>{
-      const string: string = e.name;
+      const string: string = e.companyName;
       if (string.toUpperCase().includes(value.toUpperCase())) {
         return true;
       }
       return false;
     });
+  }
+
+  getOpenState(pub: Pub) {
+    if (this.numberOfDay == 1) {
+      return pub.openStateMonday;
+    } else if (this.numberOfDay == 2) {
+      return pub.openStateTuesday;
+    } else if (this.numberOfDay == 3) {
+      return pub.openStateWednesday;
+    } else if (this.numberOfDay == 4) {
+      return pub.openStateThursday;
+    } else if (this.numberOfDay == 5) {
+      return pub.openStateFriday;
+    } else if (this.numberOfDay == 6) {
+      return pub.openStateSaturday;
+    } else if (this.numberOfDay == 7) {
+      return pub.openStateSunday;
+    }
   }
 }

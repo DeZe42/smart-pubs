@@ -113,7 +113,7 @@ export class AuthService {
                     });
                     for (let index = 0; index < imageList.length; index++) {
                         const element = imageList[index];
-                        this.uploadImage(element, newRef.id, pub.companyName, index);
+                        this.uploadImage(element[0], newRef.id, pub.companyName, index);
                     }
                     const userRef: AngularFirestoreDocument<any> = this.db.doc(`users/${result.user.uid}`);
                     const userData = {

@@ -7,7 +7,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
 
 const routes: Routes = [
-    { path: '', component: AuthComponent, data: { animation: 'auth' }, children: [
+    { path: '', component: AuthComponent, data: { animation: 'dash' }, children: [
         { path: 'private_login', component: LoginComponent, data: { animation: 'private_login' } },
         { path: 'legal_login', component: LoginComponent, data: { animation: 'legal_login' } },
         { path: 'private_register', component: RegisterComponent, data: { animation: 'private_register' } },

@@ -77,5 +77,8 @@
     "register.error.has.number": "Legalább egy szám kell szerepeljen benne!",
     "register.error.password": "A két jelszó nem egyezik meg!",
     "verify.email.title": "Sikeres regisztráció!",
-    "verify.email.text": "E-mailt küldtünk az általad megadott e-mail címre, amelyben az általunk elküldött linkre kattintva hitelesítened kell a regisztrációt."
+    "verify.email.text": "E-mailt küldtünk az általad megadott e-mail címre, amelyben az általunk elküldött linkre kattintva hitelesítened kell a regisztrációt.",
+    "reset.password": "Új jelszó kérése",
+    "reset.password.text": "Az Ön által megadott e-mail címre levelet küldünk majd, amiben megtalálja a jelszófrissítéshez szükséges linket.",
+    "reset.password.send": "Küldés"
 }

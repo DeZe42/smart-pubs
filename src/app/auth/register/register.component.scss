@@ -3,151 +3,156 @@
 .register {
     display: flex;
     flex-direction: column;
-    margin: auto;
-    max-width: 570px;
-    width: 100%;
+    align-items: center;
+    justify-content: center;
     text-align: center;
+    margin: auto;
     padding: 160px 0;
-    box-sizing: border-box;
-    &__private {
-        font-size: 40px;
-        line-height: 56px;
-        font-weight: 500;
-    }
-    form {
+    &__container {
         display: flex;
         flex-direction: column;
-        margin: 0 0 40px 0;
-        min-width: 570px;
-        &.active {
-            margin: 80px 0 40px 0;
+        max-width: 570px;
+        width: 100%;
+        height: 100%;
+        &--private {
+            font-size: 40px;
+            line-height: 56px;
+            font-weight: 500;
         }
-        mat-form-field {
+        form {
+            display: flex;
+            flex-direction: column;
+            margin: 0 0 40px 0;
+            &.active {
+                margin: 80px 0 40px 0;
+            }
+            mat-form-field {
+                font-size: 16px;
+                margin: 0 0 12px 0;
+            }
+            .password {
+                margin: 0 0 28px 0;
+            }
+        }
+        button {
             font-size: 16px;
-            margin: 0 0 12px 0;
-        }
-        .password {
-            margin: 0 0 28px 0;
-        }
-    }
-    button {
-        font-size: 16px;
-        font-weight: 500;
-        height: 46px;
-        margin: 0 0 16px 0;
-    }
-    .white-button {
-        border: 2px solid $orange !important;
-    }
-    .mat-raised-button {
-        color: $white;
-    }
-    textarea {
-        height: 240px;
-        resize: none;
-    }
-    &__sub-title {
-        font-size: 20px;
-        font-weight: bold;
-        margin: 80px 0 32px 0;
-        text-align: left;
-    }
-    &__legal-member {
-        display: flex;
-        flex-direction: column;
-    }
-    &__image-description {
-        font-size: 14px;
-        line-height: 20px;
-        margin: 0 0 12px 0;
-        text-align: left;
-    }
-    &__image-description-max {
-        font-size: 14px;
-        color: $light-gray;
-        margin: 0 0 24px 0;
-        text-align: left;
-    }
-    &__image-upload {
-        display: flex;
-        flex-wrap: wrap;
-        &--image-card {
-            cursor: pointer;
-            display: flex;
-            width: 180px;
-            height: 180px;
-            margin: 0 10px 10px 0;
-            border: 1px dashed $light-gray;
-            &:nth-child(3n) {
-                margin: 0;
-            }
-            .image-input {
-                position: fixed;
-                top: 0;
-                left: 0;
-                z-index: -100;
-                opacity: 0;
-            }
-            .container {
-                display: flex;
-                flex-direction: column;
-                width: 100%;
-                height: 100%;
-                align-items: center;
-                justify-content: center;
-                mat-icon {
-                    margin: 0 0 8px 0;
-                }
-                span {
-                    font-size: 14px;
-                    color: $orange;
-                }
-            }
-        }
-    }
-    &__open-state {
-        display: flex;
-        flex-direction: column;
-        &--row {
-            display: flex;
-            align-items: center;
-            height: 52px;
+            font-weight: 500;
+            height: 46px;
             margin: 0 0 16px 0;
-            .days {
-                font-size: 16px;
-                margin: 0 auto 0 0;
+        }
+        .white-button {
+            border: 2px solid $orange !important;
+        }
+        .mat-raised-button {
+            color: $white;
+        }
+        textarea {
+            height: 240px;
+            resize: none;
+        }
+        &--sub-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 80px 0 32px 0;
+            text-align: left;
+        }
+        &--legal-member {
+            display: flex;
+            flex-direction: column;
+        }
+        &--image-description {
+            font-size: 14px;
+            line-height: 20px;
+            margin: 0 0 12px 0;
+            text-align: left;
+        }
+        &--image-description-max {
+            font-size: 14px;
+            color: $light-gray;
+            margin: 0 0 24px 0;
+            text-align: left;
+        }
+        &--image-upload {
+            display: flex;
+            flex-wrap: wrap;
+            .image-card {
+                cursor: pointer;
+                display: flex;
+                width: 180px;
+                height: 180px;
+                margin: 0 10px 10px 0;
+                border: 1px dashed $light-gray;
+                &:nth-child(3n) {
+                    margin: 0;
+                }
+                .image-input {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    z-index: -100;
+                    opacity: 0;
+                }
+                .container {
+                    display: flex;
+                    flex-direction: column;
+                    width: 100%;
+                    height: 100%;
+                    align-items: center;
+                    justify-content: center;
+                    mat-icon {
+                        margin: 0 0 8px 0;
+                    }
+                    span {
+                        font-size: 14px;
+                        color: $orange;
+                    }
+                }
             }
-            mat-slide-toggle {
-                margin: 0 8px 0 0;
-            }
-            .gray {
-                font-size: 14px;
-                color: $light-gray;
-                margin: 0 30px 0 0;
-            }
-            .line {
-                font-size: 16px;
-                margin: 0 16px;
-            }
-            input[type=time] {
-                border: 1px solid $light-gray;
-                color: $light-gray;
-                font-size: 16px;
-                font-family: unset;
-                width: 128px;
+        }
+        &--open-state {
+            display: flex;
+            flex-direction: column;
+            .row {
+                display: flex;
+                align-items: center;
                 height: 52px;
-                padding: 0 16px;
-                box-sizing: border-box;
-                outline: none;
-            }
-            input[type=time]::-webkit-datetime-edit-hour-field {
-                padding: 0 8px;
-            }
-            input[type=time]::-webkit-datetime-edit-minute-field {
-                padding: 0 8px;
-            }
-            input[type=time]::-webkit-calendar-picker-indicator {
-                filter: invert(72%) sepia(69%) saturate(6076%) hue-rotate(9deg) brightness(98%) contrast(101%);
+                margin: 0 0 16px 0;
+                .days {
+                    font-size: 16px;
+                    margin: 0 auto 0 0;
+                }
+                mat-slide-toggle {
+                    margin: 0 8px 0 0;
+                }
+                .gray {
+                    font-size: 14px;
+                    color: $light-gray;
+                    margin: 0 30px 0 0;
+                }
+                .line {
+                    font-size: 16px;
+                    margin: 0 16px;
+                }
+                input[type=time] {
+                    border: 1px solid $light-gray;
+                    color: $light-gray;
+                    font-size: 16px;
+                    font-family: unset;
+                    width: 128px;
+                    height: 52px;
+                    padding: 0 16px;
+                    box-sizing: border-box;
+                    outline: none;
+                }
+                input[type=time]::-webkit-datetime-edit-hour-field {
+                    padding: 0 8px;
+                }
+                input[type=time]::-webkit-datetime-edit-minute-field {
+                    padding: 0 8px;
+                }
+                input[type=time]::-webkit-calendar-picker-indicator {
+                    filter: invert(72%) sepia(69%) saturate(6076%) hue-rotate(9deg) brightness(98%) contrast(101%);
+                }
             }
         }
     }

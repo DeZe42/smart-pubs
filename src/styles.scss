@@ -86,7 +86,7 @@ $smart-pubs-dark-theme: mat-dark-theme($smart-pubs-app-primary, $smart-pubs-app-
   .container__content--header {
     background-color: #303030 !important;
   }
-  .auth .private {
+  .auth, .private, .home {
     background-color: #303030 !important;
   }
   .toolbar__actions--login-button {
@@ -135,5 +135,7 @@ $custom-typography: mat-typography-config(
 }
 
 router-outlet + *:not(app-home) {
+  display: flex;
   height: 100%;
+  width: 100%;
 }

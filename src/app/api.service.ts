@@ -25,9 +25,11 @@ export class ApiService {
           .pipe(map(e =>{
             return e.map( a =>
               {
-                const pub: any = a.payload.doc.data() as any;
+                const pub: Pub = a.payload.doc.data() as Pub;
                 const uid = pub.uid;
-                const imageSrc = pub.imageSrc;
+                const imageSrc1 = pub.imageSrc1;
+                const imageSrc2 = pub.imageSrc2;
+                const imageSrc3 = pub.imageSrc3;
                 const companyName = pub.companyName;
                 const country = pub.country;
                 const contry = pub.contry;
@@ -56,7 +58,7 @@ export class ApiService {
                 const endingHourSaturday = pub.endingHourSaturday;
                 const startingHourSunday = pub.startingHourSunday;
                 const endingHourSunday = pub.endingHourSunday;
-                return { uid, imageSrc, companyName, country, contry, city, address, space, description, openStateMonday, openStateTuesday, openStateWednesday,
+                return { uid, imageSrc1, imageSrc2, imageSrc3, companyName, country, contry, city, address, space, description, openStateMonday, openStateTuesday, openStateWednesday,
                   openStateThursday, openStateFriday, openStateSaturday, openStateSunday, startingHourMonday, endingHourMonday, startingHourTuesday, endingHourTuesday,
                   startingHourWednesday, endingHourWednesday, startingHourThursday, endingHourThursday, startingHourFriday, endingHourFriday, startingHourSaturday,
                   endingHourSaturday, startingHourSunday, endingHourSunday};

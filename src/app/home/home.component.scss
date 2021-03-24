@@ -9,6 +9,7 @@
     opacity: 1;
     z-index: 1;
     height: 100%;
+    background-color: $white;
     &.active {
         opacity: 0;
         z-index: -1;
@@ -171,10 +172,19 @@
                         font-weight: 500;
                         margin: 0 0 16px 0;
                     }
-                    &--opening-hours {
-                        font-size: 14px;
-                        line-height: 20px;
-                        margin: 0 0 24px 0;
+                    &--container {
+                        display: flex;
+                        justify-content: space-between;
+                        .opening-hours {
+                            font-size: 14px;
+                            line-height: 20px;
+                            margin: 0 0 24px 0;
+                        }
+                        .opening-state {
+                            font-size: 20px;
+                            font-weight: bold;
+                            color: #FF0000;
+                        }
                     }
                     &--space {
                         display: flex;

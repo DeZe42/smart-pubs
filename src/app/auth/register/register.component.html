@@ -1,183 +1,185 @@
 <section class="register">
-    <span *ngIf="router.url == '/auth/private_register'" class="register__private">{{ 'register.private.member' | translate }}</span>
-    <span *ngIf="router.url == '/auth/legal_register'" class="register__private">{{ 'register.legal.member' | translate }}</span>
-    <form [formGroup]="registerForm" [ngClass]="{'active': router.url == '/auth/private_register'}">
-        <span class="register__sub-title" *ngIf="router.url == '/auth/legal_register'">{{ 'register.person.data' | translate }}</span>
-        <mat-form-field appearance="outline" color="primary">
-            <mat-label>{{ 'register.name' | translate }}</mat-label>
-            <input matInput type="text" formControlName="name">
-            <mat-error>{{ 'register.error.required' | translate }}</mat-error>
-        </mat-form-field>
-        <mat-form-field appearance="outline" color="primary">
-            <mat-label>{{ 'register.email' | translate }}</mat-label>
-            <input matInput type="text" formControlName="email">
-            <mat-error *ngIf="registerForm.controls.email.hasError('required')">{{ 'register.error.required' | translate }}</mat-error>
-            <mat-error *ngIf="registerForm.controls.email.hasError('pattern')">{{ 'register.error.email' | translate }}</mat-error>
-        </mat-form-field>
-        <mat-form-field appearance="outline" color="primary">
-            <mat-label>{{ 'register.number' | translate }}</mat-label>
-            <input matInput type="text" formControlName="phoneNumber" (input)="justNumbers($event)">
-            <mat-error *ngIf="registerForm.controls.phoneNumber.hasError('required')">{{ 'register.error.required' | translate }}</mat-error>
-            <mat-error *ngIf="registerForm.controls.phoneNumber.hasError('pattern')">{{ 'register.error.phone.number' | translate }}</mat-error>
-        </mat-form-field>
-        <mat-form-field appearance="outline" color="primary" class="password">
-            <mat-label>{{ 'register.password' | translate }}</mat-label>
-            <input matInput [type]="password ? 'password' : 'text'" formControlName="password">
-            <button mat-icon-button matSuffix (click)="password = !password" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="password">
-                <mat-icon>{{ password ? 'visibility_off' : 'visibility' }}</mat-icon>
-            </button>
-            <mat-error *ngIf="registerForm.controls.password.hasError('required')">{{ 'register.error.required' | translate }}</mat-error>
-            <mat-error *ngIf="registerForm.controls.password.hasError('minlength')">{{ 'register.error.length' | translate }}</mat-error>
-            <mat-error *ngIf="registerForm.controls.password.hasError('hasCase')">{{ 'register.error.uppercase' | translate }}</mat-error>
-            <mat-error *ngIf="registerForm.controls.password.hasError('hasNumber')">{{ 'register.error.has.number' | translate }}</mat-error>
-        </mat-form-field>
-        <mat-form-field appearance="outline" color="primary" class="password">
-            <mat-label>{{ 'register.password.again' | translate }}</mat-label>
-            <input matInput [type]="passwordAgain ? 'password' : 'text'" formControlName="passwordAgain">
-            <button mat-icon-button matSuffix (click)="passwordAgain = !passwordAgain" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="passwordAgain">
-                <mat-icon>{{ passwordAgain ? 'visibility_off' : 'visibility' }}</mat-icon>
-            </button>
-            <mat-error *ngIf="registerForm.controls.passwordAgain.hasError('required')">{{ 'register.error.required' | translate }}</mat-error>
-            <mat-error *ngIf="registerForm.controls.passwordAgain.hasError('minlength')">{{ 'register.error.length' | translate }}</mat-error>
-            <mat-error *ngIf="registerForm.controls.passwordAgain.hasError('hasCase')">{{ 'register.error.uppercase' | translate }}</mat-error>
-            <mat-error *ngIf="registerForm.controls.passwordAgain.hasError('hasNumber')">{{ 'register.error.has.number' | translate }}</mat-error>
-            <mat-error *ngIf="registerForm.controls.passwordAgain.hasError('notEqual')">{{ 'register.error.password' | translate }}</mat-error>
-        </mat-form-field>
-        <div *ngIf="router.url == '/auth/legal_register'" class="register__legal-member">
-            <span class="register__sub-title">{{ 'register.company.data' | translate }}</span>
+    <div class="register__container">
+        <span *ngIf="router.url == '/auth/private_register'" class="register__container--private">{{ 'register.private.member' | translate }}</span>
+        <span *ngIf="router.url == '/auth/legal_register'" class="register__container--private">{{ 'register.legal.member' | translate }}</span>
+        <form [formGroup]="registerForm" [ngClass]="{'active': router.url == '/auth/private_register'}">
+            <span class="register__container--sub-title" *ngIf="router.url == '/auth/legal_register'">{{ 'register.person.data' | translate }}</span>
             <mat-form-field appearance="outline" color="primary">
-                <mat-label>{{ 'register.company.name' | translate }}</mat-label>
-                <input matInput type="text" formControlName="companyName">
+                <mat-label>{{ 'register.name' | translate }}</mat-label>
+                <input matInput type="text" formControlName="name">
                 <mat-error>{{ 'register.error.required' | translate }}</mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline" color="primary">
-                <mat-label>{{ 'register.country' | translate }}</mat-label>
-                <input matInput type="text" formControlName="country">
-                <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                <mat-label>{{ 'register.email' | translate }}</mat-label>
+                <input matInput type="text" formControlName="email">
+                <mat-error *ngIf="registerForm.controls.email.hasError('required')">{{ 'register.error.required' | translate }}</mat-error>
+                <mat-error *ngIf="registerForm.controls.email.hasError('pattern')">{{ 'register.error.email' | translate }}</mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline" color="primary">
-                <mat-label>{{ 'register.contry' | translate }}</mat-label>
-                <input matInput type="text" formControlName="contry">
-                <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                <mat-label>{{ 'register.number' | translate }}</mat-label>
+                <input matInput type="text" formControlName="phoneNumber" (input)="justNumbers($event)">
+                <mat-error *ngIf="registerForm.controls.phoneNumber.hasError('required')">{{ 'register.error.required' | translate }}</mat-error>
+                <mat-error *ngIf="registerForm.controls.phoneNumber.hasError('pattern')">{{ 'register.error.phone.number' | translate }}</mat-error>
             </mat-form-field>
-            <mat-form-field appearance="outline" color="primary">
-                <mat-label>{{ 'register.city' | translate }}</mat-label>
-                <input matInput type="text" formControlName="city">
-                <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+            <mat-form-field appearance="outline" color="primary" class="password">
+                <mat-label>{{ 'register.password' | translate }}</mat-label>
+                <input matInput [type]="password ? 'password' : 'text'" formControlName="password">
+                <button mat-icon-button matSuffix (click)="password = !password" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="password">
+                    <mat-icon>{{ password ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </button>
+                <mat-error *ngIf="registerForm.controls.password.hasError('required')">{{ 'register.error.required' | translate }}</mat-error>
+                <mat-error *ngIf="registerForm.controls.password.hasError('minlength')">{{ 'register.error.length' | translate }}</mat-error>
+                <mat-error *ngIf="registerForm.controls.password.hasError('hasCase')">{{ 'register.error.uppercase' | translate }}</mat-error>
+                <mat-error *ngIf="registerForm.controls.password.hasError('hasNumber')">{{ 'register.error.has.number' | translate }}</mat-error>
             </mat-form-field>
-            <mat-form-field appearance="outline" color="primary">
-                <mat-label>{{ 'register.address' | translate }}</mat-label>
-                <input matInput type="text" formControlName="address">
-                <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+            <mat-form-field appearance="outline" color="primary" class="password">
+                <mat-label>{{ 'register.password.again' | translate }}</mat-label>
+                <input matInput [type]="passwordAgain ? 'password' : 'text'" formControlName="passwordAgain">
+                <button mat-icon-button matSuffix (click)="passwordAgain = !passwordAgain" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="passwordAgain">
+                    <mat-icon>{{ passwordAgain ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </button>
+                <mat-error *ngIf="registerForm.controls.passwordAgain.hasError('required')">{{ 'register.error.required' | translate }}</mat-error>
+                <mat-error *ngIf="registerForm.controls.passwordAgain.hasError('minlength')">{{ 'register.error.length' | translate }}</mat-error>
+                <mat-error *ngIf="registerForm.controls.passwordAgain.hasError('hasCase')">{{ 'register.error.uppercase' | translate }}</mat-error>
+                <mat-error *ngIf="registerForm.controls.passwordAgain.hasError('hasNumber')">{{ 'register.error.has.number' | translate }}</mat-error>
+                <mat-error *ngIf="registerForm.controls.passwordAgain.hasError('notEqual')">{{ 'register.error.password' | translate }}</mat-error>
             </mat-form-field>
-            <span class="register__sub-title">{{ 'register.images.from.pubs' | translate }}</span>
-            <span class="register__image-description">{{ 'register.images.text' | translate }}</span>
-            <span class="register__image-description-max">{{ 'register.images.text.max' | translate }}</span>
-            <div class="register__image-upload">
-                <div class="register__image-upload--image-card" matRipple (click)="fileInput1.click()">
-                    <div class="container" *ngIf="!imgURL1">
-                        <mat-icon color="primary">add_photo_alternate</mat-icon>
-                        <span>{{ 'register.image.upload' | translate }}</span>
+            <div *ngIf="router.url == '/auth/legal_register'" class="register__container--legal-member">
+                <span class="register__container--sub-title">{{ 'register.company.data' | translate }}</span>
+                <mat-form-field appearance="outline" color="primary">
+                    <mat-label>{{ 'register.company.name' | translate }}</mat-label>
+                    <input matInput type="text" formControlName="companyName">
+                    <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" color="primary">
+                    <mat-label>{{ 'register.country' | translate }}</mat-label>
+                    <input matInput type="text" formControlName="country">
+                    <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" color="primary">
+                    <mat-label>{{ 'register.contry' | translate }}</mat-label>
+                    <input matInput type="text" formControlName="contry">
+                    <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" color="primary">
+                    <mat-label>{{ 'register.city' | translate }}</mat-label>
+                    <input matInput type="text" formControlName="city">
+                    <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" color="primary">
+                    <mat-label>{{ 'register.address' | translate }}</mat-label>
+                    <input matInput type="text" formControlName="address">
+                    <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                </mat-form-field>
+                <span class="register__container--sub-title">{{ 'register.images.from.pubs' | translate }}</span>
+                <span class="register__container--image-description">{{ 'register.images.text' | translate }}</span>
+                <span class="register__container--image-description-max">{{ 'register.images.text.max' | translate }}</span>
+                <div class="register__container--image-upload">
+                    <div class="image-card" matRipple (click)="fileInput1.click()">
+                        <div class="container" *ngIf="!imgURL1">
+                            <mat-icon color="primary">add_photo_alternate</mat-icon>
+                            <span>{{ 'register.image.upload' | translate }}</span>
+                        </div>
+                        <img *ngIf="imgURL1" [src]="imgURL1">
+                        <input class="image-input" type="file" #fileInput1 (change)="preview(fileInput1.files, 1)"/>
                     </div>
-                    <img *ngIf="imgURL1" [src]="imgURL1">
-                    <input class="image-input" type="file" #fileInput1 (change)="preview(fileInput1.files, 1)"/>
+                    <div class="image-card" matRipple (click)="fileInput2.click()">
+                        <div class="container" *ngIf="!imgURL2">
+                            <mat-icon color="primary">add_photo_alternate</mat-icon>
+                            <span>{{ 'register.image.upload' | translate }}</span>
+                        </div>
+                        <img *ngIf="imgURL2" [src]="imgURL2">
+                        <input class="image-input" type="file" #fileInput2 (change)="preview(fileInput2.files, 2)"/>
+                    </div>
+                    <div class="image-card" matRipple (click)="fileInput3.click()">
+                        <div class="container" *ngIf="!imgURL3">
+                            <mat-icon color="primary">add_photo_alternate</mat-icon>
+                            <span>{{ 'register.image.upload' | translate }}</span>
+                        </div>
+                        <img *ngIf="imgURL3" [src]="imgURL3">
+                        <input class="image-input" type="file" #fileInput3 (change)="preview(fileInput3.files, 3)"/>
+                    </div>
                 </div>
-                <div class="register__image-upload--image-card" matRipple (click)="fileInput2.click()">
-                    <div class="container" *ngIf="!imgURL2">
-                        <mat-icon color="primary">add_photo_alternate</mat-icon>
-                        <span>{{ 'register.image.upload' | translate }}</span>
+                <span class="register__container--sub-title">{{ 'register.description.from.pubs' | translate }}</span>
+                <mat-form-field appearance="outline" color="primary">
+                    <mat-label>{{ 'register.description' | translate }}</mat-label>
+                    <textarea matInput type="text" formControlName="description"></textarea>
+                    <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" color="primary">
+                    <mat-label>{{ 'register.space' | translate }}</mat-label>
+                    <input matInput type="text" formControlName="space">
+                    <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                </mat-form-field>
+                <span class="register__container--sub-title">{{ 'register.open.state' | translate }}</span>
+                <div class="register__container--open-state">
+                    <div class="row">
+                        <span class="days">{{ 'register.open.state.monday' | translate }}</span>
+                        <mat-slide-toggle color="primary" formControlName="openStateMonday" (change)="disableTimeInput('Monday')"></mat-slide-toggle>
+                        <span class="gray" *ngIf="registerForm.controls.openStateMonday.value">{{ 'register.open.state.open' | translate }}</span>
+                        <span class="gray" *ngIf="!registerForm.controls.openStateMonday.value">{{ 'register.open.state.close' | translate }}</span>
+                        <input type="time" formControlName="startingHourMonday">
+                        <span class="line">-</span>
+                        <input type="time" formControlName="endingHourMonday">
                     </div>
-                    <img *ngIf="imgURL2" [src]="imgURL2">
-                    <input class="image-input" type="file" #fileInput2 (change)="preview(fileInput2.files, 2)"/>
-                </div>
-                <div class="register__image-upload--image-card" matRipple (click)="fileInput3.click()">
-                    <div class="container" *ngIf="!imgURL3">
-                        <mat-icon color="primary">add_photo_alternate</mat-icon>
-                        <span>{{ 'register.image.upload' | translate }}</span>
+                    <div class="row">
+                        <span class="days">{{ 'register.open.state.tuesday' | translate }}</span>
+                        <mat-slide-toggle color="primary" formControlName="openStateTuesday" (change)="disableTimeInput('Tuesday')"></mat-slide-toggle>
+                        <span class="gray" *ngIf="registerForm.controls.openStateTuesday.value">{{ 'register.open.state.open' | translate }}</span>
+                        <span class="gray" *ngIf="!registerForm.controls.openStateTuesday.value">{{ 'register.open.state.close' | translate }}</span>
+                        <input type="time" formControlName="startingHourTuesday">
+                        <span class="line">-</span>
+                        <input type="time" formControlName="endingHourTuesday">
                     </div>
-                    <img *ngIf="imgURL3" [src]="imgURL3">
-                    <input class="image-input" type="file" #fileInput3 (change)="preview(fileInput3.files, 3)"/>
+                    <div class="row">
+                        <span class="days">{{ 'register.open.state.wednesday' | translate }}</span>
+                        <mat-slide-toggle color="primary" formControlName="openStateWednesday" (change)="disableTimeInput('Wednesday')"></mat-slide-toggle>
+                        <span class="gray" *ngIf="registerForm.controls.openStateWednesday.value">{{ 'register.open.state.open' | translate }}</span>
+                        <span class="gray" *ngIf="!registerForm.controls.openStateWednesday.value">{{ 'register.open.state.close' | translate }}</span>
+                        <input type="time" formControlName="startingHourWednesday">
+                        <span class="line">-</span>
+                        <input type="time" formControlName="endingHourWednesday">
+                    </div>
+                    <div class="row">
+                        <span class="days">{{ 'register.open.state.thursday' | translate }}</span>
+                        <mat-slide-toggle color="primary" formControlName="openStateThursday" (change)="disableTimeInput('Thursday')"></mat-slide-toggle>
+                        <span class="gray" *ngIf="registerForm.controls.openStateThursday.value">{{ 'register.open.state.open' | translate }}</span>
+                        <span class="gray" *ngIf="!registerForm.controls.openStateThursday.value">{{ 'register.open.state.close' | translate }}</span>
+                        <input type="time" formControlName="startingHourThursday">
+                        <span class="line">-</span>
+                        <input type="time" formControlName="endingHourThursday">
+                    </div>
+                    <div class="row">
+                        <span class="days">{{ 'register.open.state.friday' | translate }}</span>
+                        <mat-slide-toggle color="primary" formControlName="openStateFriday" (change)="disableTimeInput('Friday')"></mat-slide-toggle>
+                        <span class="gray" *ngIf="registerForm.controls.openStateFriday.value">{{ 'register.open.state.open' | translate }}</span>
+                        <span class="gray" *ngIf="!registerForm.controls.openStateFriday.value">{{ 'register.open.state.close' | translate }}</span>
+                        <input type="time" formControlName="startingHourFriday">
+                        <span class="line">-</span>
+                        <input type="time" formControlName="endingHourFriday">
+                    </div>
+                    <div class="row">
+                        <span class="days">{{ 'register.open.state.saturday' | translate }}</span>
+                        <mat-slide-toggle color="primary" formControlName="openStateSaturday" (change)="disableTimeInput('Saturday')"></mat-slide-toggle>
+                        <span class="gray" *ngIf="registerForm.controls.openStateSaturday.value">{{ 'register.open.state.open' | translate }}</span>
+                        <span class="gray" *ngIf="!registerForm.controls.openStateSaturday.value">{{ 'register.open.state.close' | translate }}</span>
+                        <input type="time" formControlName="startingHourSaturday">
+                        <span class="line">-</span>
+                        <input type="time" formControlName="endingHourSaturday">
+                    </div>
+                    <div class="row">
+                        <span class="days">{{ 'register.open.state.sunday' | translate }}</span>
+                        <mat-slide-toggle color="primary" formControlName="openStateSunday" (change)="disableTimeInput('Sunday')"></mat-slide-toggle>
+                        <span class="gray" *ngIf="registerForm.controls.openStateSunday.value">{{ 'register.open.state.open' | translate }}</span>
+                        <span class="gray" *ngIf="!registerForm.controls.openStateSunday.value">{{ 'register.open.state.close' | translate }}</span>
+                        <input type="time" formControlName="startingHourSunday">
+                        <span class="line">-</span>
+                        <input type="time" formControlName="endingHourSunday">
+                    </div>
                 </div>
             </div>
-            <span class="register__sub-title">{{ 'register.description.from.pubs' | translate }}</span>
-            <mat-form-field appearance="outline" color="primary">
-                <mat-label>{{ 'register.description' | translate }}</mat-label>
-                <textarea matInput type="text" formControlName="description"></textarea>
-                <mat-error>{{ 'register.error.required' | translate }}</mat-error>
-            </mat-form-field>
-            <mat-form-field appearance="outline" color="primary">
-                <mat-label>{{ 'register.space' | translate }}</mat-label>
-                <input matInput type="text" formControlName="space">
-                <mat-error>{{ 'register.error.required' | translate }}</mat-error>
-            </mat-form-field>
-            <span class="register__sub-title">{{ 'register.open.state' | translate }}</span>
-            <div class="register__open-state">
-                <div class="register__open-state--row">
-                    <span class="days">{{ 'register.open.state.monday' | translate }}</span>
-                    <mat-slide-toggle color="primary" formControlName="openStateMonday" (change)="disableTimeInput('Monday')"></mat-slide-toggle>
-                    <span class="gray" *ngIf="registerForm.controls.openStateMonday.value">{{ 'register.open.state.open' | translate }}</span>
-                    <span class="gray" *ngIf="!registerForm.controls.openStateMonday.value">{{ 'register.open.state.close' | translate }}</span>
-                    <input type="time" formControlName="startingHourMonday">
-                    <span class="line">-</span>
-                    <input type="time" formControlName="endingHourMonday">
-                </div>
-                <div class="register__open-state--row">
-                    <span class="days">{{ 'register.open.state.tuesday' | translate }}</span>
-                    <mat-slide-toggle color="primary" formControlName="openStateTuesday" (change)="disableTimeInput('Tuesday')"></mat-slide-toggle>
-                    <span class="gray" *ngIf="registerForm.controls.openStateTuesday.value">{{ 'register.open.state.open' | translate }}</span>
-                    <span class="gray" *ngIf="!registerForm.controls.openStateTuesday.value">{{ 'register.open.state.close' | translate }}</span>
-                    <input type="time" formControlName="startingHourTuesday">
-                    <span class="line">-</span>
-                    <input type="time" formControlName="endingHourTuesday">
-                </div>
-                <div class="register__open-state--row">
-                    <span class="days">{{ 'register.open.state.wednesday' | translate }}</span>
-                    <mat-slide-toggle color="primary" formControlName="openStateWednesday" (change)="disableTimeInput('Wednesday')"></mat-slide-toggle>
-                    <span class="gray" *ngIf="registerForm.controls.openStateWednesday.value">{{ 'register.open.state.open' | translate }}</span>
-                    <span class="gray" *ngIf="!registerForm.controls.openStateWednesday.value">{{ 'register.open.state.close' | translate }}</span>
-                    <input type="time" formControlName="startingHourWednesday">
-                    <span class="line">-</span>
-                    <input type="time" formControlName="endingHourWednesday">
-                </div>
-                <div class="register__open-state--row">
-                    <span class="days">{{ 'register.open.state.thursday' | translate }}</span>
-                    <mat-slide-toggle color="primary" formControlName="openStateThursday" (change)="disableTimeInput('Thursday')"></mat-slide-toggle>
-                    <span class="gray" *ngIf="registerForm.controls.openStateThursday.value">{{ 'register.open.state.open' | translate }}</span>
-                    <span class="gray" *ngIf="!registerForm.controls.openStateThursday.value">{{ 'register.open.state.close' | translate }}</span>
-                    <input type="time" formControlName="startingHourThursday">
-                    <span class="line">-</span>
-                    <input type="time" formControlName="endingHourThursday">
-                </div>
-                <div class="register__open-state--row">
-                    <span class="days">{{ 'register.open.state.friday' | translate }}</span>
-                    <mat-slide-toggle color="primary" formControlName="openStateFriday" (change)="disableTimeInput('Friday')"></mat-slide-toggle>
-                    <span class="gray" *ngIf="registerForm.controls.openStateFriday.value">{{ 'register.open.state.open' | translate }}</span>
-                    <span class="gray" *ngIf="!registerForm.controls.openStateFriday.value">{{ 'register.open.state.close' | translate }}</span>
-                    <input type="time" formControlName="startingHourFriday">
-                    <span class="line">-</span>
-                    <input type="time" formControlName="endingHourFriday">
-                </div>
-                <div class="register__open-state--row">
-                    <span class="days">{{ 'register.open.state.saturday' | translate }}</span>
-                    <mat-slide-toggle color="primary" formControlName="openStateSaturday" (change)="disableTimeInput('Saturday')"></mat-slide-toggle>
-                    <span class="gray" *ngIf="registerForm.controls.openStateSaturday.value">{{ 'register.open.state.open' | translate }}</span>
-                    <span class="gray" *ngIf="!registerForm.controls.openStateSaturday.value">{{ 'register.open.state.close' | translate }}</span>
-                    <input type="time" formControlName="startingHourSaturday">
-                    <span class="line">-</span>
-                    <input type="time" formControlName="endingHourSaturday">
-                </div>
-                <div class="register__open-state--row">
-                    <span class="days">{{ 'register.open.state.sunday' | translate }}</span>
-                    <mat-slide-toggle color="primary" formControlName="openStateSunday" (change)="disableTimeInput('Sunday')"></mat-slide-toggle>
-                    <span class="gray" *ngIf="registerForm.controls.openStateSunday.value">{{ 'register.open.state.open' | translate }}</span>
-                    <span class="gray" *ngIf="!registerForm.controls.openStateSunday.value">{{ 'register.open.state.close' | translate }}</span>
-                    <input type="time" formControlName="startingHourSunday">
-                    <span class="line">-</span>
-                    <input type="time" formControlName="endingHourSunday">
-                </div>
-            </div>
-        </div>
-    </form>
-    <button mat-raised-button color="primary" (click)="register()" [disabled]="disableButton()">{{ 'register' | translate }}</button>
-    <button mat-stroked-button color="primary" class="white-button" routerLink="/auth">{{ 'register.cancel' | translate }}</button>
+        </form>
+        <button mat-raised-button color="primary" (click)="register()" [disabled]="disableButton()">{{ 'register' | translate }}</button>
+        <button mat-stroked-button color="primary" class="white-button" routerLink="/auth">{{ 'register.cancel' | translate }}</button>
+    </div>
 </section>
