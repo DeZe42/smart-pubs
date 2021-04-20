@@ -41,6 +41,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 import { ErrorDialogComponent } from './dialogs/error-dialog/error-dialog.component';
+import { InformationalDialogComponent } from './dialogs/informational-dialog/informational-dialog.component';
 
 @NgModule({
   exports: [

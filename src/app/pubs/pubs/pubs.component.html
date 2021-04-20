@@ -3,6 +3,9 @@
         <button mat-stroked-button color="primary" (click)="back()">{{ 'auth.back.button' | translate }}</button>
     </div>
     <div class="pubs__content">
+        <div class="pubs__content--title-container">
+
+        </div>
         <span class="pubs__content--title">{{ pub?.companyName }}</span>
         <span class="pubs__content--opening-state" *ngIf="numberOfDay == 1">{{ 'home.opening.hours' | translate }}: {{ pub?.startingHourMonday }} - {{ pub?.endingHourMonday }}</span>
         <span class="pubs__content--opening-state" *ngIf="numberOfDay == 2">{{ 'home.opening.hours' | translate }}: {{ pub?.startingHourTuesday }} - {{ pub?.endingHourTuesday }}</span>
@@ -59,7 +62,7 @@
                     <span>{{ 'pubs.point.two' | translate }}</span>
                 </div>
                 <div class="reservate__tables" *ngIf="stage == 2">
-                    <div class="reservate__tables--person-card" *ngFor="let table of tables" (click)="chooseTable(table)" [ngClass]="{'active': activeTable == table}">
+                    <div class="reservate__tables--person-card" *ngFor="let table of tables" (click)="chooseTable(table)" [ngClass]="{'normal': !table.reserved, 'active': activeTable == table, 'disabled': table.reserved}">
                         <div class="reserved" *ngIf="table.reserved">
                             <span>{{ 'pubs.reserved' | translate }}</span>
                         </div>

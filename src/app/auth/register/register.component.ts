@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ApiService } from 'src/app/api.service';
 import { AuthService } from '../auth.service';
 import { EMAIL_REGEX, UPPER_CASE_REGEX, LOWER_CASE_REGEX, PHONE_REGEX } from '../utils';
 
@@ -23,7 +22,6 @@ export class RegisterComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private apiService: ApiService,
     public router: Router
   ) { }
 

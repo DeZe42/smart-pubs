@@ -1,10 +1,12 @@
 import { DatePipe, Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ApiService } from 'src/app/api.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { InformationalDialogComponent } from 'src/app/shared/dialogs/informational-dialog/informational-dialog.component';
 import { Pub, Reservation } from 'src/app/shared/models';
 
 @Component({
@@ -21,14 +23,13 @@ export class PubsComponent implements OnInit, OnDestroy {
   dateCtrl = new FormControl('', Validators.required);
   timeCtrl = new FormControl('', Validators.required);
   stage: number = 1;
-  activeTable;
+  activeTable = null;
   personalData: FormGroup;
   today = new Date();
   imageSrc0;
   imageSrc1;
   imageSrc2;
   tables;
-  oldDataTables;
   dateChanges: Subscription;
 
   constructor(
@@ -37,7 +38,8 @@ export class PubsComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private date: DatePipe
+    private date: DatePipe,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -52,7 +54,6 @@ export class PubsComponent implements OnInit, OnDestroy {
       if (data) {
         this.pub = data;
         this.tables = data.tables;
-        this.oldDataTables = data.tables;
         this.imageSrc0 = data.imageSrc0;
         this.imageSrc1 = data.imageSrc1;
         this.imageSrc2 = data.imageSrc2;
@@ -82,6 +83,10 @@ export class PubsComponent implements OnInit, OnDestroy {
               element.reserved = true;
             }
           });
+        } else {
+          this.tables.forEach(element => {
+            element.reserved = false;
+          });
         }
       });
     });
@@ -96,7 +101,9 @@ export class PubsComponent implements OnInit, OnDestroy {
   }
 
   chooseTable(table) {
-    this.activeTable = table;
+    if (!table.reserved) {
+      this.activeTable = table;
+    }
   }
 
   getOpenState(pub: Pub) {
@@ -141,6 +148,20 @@ export class PubsComponent implements OnInit, OnDestroy {
                                       this.activeTable,
                                       this.personalData.controls.name.value,
                                       this.personalData.controls.email.value,
-                                      this.personalData.controls.phoneNumber.value)
+                                      this.personalData.controls.phoneNumber.value);
+    this.dialog.open(InformationalDialogComponent, {
+      disableClose: true,
+      data: 'informational.dialog.reservation.send.success',
+      panelClass: "error-dialog"
+    });
+    this.dateCtrl.setValue('');
+    this.timeCtrl.setValue('');
+    this.activeTable = null;
+    this.personalData.setValue({
+      name: '',
+      email: '',
+      phoneNumber: ''
+    });
+    this.stage = 1;
   }
 }

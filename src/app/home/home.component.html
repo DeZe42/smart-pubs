@@ -58,7 +58,7 @@
                 <textarea formControlName="text" [placeholder]="'home.form.text.place.holder' | translate"></textarea>
             </form>
             <div class="question-button">
-                <button mat-flat-button color="primary">{{ 'home.questions.button' | translate | uppercase }}</button>
+                <button mat-flat-button color="primary" (click)="sendQuestion()" [disabled]="questionForm.invalid">{{ 'home.questions.button' | translate | uppercase }}</button>
             </div>
         </div>
     </div>

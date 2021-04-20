@@ -15,6 +15,7 @@ import { HomeComponent } from './home/home.component';
 import { ApiService } from './api.service';
 import { SafePipe } from './shared/safe.pipe';
 import { ErrorDialogComponent } from './shared/dialogs/error-dialog/error-dialog.component';
+import { InformationalDialogComponent } from './shared/dialogs/informational-dialog/informational-dialog.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -25,6 +26,7 @@ export function createTranslateLoader(http: HttpClient) {
     AppComponent,
     HomeComponent,
     ErrorDialogComponent,
+    InformationalDialogComponent,
     SafePipe
   ],
   imports: [

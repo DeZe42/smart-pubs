@@ -212,6 +212,16 @@ export class ApiService {
       dataRef.add(data);
     }
 
+    createQuestion(name, email, question) {
+      const dataRef: AngularFirestoreCollection<any> = this.db.collection("questions");
+      const data = {
+        name: name,
+        email: email,
+        question: question
+      }
+      dataRef.add(data);
+    }
+
     uploadImage(input, uid, pubName) {
         let files = input;
         let ref = this.storageRef.ref(`images/${pubName}/${uid}`);

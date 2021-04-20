@@ -105,5 +105,8 @@
     "error.dialog.title": "Figyelem!",
     "error.dialog.ok": "Ok",
     "error.dialog.no.legal.user": "Sajnáljuk de nem vagy regisztrálva, mint jogi személy.",
-    "error.dialog.no.private.user": "Sajnáljuk de nem vagy regisztrálva, mint magán személy."
+    "error.dialog.no.private.user": "Sajnáljuk de nem vagy regisztrálva, mint magán személy.",
+    "informational.dialog.title": "Információ",
+    "informational.dialog.questions.send.success": "A kérdésed sikeresen elküldtük, a válasz az e-mail címedre fog érkezni.",
+    "informational.dialog.reservation.send.success": "A foglalásod sikeresen megtörtént."
 }

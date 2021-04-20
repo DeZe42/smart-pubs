@@ -190,14 +190,20 @@
                         margin: 2px;
                         cursor: pointer;
                         position: relative;
-                        &:hover {
-                            border-color: $orange;
-                            box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.3);
+                        &.normal {
+                            &:hover {
+                                border-color: $orange;
+                                box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.3);
+                            }
                         }
                         &.active {
                             border: 2px solid #E57A00;
                             background-color: #F8D2AD;
                             box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.3);
+                        }
+                        &.disabled {
+                            border: none;
+                            cursor: not-allowed;
                         }
                         .reserved {
                             position: absolute;
