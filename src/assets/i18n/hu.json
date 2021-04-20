@@ -43,6 +43,8 @@
     "pubs.open.state": "Nyitvatartás",
     "pubs.address": "Cím",
     "pubs.reserved": "Foglalt",
+    "pubs.time.hour": "Óra",
+    "pubs.time.minute": "Perc",
     "footer.copyright": "Copyright 2020. Minden jog fenntartva.",
     "auth.back.button": "Vissza",
     "auth.login.private.member": "Bejelentkezés magánszemélyként,",

@@ -21,7 +21,8 @@ export class PubsComponent implements OnInit, OnDestroy {
   reservations: Reservation[];
   numberOfDay: number = 0;
   dateCtrl = new FormControl('', Validators.required);
-  timeCtrl = new FormControl('', Validators.required);
+  hoursCtrl = new FormControl('', Validators.required);
+  minutesCtrl = new FormControl('', Validators.required);
   stage: number = 1;
   activeTable = null;
   personalData: FormGroup;
@@ -30,6 +31,8 @@ export class PubsComponent implements OnInit, OnDestroy {
   imageSrc1;
   imageSrc2;
   tables;
+  minutes = [];
+  hours = [];
   dateChanges: Subscription;
 
   constructor(
@@ -48,6 +51,20 @@ export class PubsComponent implements OnInit, OnDestroy {
       email: ['', Validators.required],
       phoneNumber: ['', Validators.required]
     });
+    for (let index = 0; index < 24; index++) {
+      if (index < 10) {
+        this.hours.push('0' + index);
+      } else {
+        this.hours.push(index);
+      }
+    }
+    for (let index = 0; index < 60; index++) {
+      if (index < 10) {
+        this.minutes.push('0' + index);
+      } else {
+        this.minutes.push(index);
+      }
+    }
     this.numberOfDay = new Date().getDay();
     this.apiService.loadPub(this.route.snapshot.params['id']);
     this.apiService.pubs$.subscribe((data: Pub) => {
@@ -75,35 +92,86 @@ export class PubsComponent implements OnInit, OnDestroy {
       }
     });
     this.dateChanges = this.dateCtrl.valueChanges.subscribe(data => {
-      let serachingDate = this.date.transform(data, 'yyyy-LL-dd');
-      this.reservations.forEach(e => {
-        if (e.date == serachingDate) {
-          this.tables.forEach(element => {
-            if (e.table.number == element.number && e.table.persons == element.persons) {
-              element.reserved = true;
+      if (data != '') {
+        
+        this.hours = [];
+        if (data.getDay() == 1) {
+          for (let index = Number(this.pub.startingHourMonday.slice(0, 2)); index < Number(this.pub.endingHourMonday.slice(0, 2)); index++) {
+            if (index < 10) {
+              this.hours.push('0' + index);
+            } else {
+              this.hours.push(index);
             }
-          });
-        } else {
-          this.tables.forEach(element => {
-            element.reserved = false;
-          });
+          }
+        } else if (data.getDay() == 2) {
+          for (let index = Number(this.pub.startingHourTuesday.slice(0, 2)); index < Number(this.pub.endingHourTuesday.slice(0, 2)); index++) {
+            if (index < 10) {
+              this.hours.push('0' + index);
+            } else {
+              this.hours.push(index);
+            }
+          }
+        } else if (data.getDay() == 3) {
+          for (let index = Number(this.pub.startingHourWednesday.slice(0, 2)); index < Number(this.pub.endingHourWednesday.slice(0, 2)); index++) {
+            if (index < 10) {
+              this.hours.push('0' + index);
+            } else {
+              this.hours.push(index);
+            }
+          }
+        } else if (data.getDay() == 4) {
+          for (let index = Number(this.pub.startingHourThursday.slice(0, 2)); index < Number(this.pub.endingHourThursday.slice(0, 2)); index++) {
+            if (index < 10) {
+              this.hours.push('0' + index);
+            } else {
+              this.hours.push(index);
+            }
+          }
+        } else if (data.getDay() == 5) {
+          for (let index = Number(this.pub.startingHourFriday.slice(0, 2)); index < Number(this.pub.endingHourFriday.slice(0, 2)); index++) {
+            if (index < 10) {
+              this.hours.push('0' + index);
+            } else {
+              this.hours.push(index);
+            }
+          }
+        } else if (data.getDay() == 6) {
+          for (let index = Number(this.pub.startingHourSaturday.slice(0, 2)); index < Number(this.pub.endingHourSaturday.slice(0, 2)); index++) {
+            if (index < 10) {
+              this.hours.push('0' + index);
+            } else {
+              this.hours.push(index);
+            }
+          }
+        } else if (data.getDay() == 7) {
+          for (let index = Number(this.pub.startingHourSunday.slice(0, 2)); index < Number(this.pub.endingHourSunday.slice(0, 2)); index++) {
+            if (index < 10) {
+              this.hours.push('0' + index);
+            } else {
+              this.hours.push(index);
+            }
+          }
         }
-      });
+        let serachingDate = this.date.transform(data, 'yyyy-LL-dd');
+        this.reservations.forEach(e => {
+          if (e.date == serachingDate) {
+            this.tables.forEach(element => {
+              if (e.table.number == element.number && e.table.persons == element.persons) {
+                element.reserved = true;
+              }
+            });
+          } else {
+            this.tables.forEach(element => {
+              element.reserved = false;
+            });
+          }
+        });
+      }
     });
   }
 
   ngOnDestroy() {
     this.dateChanges.unsubscribe();
-  }
-
-  back() {
-    this.location.back();
-  }
-
-  chooseTable(table) {
-    if (!table.reserved) {
-      this.activeTable = table;
-    }
   }
 
   getOpenState(pub: Pub) {
@@ -126,6 +194,16 @@ export class PubsComponent implements OnInit, OnDestroy {
     }
   }
 
+  back() {
+    this.location.back();
+  }
+
+  chooseTable(table) {
+    if (!table.reserved) {
+      this.activeTable = table;
+    }
+  }
+
   previousPicture() {
     let first = this.imageSrc2;
     this.imageSrc2 = this.imageSrc1;
@@ -144,7 +222,7 @@ export class PubsComponent implements OnInit, OnDestroy {
     this.apiService.createReservation(this.pub.uid,
                                       this.pub.companyName,
                                       this.date.transform(this.dateCtrl.value, 'yyyy-LL-dd'),
-                                      this.timeCtrl.value,
+                                      this.hoursCtrl.value + ':' + this.minutesCtrl.value,
                                       this.activeTable,
                                       this.personalData.controls.name.value,
                                       this.personalData.controls.email.value,
@@ -155,7 +233,8 @@ export class PubsComponent implements OnInit, OnDestroy {
       panelClass: "error-dialog"
     });
     this.dateCtrl.setValue('');
-    this.timeCtrl.setValue('');
+    this.hoursCtrl.setValue('');
+    this.minutesCtrl.setValue('');
     this.activeTable = null;
     this.personalData.setValue({
       name: '',

@@ -49,10 +49,27 @@
                 </mat-form-field>
                 <span *ngIf="stage != 1" class="info">{{ dateCtrl.value | date: 'yyyy. LL. dd.' }}</span>
                 <span class="reservate__date" [ngClass]="{'active': stage != 1}">{{ 'pubs.time' | translate }}:</span>
-                <input type="time" class="time" [formControl]="timeCtrl" *ngIf="stage == 1">
-                <span *ngIf="stage != 1" class="info">{{ timeCtrl.value }}</span>
+                <div class="reservate__time-input" *ngIf="stage == 1">
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{ 'pubs.time.hour' | translate }}</mat-label>
+                        <mat-select [formControl]="hoursCtrl">
+                          <mat-option *ngFor="let hour of hours" [value]="hour">
+                            {{ hour }}
+                          </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{ 'pubs.time.minute' | translate }}</mat-label>
+                        <mat-select [formControl]="minutesCtrl">
+                          <mat-option *ngFor="let minute of minutes" [value]="minute">
+                            {{ minute }}
+                          </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <span *ngIf="stage != 1" class="info">{{ hoursCtrl.value + ':' + minutesCtrl.value }}</span>
                 <div class="next" *ngIf="stage == 1">
-                    <button mat-raised-button color="primary" class="raised" (click)="stage = 2" [disabled]="dateCtrl.invalid || timeCtrl.invalid">{{ 'pubs.next.button' | translate | uppercase }}</button>
+                    <button mat-raised-button color="primary" class="raised" (click)="stage = 2" [disabled]="dateCtrl.invalid || hoursCtrl.invalid || minutesCtrl.invalid">{{ 'pubs.next.button' | translate | uppercase }}</button>
                 </div>
                 <div class="reservate__points">
                     <div class="reservate__points--circle" [ngClass]="{'active': stage == 2, 'green': stage != 1 && stage != 2}">
@@ -104,7 +121,7 @@
                 <div class="next" *ngIf="stage == 3">
                     <button mat-stroked-button color="primary" (click)="stage = 2">{{ 'auth.back.button' | translate | uppercase }}</button>
                 </div>
-                <button mat-raised-button color="primary" class="reservate__button" (click)="reservate()" [disabled]="dateCtrl.invalid || timeCtrl.invalid || activeTable == null || personalData.invalid">{{ 'pubs.reservate.button' | translate | uppercase }}</button>
+                <button mat-raised-button color="primary" class="reservate__button" (click)="reservate()" [disabled]="dateCtrl.invalid || hoursCtrl.invalid || minutesCtrl.invalid || activeTable == null || personalData.invalid">{{ 'pubs.reservate.button' | translate | uppercase }}</button>
             </div>
         </div>
         <mat-tab-group class="pubs__content--description">

@@ -144,6 +144,12 @@
                         margin: 0;
                     }
                 }
+                &__time-input {
+                    mat-form-field {
+                        width: 120px;
+                        margin: 0 8px 0 0;
+                    }
+                }
                 .info {
                     font-size: 14px;
                     font-weight: 500;
