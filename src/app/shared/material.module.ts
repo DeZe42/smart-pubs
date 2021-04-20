@@ -40,6 +40,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
+import { ErrorDialogComponent } from './dialogs/error-dialog/error-dialog.component';
 
 @NgModule({
   exports: [

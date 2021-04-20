@@ -5,6 +5,8 @@ import { Router } from "@angular/router";
 import { BehaviorSubject } from "rxjs";
 import { map } from "rxjs/operators";
 import { AngularFireStorage } from "@angular/fire/storage";
+import { MatDialog } from "@angular/material/dialog";
+import { ErrorDialogComponent } from "../shared/dialogs/error-dialog/error-dialog.component";
 
 @Injectable({
     providedIn: 'root'
@@ -12,12 +14,14 @@ import { AngularFireStorage } from "@angular/fire/storage";
 export class AuthService {
 
     user$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+    loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
     constructor(
-        public db: AngularFirestore,
-        public afAuth: AngularFireAuth,
+        private db: AngularFirestore,
+        private afAuth: AngularFireAuth,
         private storageRef: AngularFireStorage,
-        public router: Router
+        private router: Router,
+        private dialog: MatDialog
     ) {
         this.loadUser();
     }
@@ -31,18 +35,50 @@ export class AuthService {
                         name: localeUser.name,
                         email: localeUser.email,
                         phoneNumber: localeUser.phoneNumber,
+                        legalUser: localeUser.legalUser
                     });
                 });
             }
         });
     }
 
-    signIn(email, password) {
+    signIn(email, password, legalUser) {
         return this.afAuth.signInWithEmailAndPassword(email, password).then((result) => {
-                this.router.navigateByUrl('/');
-                this.setUserData(result.user);
+            if (legalUser) {
+                this.user$.subscribe(user => {
+                    if (user.legalUser) {
+                        this.router.navigateByUrl('/');
+                        this.setUserData(result.user);
+                    } else {
+                        this.dialog.open(ErrorDialogComponent, {
+                            panelClass: "error-dialog",
+                            disableClose: true,
+                            data: 'error.dialog.no.legal.user'
+                        });
+                        this.signOut();
+                    }
+                }).unsubscribe();
+            } else {
+                this.user$.subscribe(user => {
+                    if (user.legalUser) {
+                        this.dialog.open(ErrorDialogComponent, {
+                            panelClass: "error-dialog",
+                            disableClose: true,
+                            data: 'error.dialog.no.legal.user'
+                        });
+                        this.signOut();
+                    } else {
+                        this.router.navigateByUrl('/');
+                        this.setUserData(result.user);
+                    }
+                }).unsubscribe();
+            }
             }).catch((error) => {
-                window.alert(error.message)
+                this.dialog.open(ErrorDialogComponent, {
+                    panelClass: "error-dialog",
+                    disableClose: true,
+                    data: error.message
+                });
             });
     }
 
@@ -73,13 +109,24 @@ export class AuthService {
             .then((result) => {
                 result.user.sendEmailVerification();
                 const pubRef: AngularFirestoreCollection<any> = this.db.collection("pubs");
+                let tables = [];
+                for (let index = 0; index < pub.twoPerson; index++) {
+                    tables.push({number: index + 1, persons: 2, reserved: false});
+                }
+                for (let index = 0; index < pub.fourPerson; index++) {
+                    tables.push({number: index + 1, persons: 4, reserved: false});
+                }
                 const pubData = {
                     companyName: pub.companyName,
                     country: pub.country,
                     contry: pub.contry,
                     city: pub.city,
                     address: pub.address,
+                    twoPerson: pub.twoPerson,
+                    fourPerson: pub.fourPerson,
+                    tables: tables,
                     space: pub.space,
+                    currentSpace: pub.currentSpace,
                     description: pub.description,
                     openStateMonday: pub.openStateMonday,
                     openStateTuesday: pub.openStateTuesday,
@@ -111,10 +158,9 @@ export class AuthService {
                     pubRef.set(data, {
                         merge: true
                     });
-                    for (let index = 0; index < imageList.length; index++) {
-                        const element = imageList[index];
-                        this.uploadImage(element[0], newRef.id, pub.companyName, index);
-                    }
+                    imageList.forEach((image, index) => {
+                        this.uploadImage(image[0], newRef.id, pub.companyName, index);
+                    });
                     const userRef: AngularFirestoreDocument<any> = this.db.doc(`users/${result.user.uid}`);
                     const userData = {
                         uid: result.user.uid,
@@ -128,41 +174,27 @@ export class AuthService {
                     userRef.set(userData, {
                         merge: true
                     });
-                    this.router.navigateByUrl('/');
+                    this.loading$.next(false);
+                    this.router.navigateByUrl('/auth/verify_email');
                 });
             }).catch((error) => {
+                this.loading$.next(false);
                 window.alert(error.message)
             });
     }
 
     uploadImage(input, uid, pubName, index) {
         let files = input;
-        let ref = this.storageRef.ref(`images/${pubName}/${uid}`);
+        let ref = this.storageRef.ref(`images/${pubName}/${uid + index}`);
         let pubRef: AngularFirestoreDocument<any> = this.db.collection("pubs").doc(uid);
         ref.put(files).then(res=>{
             ref.getDownloadURL().subscribe(res => {
-                if (index == 0) {
-                    const pubs = {
-                      imageSrc1: res,
-                    }
-                    return pubRef.set(pubs, {
-                      merge: true
-                    });
-                } else if (index == 1) {
-                    const pubs = {
-                      imageSrc2: res,
-                    }
-                    return pubRef.set(pubs, {
-                      merge: true
-                    });
-                } else if (index == 2) {
-                    const pubs = {
-                      imageSrc3: res,
-                    }
-                    return pubRef.set(pubs, {
-                      merge: true
-                    });
+                const pubs = {
+                    ['imageSrc' + index]: res,
                 }
+                return pubRef.set(pubs, {
+                    merge: true
+                });
             });
         });
     }

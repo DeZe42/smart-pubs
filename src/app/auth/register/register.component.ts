@@ -50,7 +50,8 @@ export class RegisterComponent implements OnInit {
       city: ['', Validators.required],
       address: ['', Validators.required],
       description: ['', Validators.required],
-      space: ['', Validators.required],
+      twoPerson: ['', Validators.required],
+      fourPerson: ['', Validators.required],
       openStateMonday: [true, Validators.required],
       openStateTuesday: [true, Validators.required],
       openStateWednesday: [true, Validators.required],
@@ -78,6 +79,7 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
+    this.authService.loading$.next(true);
     if (this.router.url == '/auth/private_register') {
       this.authService.signUp(
         this.registerForm.controls.email.value,
@@ -93,7 +95,9 @@ export class RegisterComponent implements OnInit {
         city: this.registerForm.controls.city.value,
         address: this.registerForm.controls.address.value,
         description: this.registerForm.controls.description.value,
-        space: this.registerForm.controls.space.value,
+        twoPerson: this.registerForm.controls.twoPerson.value,
+        fourPerson: this.registerForm.controls.fourPerson.value,
+        space: this.registerForm.controls.twoPerson.value * 2 + this.registerForm.controls.fourPerson.value * 4,
         currentSpace: 0,
         openStateMonday: this.registerForm.controls.openStateMonday.value,
         openStateTuesday: this.registerForm.controls.openStateTuesday.value,

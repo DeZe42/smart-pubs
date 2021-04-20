@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from "@angular/fire/firestore";
 import { AngularFireStorage } from '@angular/fire/storage';
 import { BehaviorSubject } from "rxjs";
-import { Pub } from "./shared/models";
+import { Pub, Reservation } from "./shared/models";
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -11,6 +11,7 @@ import { map } from 'rxjs/operators';
 export class ApiService {
 
     pubs$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+    reservations$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
     constructor(
         private db: AngularFirestore,
@@ -27,15 +28,19 @@ export class ApiService {
               {
                 const pub: Pub = a.payload.doc.data() as Pub;
                 const uid = pub.uid;
+                const imageSrc0 = pub.imageSrc0;
                 const imageSrc1 = pub.imageSrc1;
                 const imageSrc2 = pub.imageSrc2;
-                const imageSrc3 = pub.imageSrc3;
                 const companyName = pub.companyName;
                 const country = pub.country;
                 const contry = pub.contry;
                 const city = pub.city;
                 const address = pub.address;
+                const twoPerson = pub.twoPerson;
+                const fourPerson = pub.fourPerson;
+                const tables = pub.tables;
                 const space = pub.space;
+                const currentSpace = pub.currentSpace;
                 const description = pub.description;
                 const openStateMonday = pub.openStateMonday;
                 const openStateTuesday = pub.openStateTuesday;
@@ -58,7 +63,7 @@ export class ApiService {
                 const endingHourSaturday = pub.endingHourSaturday;
                 const startingHourSunday = pub.startingHourSunday;
                 const endingHourSunday = pub.endingHourSunday;
-                return { uid, imageSrc1, imageSrc2, imageSrc3, companyName, country, contry, city, address, space, description, openStateMonday, openStateTuesday, openStateWednesday,
+                return { uid, imageSrc0, imageSrc1, imageSrc2, companyName, country, contry, city, address, twoPerson, fourPerson, tables, space, currentSpace, description, openStateMonday, openStateTuesday, openStateWednesday,
                   openStateThursday, openStateFriday, openStateSaturday, openStateSunday, startingHourMonday, endingHourMonday, startingHourTuesday, endingHourTuesday,
                   startingHourWednesday, endingHourWednesday, startingHourThursday, endingHourThursday, startingHourFriday, endingHourFriday, startingHourSaturday,
                   endingHourSaturday, startingHourSunday, endingHourSunday};
@@ -69,6 +74,58 @@ export class ApiService {
           this.pubs$.next(data);
         });
     }
+
+    loadPub(id) {
+      this.db.collection("pubs").doc(id)
+      .snapshotChanges()
+        .pipe(map(a =>
+            {
+              const pub: Pub = a.payload.data() as Pub;
+              const uid = pub.uid;
+              const imageSrc0 = pub.imageSrc0;
+              const imageSrc1 = pub.imageSrc1;
+              const imageSrc2 = pub.imageSrc2;
+              const companyName = pub.companyName;
+              const country = pub.country;
+              const contry = pub.contry;
+              const city = pub.city;
+              const address = pub.address;
+              const twoPerson = pub.twoPerson;
+              const fourPerson = pub.fourPerson;
+              const tables = pub.tables;
+              const space = pub.space;
+              const currentSpace = pub.currentSpace;
+              const description = pub.description;
+              const openStateMonday = pub.openStateMonday;
+              const openStateTuesday = pub.openStateTuesday;
+              const openStateWednesday = pub.openStateWednesday;
+              const openStateThursday = pub.openStateThursday;
+              const openStateFriday = pub.openStateFriday;
+              const openStateSaturday = pub.openStateSaturday;
+              const openStateSunday = pub.openStateSunday;
+              const startingHourMonday = pub.startingHourMonday;
+              const endingHourMonday = pub.endingHourMonday;
+              const startingHourTuesday = pub.startingHourTuesday;
+              const endingHourTuesday = pub.endingHourTuesday;
+              const startingHourWednesday = pub.startingHourWednesday;
+              const endingHourWednesday = pub.endingHourWednesday;
+              const startingHourThursday = pub.startingHourThursday;
+              const endingHourThursday = pub.endingHourThursday;
+              const startingHourFriday = pub.startingHourFriday;
+              const endingHourFriday = pub.endingHourFriday;
+              const startingHourSaturday = pub.startingHourSaturday;
+              const endingHourSaturday = pub.endingHourSaturday;
+              const startingHourSunday = pub.startingHourSunday;
+              const endingHourSunday = pub.endingHourSunday;
+              return { uid, imageSrc0, imageSrc1, imageSrc2, companyName, country, contry, city, address, twoPerson, fourPerson, tables, space, currentSpace, description, openStateMonday, openStateTuesday, openStateWednesday,
+                openStateThursday, openStateFriday, openStateSaturday, openStateSunday, startingHourMonday, endingHourMonday, startingHourTuesday, endingHourTuesday,
+                startingHourWednesday, endingHourWednesday, startingHourThursday, endingHourThursday, startingHourFriday, endingHourFriday, startingHourSaturday,
+                endingHourSaturday, startingHourSunday, endingHourSunday};
+            })
+      ).subscribe((data: Pub) => {
+        this.pubs$.next(data);
+      });
+  }
 
     createPub(imageList, pub) {
         const dataRef: AngularFirestoreCollection<any> = this.db.collection("pubs");
@@ -114,6 +171,45 @@ export class ApiService {
               this.uploadImage(element, newRef.id, pub.companyName);
             });
         });
+    }
+
+    loadReservations() {
+      this.db.collection("reservations")
+        .snapshotChanges()
+          .pipe(map(e =>{
+            return e.map( a =>
+              {
+                const reservation: Reservation = a.payload.doc.data() as Reservation;
+                const pub = reservation.pub;
+                const pubName = reservation.pubName;
+                const date = reservation.date;
+                const time = reservation.time;
+                const table = reservation.table;
+                const name = reservation.name;
+                const email = reservation.email;
+                const phoneNumber = reservation.phoneNumber;
+                return { pub, pubName, date, time, table, name, email, phoneNumber};
+              });
+          }
+        ))
+        .subscribe(data => {
+          this.reservations$.next(data);
+        });
+    }
+
+    createReservation(pub, pubName, date, time, table, name, email, phoneNumber) {
+      const dataRef: AngularFirestoreCollection<any> = this.db.collection("reservations");
+      const data = {
+        pub: pub,
+        pubName: pubName,
+        date: date,
+        time: time,
+        table: table,
+        name: name,
+        email: email,
+        phoneNumber: phoneNumber
+      }
+      dataRef.add(data);
     }
 
     uploadImage(input, uid, pubName) {

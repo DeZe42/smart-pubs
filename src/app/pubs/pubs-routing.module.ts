@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { PubsComponent } from './pubs/pubs.component';
 
 const routes: Routes = [
-    { path: '', component: PubsComponent }
+    { path: ':id', component: PubsComponent }
 ];
 
 @NgModule({

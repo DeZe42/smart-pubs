@@ -5,15 +5,11 @@ import { Event, NavigationCancel, NavigationEnd, NavigationError, NavigationStar
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth/auth.service';
-import { slider } from './route-animations';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  animations: [
-    slider
-  ]
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
 

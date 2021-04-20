@@ -115,6 +115,7 @@
             height: 100%;
             overflow: auto;
             transition: all 0.5s;
+            margin: 64px 0 0 0;
             &.active {
                 margin: 0;
                 height: 100%;
@@ -124,6 +125,7 @@
                 align-items: center;
                 justify-content: center;
                 box-sizing: border-box;
+                background-color: $white;
                 border-top: 1px solid $light-gray;
                 min-height: 80px;
                 height: 80px;

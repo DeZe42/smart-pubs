@@ -21,32 +21,16 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      companyName: ['', Validators.required],
       email: ['', [Validators.required, Validators.pattern(EMAIL_REGEX)]],
-      password: ['', [
-        Validators.required,
-        Validators.minLength(8),
-        this.upperAndLowerCases,
-        this.hasNumber
-      ]]
+      password: ['', Validators.required]
     });
   }
 
   login() {
     if (this.router.url == '/auth/private_login') {
-      this.authService.signIn(this.loginForm.controls.email.value, this.loginForm.controls.password.value);
+      this.authService.signIn(this.loginForm.controls.email.value, this.loginForm.controls.password.value, false);
     } else {
-      
-    }
-  }
-
-  disableButton() {
-    if (this.router.url == '/auth/private_login') {
-      if (this.loginForm.controls.email.invalid || this.loginForm.controls.password.invalid) {
-        return true;
-      } else {
-        return false;
-      }
+      this.authService.signIn(this.loginForm.controls.email.value, this.loginForm.controls.password.value, true);
     }
   }
   

@@ -86,7 +86,12 @@ $smart-pubs-dark-theme: mat-dark-theme($smart-pubs-app-primary, $smart-pubs-app-
   .container__content--header {
     background-color: #303030 !important;
   }
-  .auth, .private, .home {
+  .container__content--content {
+    .footer {
+      background-color: #303030 !important;
+    }
+  }
+  .auth, .private, .home, .loading {
     background-color: #303030 !important;
   }
   .toolbar__actions--login-button {
@@ -134,8 +139,13 @@ $custom-typography: mat-typography-config(
   border-radius: 0px !important;
 }
 
-router-outlet + *:not(app-home) {
+router-outlet + *:not(app-home, app-pubs) {
   display: flex;
   height: 100%;
   width: 100%;
+}
+
+.error-dialog .mat-dialog-container {
+  width: 560px;
+  border-radius: 0;
 }

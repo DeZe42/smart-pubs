@@ -30,9 +30,9 @@ export class HomeComponent implements OnInit {
       email: ['', Validators.required],
       text: ['', Validators.required]
     });
+    this.apiService.loadPubs();
     this.apiService.pubs$.subscribe((data: Pub[]) => {
       if (data) {
-        console.log(data)
         this.pubs = data;
         this.originalPubs = data;
       }

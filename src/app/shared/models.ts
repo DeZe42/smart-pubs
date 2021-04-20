@@ -1,14 +1,17 @@
 export interface Pub {
     uid: string,
+    imageSrc0,
     imageSrc1,
     imageSrc2,
-    imageSrc3,
     companyName: string,
     country: string,
     contry: string,
     city: string,
     address: string,
     description: string,
+    twoPerson: number,
+    fourPerson: number,
+    tables: any,
     space: number,
     openStateMonday: boolean,
     openStateTuesday: boolean,
@@ -36,4 +39,15 @@ export interface Pub {
 
 export interface Pubs extends Array<Pub> {
 
+}
+
+export interface Reservation {
+    pub: string,
+    pubName: string,
+    date: string,
+    time: string,
+    table: any,
+    name: string,
+    email: string,
+    phoneNumber: string
 }

@@ -2,6 +2,7 @@ import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { fader } from 'src/app/route-animations';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -15,7 +16,8 @@ export class AuthComponent implements OnInit {
 
   constructor(
     public router: Router,
-    private location: Location
+    private location: Location,
+    public authService: AuthService
   ) { }
 
   ngOnInit(): void {

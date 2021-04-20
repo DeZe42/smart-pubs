@@ -107,8 +107,13 @@
                     <mat-error>{{ 'register.error.required' | translate }}</mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="outline" color="primary">
-                    <mat-label>{{ 'register.space' | translate }}</mat-label>
-                    <input matInput type="text" formControlName="space">
+                    <mat-label>{{ 'register.two.person.table' | translate }}</mat-label>
+                    <input matInput type="number" formControlName="twoPerson">
+                    <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" color="primary">
+                    <mat-label>{{ 'register.four.person.table' | translate }}</mat-label>
+                    <input matInput type="number" formControlName="fourPerson">
                     <mat-error>{{ 'register.error.required' | translate }}</mat-error>
                 </mat-form-field>
                 <span class="register__container--sub-title">{{ 'register.open.state' | translate }}</span>

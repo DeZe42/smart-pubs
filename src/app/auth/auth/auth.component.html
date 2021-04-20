@@ -1,3 +1,6 @@
+<div class="loading" *ngIf="authService.loading$ | async">
+    <mat-spinner color="primary"></mat-spinner>
+</div>
 <section class="auth" [ngClass]="{'active': router.url.startsWith('/auth')}">
     <div class="auth__back">
         <button mat-stroked-button color="primary" (click)="back()"><mat-icon>arrow_back</mat-icon>{{ 'auth.back.button' | translate | uppercase }}</button>
@@ -26,5 +29,5 @@
             <button class="register-legal" mat-stroked-button color="accent" routerLink="/auth/legal_register">{{ 'register' | translate | uppercase }}</button>
         </div>
     </div>
-    <span class="auth__footer-text">{{ 'footer.copyright' | translate }}</span>
+    <span class="auth__footer-text" [ngClass]="{'active': router.url == '/auth'}">{{ 'footer.copyright' | translate }}</span>
 </section>

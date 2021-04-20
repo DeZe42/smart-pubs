@@ -14,6 +14,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HomeComponent } from './home/home.component';
 import { ApiService } from './api.service';
 import { SafePipe } from './shared/safe.pipe';
+import { ErrorDialogComponent } from './shared/dialogs/error-dialog/error-dialog.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -23,6 +24,7 @@ export function createTranslateLoader(http: HttpClient) {
   declarations: [
     AppComponent,
     HomeComponent,
+    ErrorDialogComponent,
     SafePipe
   ],
   imports: [
@@ -45,7 +47,7 @@ export function createTranslateLoader(http: HttpClient) {
   ],
   providers: [
     ApiService,
-    { provide: LOCALE_ID, useValue: 'hu-HU'}
+    // { provide: LOCALE_ID, useValue: 'hu-HU'}
   ],
   bootstrap: [
     AppComponent
