@@ -116,6 +116,11 @@
             appearance: none;
             margin: 0;
         }
+        &--table-container {
+            display: flex;
+            flex-direction: column;
+            margin: 20px 0 0 0;
+        }
         &--open-state {
             display: flex;
             flex-direction: column;

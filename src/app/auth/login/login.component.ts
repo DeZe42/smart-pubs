@@ -27,11 +27,7 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    if (this.router.url == '/auth/private_login') {
-      this.authService.signIn(this.loginForm.controls.email.value, this.loginForm.controls.password.value, false);
-    } else {
-      this.authService.signIn(this.loginForm.controls.email.value, this.loginForm.controls.password.value, true);
-    }
+    this.authService.signIn(this.loginForm.controls.email.value, this.loginForm.controls.password.value);
   }
   
   keyEvent(event: KeyboardEvent): void {

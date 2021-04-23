@@ -32,6 +32,7 @@
                   </div>
               </mat-menu>
               <mat-divider [vertical]="true"></mat-divider>
+              <button *ngIf="(isLoggedIn | async)" class="toolbar__actions--login-button margin" routerLink="/admin" mat-button color="accent"><mat-icon color="primary">dashboard</mat-icon>{{ 'header.dashboard' | translate }}</button>
               <button *ngIf="!(isLoggedIn | async)" class="toolbar__actions--login-button" routerLink="/auth" mat-button color="accent"><mat-icon color="primary">account_circle</mat-icon><span>{{ 'header.login' | translate }}</span></button>
               <button *ngIf="(isLoggedIn | async)" class="toolbar__actions--login-button" mat-button color="accent" #profileMenuTrigger="matMenuTrigger" [matMenuTriggerFor]="profileMenu"><mat-icon color="primary">account_circle</mat-icon><span>{{ 'header.profile' | translate }}</span></button>
               <mat-menu #profileMenu="matMenu">

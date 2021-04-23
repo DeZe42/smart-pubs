@@ -139,7 +139,7 @@ $custom-typography: mat-typography-config(
   border-radius: 0px !important;
 }
 
-router-outlet + *:not(app-home, app-pubs) {
+router-outlet + *:not(app-home, app-pubs, app-company) {
   display: flex;
   height: 100%;
   width: 100%;

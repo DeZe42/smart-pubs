@@ -92,8 +92,7 @@ export class PubsComponent implements OnInit, OnDestroy {
       }
     });
     this.dateChanges = this.dateCtrl.valueChanges.subscribe(data => {
-      if (data != '') {
-        
+      if (data) {
         this.hours = [];
         if (data.getDay() == 1) {
           for (let index = Number(this.pub.startingHourMonday.slice(0, 2)); index < Number(this.pub.endingHourMonday.slice(0, 2)); index++) {
@@ -156,7 +155,7 @@ export class PubsComponent implements OnInit, OnDestroy {
         this.reservations.forEach(e => {
           if (e.date == serachingDate) {
             this.tables.forEach(element => {
-              if (e.table.number == element.number && e.table.persons == element.persons) {
+              if (e.table.id == element.id && e.table.persons == element.persons && (e.status == 'accepted' || e.status == 'pending')) {
                 element.reserved = true;
               }
             });
@@ -227,14 +226,15 @@ export class PubsComponent implements OnInit, OnDestroy {
                                       this.personalData.controls.name.value,
                                       this.personalData.controls.email.value,
                                       this.personalData.controls.phoneNumber.value);
+    this.apiService.changeCurrentSpacePub(this.pub, this.pub.currentSpace - this.activeTable.persons)
     this.dialog.open(InformationalDialogComponent, {
       disableClose: true,
       data: 'informational.dialog.reservation.send.success',
       panelClass: "error-dialog"
     });
-    this.dateCtrl.setValue('');
-    this.hoursCtrl.setValue('');
-    this.minutesCtrl.setValue('');
+    this.dateCtrl.reset();
+    this.hoursCtrl.reset();
+    this.minutesCtrl.reset();
     this.activeTable = null;
     this.personalData.setValue({
       name: '',
@@ -242,5 +242,6 @@ export class PubsComponent implements OnInit, OnDestroy {
       phoneNumber: ''
     });
     this.stage = 1;
+    this.apiService.loadPub(this.route.snapshot.params['id']);
   }
 }

@@ -75,8 +75,8 @@ export class ApiService {
       });
   }
 
-  loadPub(id) {
-    this.db.collection("pubs").doc(id)
+  loadPub(uid) {
+    this.db.collection("pubs").doc(uid)
     .snapshotChanges()
       .pipe(map(a =>
           {
@@ -128,10 +128,8 @@ export class ApiService {
   }
 
   editPub(pub) {
-    this.db.collection("pubs").doc(pub.uid).set({
-      imageSrc0: pub.imageSrc0,
-      imageSrc1: pub.imageSrc1,
-      imageSrc2: pub.imageSrc2,
+    const pubRef: AngularFirestoreDocument<any> = this.db.doc(`pubs/${pub.uid}`);
+    const pubData = {
       companyName: pub.companyName,
       country: pub.country,
       contry: pub.contry,
@@ -139,9 +137,7 @@ export class ApiService {
       address: pub.address,
       twoPerson: pub.twoPerson,
       fourPerson: pub.fourPerson,
-      tables: pub.tables,
       space: pub.space,
-      currentSpace: pub.currentSpace,
       description: pub.description,
       openStateMonday: pub.openStateMonday,
       openStateTuesday: pub.openStateTuesday,
@@ -164,6 +160,19 @@ export class ApiService {
       endingHourSaturday: pub.endingHourSaturday,
       startingHourSunday: pub.startingHourSunday,
       endingHourSunday: pub.endingHourSunday
+    }
+    return pubRef.set(pubData, {
+      merge: true
+    });
+  }
+
+  changeCurrentSpacePub(pub, currentSpace) {
+    const pubRef: AngularFirestoreDocument<any> = this.db.doc(`pubs/${pub.uid}`);
+    const pubData = {
+      currentSpace: currentSpace
+    }
+    return pubRef.set(pubData, {
+      merge: true
     });
   }
 
@@ -174,15 +183,18 @@ export class ApiService {
           return e.map( a =>
             {
               const reservation: Reservation = a.payload.doc.data() as Reservation;
+              const uid = reservation.uid;
               const pub = reservation.pub;
               const pubName = reservation.pubName;
               const date = reservation.date;
               const time = reservation.time;
               const table = reservation.table;
+              const spaceNumber = reservation.spaceNumber;
               const name = reservation.name;
               const email = reservation.email;
               const phoneNumber = reservation.phoneNumber;
-              return { pub, pubName, date, time, table, name, email, phoneNumber};
+              const status = reservation.status;
+              return { uid, pub, pubName, date, time, table, spaceNumber, name, email, phoneNumber, status};
             });
         }
       ))
@@ -199,11 +211,31 @@ export class ApiService {
       date: date,
       time: time,
       table: table,
+      spaceNumber: table.persons,
       name: name,
       email: email,
-      phoneNumber: phoneNumber
+      phoneNumber: phoneNumber,
+      status: 'pending'
     }
-    dataRef.add(data);
+    dataRef.add(data).then(newRef => {
+      let reservationRef: AngularFirestoreDocument<any> = this.db.collection("reservations").doc(newRef.id);
+      const data = {
+          uid: newRef.id
+      }
+      reservationRef.set(data, {
+          merge: true
+      });
+    });
+  }
+
+  editReservation(reservation, status) {
+    const pubRef: AngularFirestoreDocument<any> = this.db.doc(`reservations/${reservation.uid}`);
+    const pubData = {
+      status: status
+    }
+    return pubRef.set(pubData, {
+      merge: true
+    });
   }
 
   createQuestion(name, email, question) {

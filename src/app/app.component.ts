@@ -88,7 +88,7 @@ export class AppComponent implements OnInit {
   useLanguage(language: string) {
     this.translate.use(language);
     this.currentLanguage = this.translate.currentLang;
-    localStorage.setItem('language', this.currentLanguage);
+    localStorage.setItem('language', language);
   }
 
   signOut() {

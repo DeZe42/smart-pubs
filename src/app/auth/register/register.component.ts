@@ -96,7 +96,7 @@ export class RegisterComponent implements OnInit {
         twoPerson: this.registerForm.controls.twoPerson.value,
         fourPerson: this.registerForm.controls.fourPerson.value,
         space: this.registerForm.controls.twoPerson.value * 2 + this.registerForm.controls.fourPerson.value * 4,
-        currentSpace: 0,
+        currentSpace: this.registerForm.controls.twoPerson.value * 2 + this.registerForm.controls.fourPerson.value * 4,
         openStateMonday: this.registerForm.controls.openStateMonday.value,
         openStateTuesday: this.registerForm.controls.openStateTuesday.value,
         openStateWednesday: this.registerForm.controls.openStateWednesday.value,

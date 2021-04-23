@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
   questionForm: FormGroup;
   searchCtrl = new FormControl('');
   numberOfDay: number = 0;
+  user;
 
   constructor(
     private fb: FormBuilder,

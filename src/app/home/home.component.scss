@@ -149,6 +149,9 @@
                 &:hover {
                     box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.3);
                 }
+                &:focus {
+                    outline: none;
+                }
                 &__image {
                     display: flex;
                     align-items: center;

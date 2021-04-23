@@ -100,20 +100,24 @@
                         <input class="image-input" type="file" #fileInput3 (change)="preview(fileInput3.files, 3)"/>
                     </div>
                 </div>
+                <span class="register__container--sub-title">{{ 'register.table.number' | translate }}</span>
+                <span class="register__container--image-description">{{ 'register.table.number.description' | translate }}</span>
+                <div class="register__container--table-container">
+                    <mat-form-field appearance="outline" color="primary">
+                        <mat-label>{{ 'register.two.person.table' | translate }}</mat-label>
+                        <input matInput type="number" formControlName="twoPerson">
+                        <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" color="primary">
+                        <mat-label>{{ 'register.four.person.table' | translate }}</mat-label>
+                        <input matInput type="number" formControlName="fourPerson">
+                        <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                    </mat-form-field>
+                </div>
                 <span class="register__container--sub-title">{{ 'register.description.from.pubs' | translate }}</span>
                 <mat-form-field appearance="outline" color="primary">
                     <mat-label>{{ 'register.description' | translate }}</mat-label>
                     <textarea matInput type="text" formControlName="description"></textarea>
-                    <mat-error>{{ 'register.error.required' | translate }}</mat-error>
-                </mat-form-field>
-                <mat-form-field appearance="outline" color="primary">
-                    <mat-label>{{ 'register.two.person.table' | translate }}</mat-label>
-                    <input matInput type="number" formControlName="twoPerson">
-                    <mat-error>{{ 'register.error.required' | translate }}</mat-error>
-                </mat-form-field>
-                <mat-form-field appearance="outline" color="primary">
-                    <mat-label>{{ 'register.four.person.table' | translate }}</mat-label>
-                    <input matInput type="number" formControlName="fourPerson">
                     <mat-error>{{ 'register.error.required' | translate }}</mat-error>
                 </mat-form-field>
                 <span class="register__container--sub-title">{{ 'register.open.state' | translate }}</span>

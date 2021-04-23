@@ -1,0 +1,26 @@
+<section class="profile">
+    <div class="profile__content">
+        <div>
+            <button mat-stroked-button color="primary" class="profile__content--back" (click)="back()"><mat-icon>arrow_back</mat-icon>{{ 'auth.back.button' | translate | uppercase }}</button>
+        </div>
+        <span class="profile__content--title">{{ 'admin.profile' | translate }}</span>
+        <form [formGroup]="profileForm">
+            <mat-form-field appearance="outline">
+                <mat-label>{{ 'pubs.name.placeholder' | translate }}</mat-label>
+                <input matInput formControlName="name">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>{{ 'pubs.email.placeholder' | translate }}</mat-label>
+                <input matInput formControlName="email">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>{{ 'pubs.phone.number.placeholder' | translate }}</mat-label>
+                <input matInput formControlName="phoneNumber">
+            </mat-form-field>
+        </form>
+        <div class="profile__content--actions">
+            <button mat-stroked-button color="primary" class="stroked" (click)="cancel()" [disabled]="isOldData()">{{ 'register.cancel' | translate | uppercase }}</button>
+            <button mat-raised-button color="primary" class="raised" (click)="edit()" [disabled]="profileForm.disabled || isOldData()">{{ 'admin.profile.save' | translate | uppercase }}</button>
+        </div>
+    </div>
+</section>

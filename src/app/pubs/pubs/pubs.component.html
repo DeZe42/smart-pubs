@@ -1,12 +1,15 @@
 <section class="pubs">
     <div class="pubs__header">
-        <button mat-stroked-button color="primary" (click)="back()">{{ 'auth.back.button' | translate }}</button>
+        <button mat-stroked-button color="primary" (click)="back()"><mat-icon>arrow_back</mat-icon>{{ 'auth.back.button' | translate | uppercase }}</button>
     </div>
     <div class="pubs__content">
         <div class="pubs__content--title-container">
-
+            <span class="title">{{ pub?.companyName }}</span>
+            <div class="space">
+                <span>{{ 'pubs.space' | translate }}:</span>
+                <span><b>{{ pub?.currentSpace }}/{{ pub?.space }}</b></span>
+            </div>
         </div>
-        <span class="pubs__content--title">{{ pub?.companyName }}</span>
         <span class="pubs__content--opening-state" *ngIf="numberOfDay == 1">{{ 'home.opening.hours' | translate }}: {{ pub?.startingHourMonday }} - {{ pub?.endingHourMonday }}</span>
         <span class="pubs__content--opening-state" *ngIf="numberOfDay == 2">{{ 'home.opening.hours' | translate }}: {{ pub?.startingHourTuesday }} - {{ pub?.endingHourTuesday }}</span>
         <span class="pubs__content--opening-state" *ngIf="numberOfDay == 3">{{ 'home.opening.hours' | translate }}: {{ pub?.startingHourWednesday }} - {{ pub?.endingHourWednesday }}</span>
@@ -85,17 +88,19 @@
                         </div>
                         <img *ngIf="table.persons == 2" src="assets/images/2_person.png">
                         <img *ngIf="table.persons == 4" src="assets/images/4_person.png">
-                        <span>{{ 'pubs.two.person' | translate }}</span>
+                        <span *ngIf="table.persons == 2">{{ 'pubs.two.person' | translate }}</span>
+                        <span *ngIf="table.persons == 4">{{ 'pubs.four.person' | translate }}</span>
                     </div>
                 </div>
                 <div class="next" *ngIf="stage == 2">
-                    <button mat-stroked-button color="primary" (click)="stage = 1">{{ 'auth.back.button' | translate | uppercase }}</button>
+                    <button mat-stroked-button color="primary" class="stroked" (click)="stage = 1">{{ 'auth.back.button' | translate | uppercase }}</button>
                     <button mat-raised-button color="primary" class="raised" (click)="stage = 3" [disabled]="activeTable == null">{{ 'pubs.next.button' | translate | uppercase }}</button>
                 </div>
                 <div class="reservate__tables--person-card margin" *ngIf="stage != 1 && stage != 2">
                     <img *ngIf="activeTable.persons == 2" src="assets/images/2_person.png">
                     <img *ngIf="activeTable.persons == 4" src="assets/images/4_person.png">
-                    <span>{{ 'pubs.two.person' | translate }}</span>
+                    <span *ngIf="activeTable.persons == 2">{{ 'pubs.two.person' | translate }}</span>
+                    <span *ngIf="activeTable.persons == 4">{{ 'pubs.four.person' | translate }}</span>
                 </div>
                 <div class="reservate__points">
                     <div class="reservate__points--circle" [ngClass]="{'active': stage == 3, 'green': stage != 1 && stage != 2 && stage != 3}">
@@ -119,7 +124,7 @@
                     </mat-form-field>
                 </form>
                 <div class="next" *ngIf="stage == 3">
-                    <button mat-stroked-button color="primary" (click)="stage = 2">{{ 'auth.back.button' | translate | uppercase }}</button>
+                    <button mat-stroked-button color="primary" class="stroked" (click)="stage = 2">{{ 'auth.back.button' | translate | uppercase }}</button>
                 </div>
                 <button mat-raised-button color="primary" class="reservate__button" (click)="reservate()" [disabled]="dateCtrl.invalid || hoursCtrl.invalid || minutesCtrl.invalid || activeTable == null || personalData.invalid">{{ 'pubs.reservate.button' | translate | uppercase }}</button>
             </div>

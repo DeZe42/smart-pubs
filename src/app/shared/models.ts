@@ -42,12 +42,15 @@ export interface Pubs extends Array<Pub> {
 }
 
 export interface Reservation {
+    uid: string,
     pub: string,
     pubName: string,
     date: string,
     time: string,
     table: any,
+    spaceNumber: number,
     name: string,
     email: string,
-    phoneNumber: string
+    phoneNumber: string,
+    status: string
 }

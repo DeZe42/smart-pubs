@@ -1,5 +1,22 @@
 <section class="admin">
     <div class="admin__content">
-        
+        <div class="admin__content--button-container" [ngClass]="{'active': !user?.legalUser}">
+            <div class="button" routerLink="/admin/profile">
+                <mat-icon>account_circle</mat-icon>
+            </div>
+            <span class="title">{{ 'admin.profile' | translate }}</span>
+        </div>
+        <div class="admin__content--button-container" *ngIf="user?.legalUser">
+            <div class="button" routerLink="/admin/company">
+                <mat-icon>work</mat-icon>
+            </div>
+            <span class="title">{{ 'admin.company' | translate }}</span>
+        </div>
+        <div class="admin__content--button-container" *ngIf="user?.legalUser">
+            <div class="button" routerLink="/admin/reservations">
+                <mat-icon>view_list</mat-icon>
+            </div>
+            <span class="title">{{ 'admin.reservations' | translate }}</span>
+        </div>
     </div>
 </section>

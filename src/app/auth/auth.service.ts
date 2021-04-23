@@ -7,6 +7,7 @@ import { map } from "rxjs/operators";
 import { AngularFireStorage } from "@angular/fire/storage";
 import { MatDialog } from "@angular/material/dialog";
 import { ErrorDialogComponent } from "../shared/dialogs/error-dialog/error-dialog.component";
+import { InformationalDialogComponent } from "../shared/dialogs/informational-dialog/informational-dialog.component";
 
 @Injectable({
     providedIn: 'root'
@@ -35,51 +36,37 @@ export class AuthService {
                         name: localeUser.name,
                         email: localeUser.email,
                         phoneNumber: localeUser.phoneNumber,
-                        legalUser: localeUser.legalUser
+                        legalUser: localeUser.legalUser,
+                        emailVerified: localeUser.emailVerified,
+                        pubUid: localeUser.pubUid
                     });
                 });
             }
         });
     }
 
-    signIn(email, password, legalUser) {
+    editUserData(user, name, phoneNumber) {
+        const userRef: AngularFirestoreDocument<any> = this.db.doc(`users/${user.uid}`);
+        const userData = {
+            name: name,
+            phoneNumber: phoneNumber
+        }
+        return userRef.set(userData, {
+            merge: true
+        });
+    }
+
+    signIn(email, password) {
         return this.afAuth.signInWithEmailAndPassword(email, password).then((result) => {
-            if (legalUser) {
-                this.user$.subscribe(user => {
-                    if (user.legalUser) {
-                        this.router.navigateByUrl('/');
-                        this.setUserData(result.user);
-                    } else {
-                        this.dialog.open(ErrorDialogComponent, {
-                            panelClass: "error-dialog",
-                            disableClose: true,
-                            data: 'error.dialog.no.legal.user'
-                        });
-                        this.signOut();
-                    }
-                }).unsubscribe();
-            } else {
-                this.user$.subscribe(user => {
-                    if (user.legalUser) {
-                        this.dialog.open(ErrorDialogComponent, {
-                            panelClass: "error-dialog",
-                            disableClose: true,
-                            data: 'error.dialog.no.legal.user'
-                        });
-                        this.signOut();
-                    } else {
-                        this.router.navigateByUrl('/');
-                        this.setUserData(result.user);
-                    }
-                }).unsubscribe();
-            }
-            }).catch((error) => {
-                this.dialog.open(ErrorDialogComponent, {
-                    panelClass: "error-dialog",
-                    disableClose: true,
-                    data: error.message
-                });
+            this.router.navigateByUrl('/');
+            this.setUserData(result.user);
+        }).catch((error) => {
+            this.dialog.open(ErrorDialogComponent, {
+                panelClass: "error-dialog",
+                disableClose: true,
+                data: error.message
             });
+        });
     }
 
     signUp(email, password, name, phoneNumber) {
@@ -100,7 +87,11 @@ export class AuthService {
                 });
                 this.router.navigateByUrl('/auth/verify_email');
             }).catch((error) => {
-                window.alert(error.message)
+                this.dialog.open(ErrorDialogComponent, {
+                    panelClass: "error-dialog",
+                    disableClose: true,
+                    data: error.message
+                });
             });
     }
 
@@ -110,11 +101,14 @@ export class AuthService {
                 result.user.sendEmailVerification();
                 const pubRef: AngularFirestoreCollection<any> = this.db.collection("pubs");
                 let tables = [];
+                let id = 1;
                 for (let index = 0; index < pub.twoPerson; index++) {
-                    tables.push({number: index + 1, persons: 2, reserved: false});
+                    tables.push({id: id, persons: 2, reserved: false});
+                    id++;
                 }
                 for (let index = 0; index < pub.fourPerson; index++) {
-                    tables.push({number: index + 1, persons: 4, reserved: false});
+                    tables.push({id: id, persons: 4, reserved: false});
+                    id++
                 }
                 const pubData = {
                     companyName: pub.companyName,
@@ -179,7 +173,11 @@ export class AuthService {
                 });
             }).catch((error) => {
                 this.loading$.next(false);
-                window.alert(error.message)
+                this.dialog.open(ErrorDialogComponent, {
+                    panelClass: "error-dialog",
+                    disableClose: true,
+                    data: error.message
+                });
             });
     }
 
@@ -202,10 +200,18 @@ export class AuthService {
     forgotPassword(passwordResetEmail) {
         return this.afAuth.sendPasswordResetEmail(passwordResetEmail)
         .then(() => {
-            window.alert('Password reset email sent, check your inbox.');
+            this.dialog.open(InformationalDialogComponent, {
+                panelClass: "error-dialog",
+                disableClose: true,
+                data: 'informational.dialog.forgot.password.text'
+            });
             this.router.navigateByUrl('/auth/login');
         }).catch((error) => {
-            window.alert(error)
+            this.dialog.open(ErrorDialogComponent, {
+                panelClass: "error-dialog",
+                disableClose: true,
+                data: error.message
+            });
         });
     }
     

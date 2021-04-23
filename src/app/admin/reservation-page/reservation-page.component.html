@@ -1,0 +1,38 @@
+<section class="reservation-page">
+    <div class="reservation-page__content">
+        <div>
+            <button mat-stroked-button color="primary" class="reservation-page__content--back" (click)="back()"><mat-icon>arrow_back</mat-icon>{{ 'auth.back.button' | translate | uppercase }}</button>
+        </div>
+        <span class="reservation-page__content--title">{{ 'admin.reservation.page.title' | translate }}</span>
+        <div class="reservation-page__content--data">
+            <div class="left">
+                <span class="left__sub-title">{{ 'admin.reservation.page.date' | translate }}:</span>
+                <span class="left__sub-title-description">{{ 'admin.reservation.page.date.description' | translate }}</span>
+                <span class="left__date-data">{{ reservation?.date }} {{ reservation?.time }}</span>
+                <span class="left__sub-title">{{ 'admin.reservation.page.table' | translate }}:</span>
+                <span class="left__sub-title-description">{{ 'admin.reservation.page.table.description' | translate }}</span>
+                <div class="left__table">
+                    <img *ngIf="reservation?.table.persons == 2" src="assets/images/2_person.png">
+                    <img *ngIf="reservation?.table.persons == 4" src="assets/images/4_person.png">
+                    <span *ngIf="reservation?.table.persons == 2">{{ 'pubs.two.person' | translate }}</span>
+                    <span *ngIf="reservation?.table.persons == 4">{{ 'pubs.four.person' | translate }}</span>
+                </div>
+                <span class="left__sub-title">{{ 'admin.reservation.page.space' | translate }}:</span>
+                <span class="left__date-data">{{ reservation?.spaceNumber }}</span>
+            </div>
+            <div class="right">
+                <span class="right__sub-title">{{ 'admin.reservation.page.personal.data' | translate }}:</span>
+                <span class="right__mini-title">{{ 'pubs.name.placeholder' | translate }}</span>
+                <span class="right__value">{{ reservation?.name }}</span>
+                <span class="right__mini-title">{{ 'pubs.email.placeholder' | translate }}</span>
+                <span class="right__value">{{ reservation?.phoneNumber }}</span>
+                <span class="right__mini-title">{{ 'pubs.phone.number.placeholder' | translate }}</span>
+                <span class="right__value">{{ reservation?.email }}</span>
+            </div>
+        </div>
+        <div class="reservation-page__content--actions" *ngIf="reservation?.status == 'pending'">
+            <button mat-stroked-button color="primary" class="stroked" (click)="setDone('declined')">{{ 'admin.reservation.page.delete' | translate | uppercase }}</button>
+            <button mat-raised-button color="primary" class="raised" (click)="setDone('accepted')">{{ 'admin.reservation.page.approval' | translate | uppercase }}</button>
+        </div>
+    </div>
+</section>
