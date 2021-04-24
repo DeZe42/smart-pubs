@@ -112,6 +112,8 @@
     "admin.reservations": "Rezervări",
     "admin.profile.save": "Salvare",
     "admin.company.pub.name": "Numele localuli",
+    "admin.company.add.number": "Decrește",
+    "admin.company.delete.number": "Micșorat",
     "admin.company.open.state": "Întroduceți programul de deschidere",
     "admin.company.address": "Specificați unde se află localul",
     "admin.company.save.success": "Toate modificările au fost salvate cu succes!",
