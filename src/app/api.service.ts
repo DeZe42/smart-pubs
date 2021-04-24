@@ -135,39 +135,85 @@ export class ApiService {
     });
   }
 
-  editPub(pub) {
+  editCompanyNameToPub(pub, companyName) {
     const pubRef: AngularFirestoreDocument<any> = this.db.doc(`pubs/${pub.uid}`);
     const pubData = {
-      companyName: pub.companyName,
-      country: pub.country,
-      contry: pub.contry,
-      city: pub.city,
-      address: pub.address,
-      twoPerson: pub.twoPerson,
-      fourPerson: pub.fourPerson,
-      space: pub.space,
-      description: pub.description,
-      openStateMonday: pub.openStateMonday,
-      openStateTuesday: pub.openStateTuesday,
-      openStateWednesday: pub.openStateWednesday,
-      openStateThursday: pub.openStateThursday,
-      openStateFriday: pub.openStateFriday,
-      openStateSaturday: pub.openStateSaturday,
-      openStateSunday: pub.openStateSunday,
-      startingHourMonday: pub.startingHourMonday,
-      endingHourMonday: pub.endingHourMonday,
-      startingHourTuesday: pub.startingHourTuesday,
-      endingHourTuesday: pub.endingHourTuesday,
-      startingHourWednesday: pub.startingHourWednesday,
-      endingHourWednesday: pub.endingHourWednesday,
-      startingHourThursday: pub.startingHourThursday,
-      endingHourThursday: pub.endingHourThursday,
-      startingHourFriday: pub.startingHourFriday,
-      endingHourFriday: pub.endingHourFriday,
-      startingHourSaturday: pub.startingHourSaturday,
-      endingHourSaturday: pub.endingHourSaturday,
-      startingHourSunday: pub.startingHourSunday,
-      endingHourSunday: pub.endingHourSunday
+      companyName: companyName
+    }
+    return pubRef.set(pubData, {
+      merge: true
+    });
+  }
+
+  editSpaceNumberToPub(pub, currentSpace) {
+    const pubRef: AngularFirestoreDocument<any> = this.db.doc(`pubs/${pub.uid}`);
+    const pubData = {
+      currentSpace: currentSpace
+    }
+    return pubRef.set(pubData, {
+      merge: true
+    });
+  }
+
+  editTableToPub(pub, table) {
+    const pubRef: AngularFirestoreDocument<any> = this.db.doc(`pubs/${pub.uid}`);
+    const pubData = {
+      twoPerson: table.twoPerson,
+      fourPerson: table.fourPerson,
+      space: table.space
+    }
+    return pubRef.set(pubData, {
+      merge: true
+    });
+  }
+
+  editDescriptionToPub(pub, description) {
+    const pubRef: AngularFirestoreDocument<any> = this.db.doc(`pubs/${pub.uid}`);
+    const pubData = {
+      description: description
+    }
+    return pubRef.set(pubData, {
+      merge: true
+    });
+  }
+
+  editDateToPub(pub, date) {
+    const pubRef: AngularFirestoreDocument<any> = this.db.doc(`pubs/${pub.uid}`);
+    const pubData = {
+      openStateMonday: date.openStateMonday,
+      openStateTuesday: date.openStateTuesday,
+      openStateWednesday: date.openStateWednesday,
+      openStateThursday: date.openStateThursday,
+      openStateFriday: date.openStateFriday,
+      openStateSaturday: date.openStateSaturday,
+      openStateSunday: date.openStateSunday,
+      startingHourMonday: date.startingHourMonday,
+      endingHourMonday: date.endingHourMonday,
+      startingHourTuesday: date.startingHourTuesday,
+      endingHourTuesday: date.endingHourTuesday,
+      startingHourWednesday: date.startingHourWednesday,
+      endingHourWednesday: date.endingHourWednesday,
+      startingHourThursday: date.startingHourThursday,
+      endingHourThursday: date.endingHourThursday,
+      startingHourFriday: date.startingHourFriday,
+      endingHourFriday: date.endingHourFriday,
+      startingHourSaturday: date.startingHourSaturday,
+      endingHourSaturday: date.endingHourSaturday,
+      startingHourSunday: date.startingHourSunday,
+      endingHourSunday: date.endingHourSunday
+    }
+    return pubRef.set(pubData, {
+      merge: true
+    });
+  }
+
+  editAddressToPub(pub, address) {
+    const pubRef: AngularFirestoreDocument<any> = this.db.doc(`pubs/${pub.uid}`);
+    const pubData = {
+      country: address.country,
+      contry: address.contry,
+      city: address.city,
+      address: address.address
     }
     return pubRef.set(pubData, {
       merge: true

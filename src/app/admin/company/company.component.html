@@ -3,14 +3,26 @@
         <div>
             <button mat-stroked-button color="primary" class="company__content--back" (click)="back()"><mat-icon>arrow_back</mat-icon>{{ 'auth.back.button' | translate | uppercase }}</button>
         </div>
-        <form [formGroup]="editForm" class="company__content--form-container">
+        <div class="company__content--form-container">
             <span class="title">{{ 'admin.company' | translate }}</span>
             <span class="sub-title">{{ 'admin.company.pub.name' | translate }}</span>
-            <mat-form-field appearance="outline" class="company-name">
-                <mat-label>{{ 'login.company.name' | translate }}</mat-label>
-                <input matInput formControlName="companyName">
-                <mat-error>{{ 'register.error.required' | translate }}</mat-error>
-            </mat-form-field>
+            <div class="company-name-container">
+                <mat-form-field appearance="outline">
+                    <mat-label>{{ 'login.company.name' | translate }}</mat-label>
+                    <input matInput [formControl]="companyName">
+                    <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                </mat-form-field>
+                <div class="company-name-container__actions" *ngIf="showCompanyButtons()">
+                    <button mat-stroked-button color="primary" class="company-name-container__actions--stroked" (click)="cancelCompanyChange()">{{ 'register.cancel' | translate | uppercase }}</button>
+                    <button mat-raised-button color="primary" class="company-name-container__actions--raised" (click)="saveCompanyChange()">{{ 'admin.profile.save' | translate | uppercase }}</button>
+                </div>
+            </div>
+            <span class="sub-title">{{ 'pubs.space' | translate }}</span>
+            <div class="space-number-container">
+                <span class="space-number-container__numbers">{{ currentSpace }}/{{ pub?.space }}</span>
+                <button mat-stroked-button color="primary" class="space-number-container__stroked" (click)="changeSpaceNumber('delete')" [disabled]="currentSpace == 0">{{ 'admin.company.delete.number' | translate | uppercase }}</button>
+                <button mat-raised-button color="primary" class="space-number-container__raised" (click)="changeSpaceNumber('add')" [disabled]="currentSpace == pub?.space">{{ 'admin.company.add.number' | translate | uppercase }}</button>
+            </div>
             <span class="sub-title">{{ 'register.images.from.pubs' | translate }}</span>
             <span class="image-description">{{ 'register.images.text' | translate }}</span>
             <span class="image-description-max">{{ 'register.images.text.max' | translate }}</span>
@@ -40,24 +52,30 @@
                     <input class="image-upload__image-card--image-input" type="file" #fileInput3 (change)="preview(fileInput3.files, 3)"/>
                 </div>
             </div>
-            <div class="image-upload-actions">
-                <button mat-stroked-button color="primary" class="image-upload-actions__stroked" (click)="cancelImageUpload()" [disabled]="disableImageButtons()">{{ 'register.cancel' | translate }}</button>
-                <button mat-raised-button color="primary" class="image-upload-actions__raised" (click)="imageUpload()" [disabled]="disableImageButtons()">{{ 'admin.profile.save' | translate }}</button>
+            <div class="image-upload-actions" *ngIf="showImageButtons()">
+                <button mat-stroked-button color="primary" class="image-upload-actions__stroked" (click)="cancelImageUpload()">{{ 'register.cancel' | translate }}</button>
+                <button mat-raised-button color="primary" class="image-upload-actions__raised" (click)="imageUpload()">{{ 'admin.profile.save' | translate }}</button>
             </div>
             <span class="sub-title">{{ 'register.table.number' | translate }}</span>
             <span class="image-description">{{ 'register.table.number.description' | translate }}</span>
-            <div class="table-container">
-                <mat-form-field appearance="outline">
-                    <mat-label>{{ 'register.two.person.table' | translate }}</mat-label>
-                    <input matInput type="number" formControlName="twoPerson">
-                    <mat-error>{{ 'register.error.required' | translate }}</mat-error>
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                    <mat-label>{{ 'register.four.person.table' | translate }}</mat-label>
-                    <input matInput type="number" formControlName="fourPerson">
-                    <mat-error>{{ 'register.error.required' | translate }}</mat-error>
-                </mat-form-field>
-            </div>
+            <form [formGroup]="tableForm" class="table-container">
+                <div class="table-container__column">
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{ 'register.two.person.table' | translate }}</mat-label>
+                        <input matInput type="number" formControlName="twoPerson">
+                        <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{ 'register.four.person.table' | translate }}</mat-label>
+                        <input matInput type="number" formControlName="fourPerson">
+                        <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="table-container__actions" *ngIf="showTableButtons()">
+                    <button mat-stroked-button color="primary" class="company-name-container__actions--stroked" (click)="cancelTableChange()">{{ 'register.cancel' | translate | uppercase }}</button>
+                    <button mat-raised-button color="primary" class="company-name-container__actions--raised" (click)="saveTableChange()">{{ 'admin.profile.save' | translate | uppercase }}</button>
+                </div>
+            </form>
             <mat-tab-group class="description">
                 <mat-tab [label]="'pubs.description' | translate">
                     <div class="empty"></div>
@@ -65,9 +83,13 @@
                         <span class="description__description--sub-title">{{ 'register.description.from.pubs' | translate }}</span>
                         <mat-form-field appearance="outline">
                             <mat-label>{{ 'register.description' | translate }}</mat-label>
-                            <textarea matInput type="text" formControlName="description"></textarea>
+                            <textarea matInput type="text" [formControl]="description"></textarea>
                             <mat-error>{{ 'register.error.required' | translate }}</mat-error>
                         </mat-form-field>
+                        <div class="actions" *ngIf="showDescriptionButtons()">
+                            <button mat-stroked-button color="primary" class="actions__stroked" (click)="cancelDescriptionChange()">{{ 'register.cancel' | translate | uppercase }}</button>
+                            <button mat-raised-button color="primary" class="actions__raised" (click)="saveDescriptionChange()">{{ 'admin.profile.save' | translate | uppercase }}</button>
+                        </div>
                     </div>
                 </mat-tab>
                 <mat-tab [label]="'pubs.menu' | translate">
@@ -239,12 +261,12 @@
                     <div class="empty"></div>
                     <div class="description__open-state">
                         <span class="description__open-state--title">{{ 'admin.company.open.state' | translate }}</span>
-                        <div class="description__open-state--open-state">
+                        <form [formGroup]="dateForm" class="description__open-state--open-state">
                             <div class="row">
                                 <span class="days">{{ 'register.open.state.monday' | translate }}</span>
                                 <mat-slide-toggle color="primary" formControlName="openStateMonday" (change)="disableTimeInput('Monday')"></mat-slide-toggle>
-                                <span class="gray" *ngIf="editForm.controls.openStateMonday.value">{{ 'register.open.state.open' | translate }}</span>
-                                <span class="gray" *ngIf="!editForm.controls.openStateMonday.value">{{ 'register.open.state.close' | translate }}</span>
+                                <span class="gray" *ngIf="dateForm.controls.openStateMonday.value">{{ 'register.open.state.open' | translate }}</span>
+                                <span class="gray" *ngIf="!dateForm.controls.openStateMonday.value">{{ 'register.open.state.close' | translate }}</span>
                                 <input type="time" formControlName="startingHourMonday">
                                 <span class="line">-</span>
                                 <input type="time" formControlName="endingHourMonday">
@@ -252,8 +274,8 @@
                             <div class="row">
                                 <span class="days">{{ 'register.open.state.tuesday' | translate }}</span>
                                 <mat-slide-toggle color="primary" formControlName="openStateTuesday" (change)="disableTimeInput('Tuesday')"></mat-slide-toggle>
-                                <span class="gray" *ngIf="editForm.controls.openStateTuesday.value">{{ 'register.open.state.open' | translate }}</span>
-                                <span class="gray" *ngIf="!editForm.controls.openStateTuesday.value">{{ 'register.open.state.close' | translate }}</span>
+                                <span class="gray" *ngIf="dateForm.controls.openStateTuesday.value">{{ 'register.open.state.open' | translate }}</span>
+                                <span class="gray" *ngIf="!dateForm.controls.openStateTuesday.value">{{ 'register.open.state.close' | translate }}</span>
                                 <input type="time" formControlName="startingHourTuesday">
                                 <span class="line">-</span>
                                 <input type="time" formControlName="endingHourTuesday">
@@ -261,8 +283,8 @@
                             <div class="row">
                                 <span class="days">{{ 'register.open.state.wednesday' | translate }}</span>
                                 <mat-slide-toggle color="primary" formControlName="openStateWednesday" (change)="disableTimeInput('Wednesday')"></mat-slide-toggle>
-                                <span class="gray" *ngIf="editForm.controls.openStateWednesday.value">{{ 'register.open.state.open' | translate }}</span>
-                                <span class="gray" *ngIf="!editForm.controls.openStateWednesday.value">{{ 'register.open.state.close' | translate }}</span>
+                                <span class="gray" *ngIf="dateForm.controls.openStateWednesday.value">{{ 'register.open.state.open' | translate }}</span>
+                                <span class="gray" *ngIf="!dateForm.controls.openStateWednesday.value">{{ 'register.open.state.close' | translate }}</span>
                                 <input type="time" formControlName="startingHourWednesday">
                                 <span class="line">-</span>
                                 <input type="time" formControlName="endingHourWednesday">
@@ -270,8 +292,8 @@
                             <div class="row">
                                 <span class="days">{{ 'register.open.state.thursday' | translate }}</span>
                                 <mat-slide-toggle color="primary" formControlName="openStateThursday" (change)="disableTimeInput('Thursday')"></mat-slide-toggle>
-                                <span class="gray" *ngIf="editForm.controls.openStateThursday.value">{{ 'register.open.state.open' | translate }}</span>
-                                <span class="gray" *ngIf="!editForm.controls.openStateThursday.value">{{ 'register.open.state.close' | translate }}</span>
+                                <span class="gray" *ngIf="dateForm.controls.openStateThursday.value">{{ 'register.open.state.open' | translate }}</span>
+                                <span class="gray" *ngIf="!dateForm.controls.openStateThursday.value">{{ 'register.open.state.close' | translate }}</span>
                                 <input type="time" formControlName="startingHourThursday">
                                 <span class="line">-</span>
                                 <input type="time" formControlName="endingHourThursday">
@@ -279,8 +301,8 @@
                             <div class="row">
                                 <span class="days">{{ 'register.open.state.friday' | translate }}</span>
                                 <mat-slide-toggle color="primary" formControlName="openStateFriday" (change)="disableTimeInput('Friday')"></mat-slide-toggle>
-                                <span class="gray" *ngIf="editForm.controls.openStateFriday.value">{{ 'register.open.state.open' | translate }}</span>
-                                <span class="gray" *ngIf="!editForm.controls.openStateFriday.value">{{ 'register.open.state.close' | translate }}</span>
+                                <span class="gray" *ngIf="dateForm.controls.openStateFriday.value">{{ 'register.open.state.open' | translate }}</span>
+                                <span class="gray" *ngIf="!dateForm.controls.openStateFriday.value">{{ 'register.open.state.close' | translate }}</span>
                                 <input type="time" formControlName="startingHourFriday">
                                 <span class="line">-</span>
                                 <input type="time" formControlName="endingHourFriday">
@@ -288,8 +310,8 @@
                             <div class="row">
                                 <span class="days">{{ 'register.open.state.saturday' | translate }}</span>
                                 <mat-slide-toggle color="primary" formControlName="openStateSaturday" (change)="disableTimeInput('Saturday')"></mat-slide-toggle>
-                                <span class="gray" *ngIf="editForm.controls.openStateSaturday.value">{{ 'register.open.state.open' | translate }}</span>
-                                <span class="gray" *ngIf="!editForm.controls.openStateSaturday.value">{{ 'register.open.state.close' | translate }}</span>
+                                <span class="gray" *ngIf="dateForm.controls.openStateSaturday.value">{{ 'register.open.state.open' | translate }}</span>
+                                <span class="gray" *ngIf="!dateForm.controls.openStateSaturday.value">{{ 'register.open.state.close' | translate }}</span>
                                 <input type="time" formControlName="startingHourSaturday">
                                 <span class="line">-</span>
                                 <input type="time" formControlName="endingHourSaturday">
@@ -297,18 +319,22 @@
                             <div class="row">
                                 <span class="days">{{ 'register.open.state.sunday' | translate }}</span>
                                 <mat-slide-toggle color="primary" formControlName="openStateSunday" (change)="disableTimeInput('Sunday')"></mat-slide-toggle>
-                                <span class="gray" *ngIf="editForm.controls.openStateSunday.value">{{ 'register.open.state.open' | translate }}</span>
-                                <span class="gray" *ngIf="!editForm.controls.openStateSunday.value">{{ 'register.open.state.close' | translate }}</span>
+                                <span class="gray" *ngIf="dateForm.controls.openStateSunday.value">{{ 'register.open.state.open' | translate }}</span>
+                                <span class="gray" *ngIf="!dateForm.controls.openStateSunday.value">{{ 'register.open.state.close' | translate }}</span>
                                 <input type="time" formControlName="startingHourSunday">
                                 <span class="line">-</span>
                                 <input type="time" formControlName="endingHourSunday">
                             </div>
+                        </form>
+                        <div class="description__open-state--actions" *ngIf="showDateButtons()">
+                            <button mat-stroked-button color="primary" class="stroked" (click)="cancelDateChange()">{{ 'register.cancel' | translate | uppercase }}</button>
+                            <button mat-raised-button color="primary" class="raised" (click)="saveDateChange()">{{ 'admin.profile.save' | translate | uppercase }}</button>
                         </div>
                     </div>
                 </mat-tab>
                 <mat-tab [label]="'pubs.address' | translate">
                     <div class="empty"></div>
-                    <div class="description__address">
+                    <form [formGroup]="addressForm" class="description__address">
                         <span class="description__address--title">{{ 'admin.company.address' | translate }}</span>
                         <mat-form-field appearance="outline" color="primary">
                             <mat-label>{{ 'register.country' | translate }}</mat-label>
@@ -330,13 +356,13 @@
                             <input matInput type="text" formControlName="address">
                             <mat-error>{{ 'register.error.required' | translate }}</mat-error>
                         </mat-form-field>
-                    </div>
+                        <div class="description__address--actions" *ngIf="showAddressButtons()">
+                            <button mat-stroked-button color="primary" class="stroked" (click)="cancelAddressChange()">{{ 'register.cancel' | translate | uppercase }}</button>
+                            <button mat-raised-button color="primary" class="raised" (click)="saveAddressChange()">{{ 'admin.profile.save' | translate | uppercase }}</button>
+                        </div>
+                    </form>
                 </mat-tab>
             </mat-tab-group>
-            <div class="actions">
-                <button mat-stroked-button color="primary" class="actions__stroked" (click)="cancel()" [disabled]="isOldData()">{{ 'register.cancel' | translate | uppercase }}</button>
-                <button mat-raised-button color="primary" class="actions__raised" (click)="edit()" [disabled]="isOldData()">{{ 'admin.profile.save' | translate | uppercase }}</button>
-            </div>
-        </form>
+        </div>
     </div>
 </section>

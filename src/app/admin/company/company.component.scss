@@ -35,10 +35,55 @@
                 margin: 0 0 32px 0;
                 text-align: left;
             }
-            .company-name {
-                max-width: 560px;
-                width: 100%;
+            .company-name-container {
+                display: flex;
                 margin: 0 0 28px 0;
+                mat-form-field {
+                    max-width: 560px;
+                    width: 100%;
+                    margin: 0 16px 0 0;
+                }
+                &__actions {
+                    display: flex;
+                    button {
+                        height: 36px;
+                        margin: 12px 0 0 0;
+                    }
+                    &--stroked {
+                        border: 2px solid $orange !important;
+                        margin: 12px 8px 0 0 !important;
+                    }
+                    &--raised {
+                        color: $white;
+                    }
+                }
+            }
+            .space-number-container {
+                display: flex;
+                align-items: center;
+                margin: 0 0 32px 0;
+                &__numbers {
+                    font-size: 18px;
+                    line-height: 26px;
+                    font-weight: bold;
+                    margin: 0 16px 0 0;
+                }
+                button {
+                    height: 36px;
+                }
+                &__stroked {
+                    border: 2px solid $orange !important;
+                    margin: 0 12px 0 0;
+                    &:disabled {
+                        border-color:rgba(255, 255, 255, 0.3) !important;
+                    }
+                }
+                &__raised {
+                    color: $white;
+                    &:disabled {
+                        color: rgba(255, 255, 255, 0.3);
+                    }
+                }
             }
             .image-description {
                 font-size: 14px;
@@ -98,24 +143,37 @@
                 &__stroked {
                     border: 2px solid $orange !important;
                     margin: 0 8px 0 auto;
-                    &:disabled {
-                        border: 2px solid rgba(255, 255, 255, 0.3) !important;
-                    }
                 }
                 &__raised {
                     color: $white;
-                    &:disabled {
-                        color: rgba(255, 255, 255, 0.3);
-                    }
                 }
             }
             .table-container {
                 display: flex;
-                flex-direction: column;
                 margin: 20px 0 0 0;
-                mat-form-field {
-                    max-width: 300px;
-                    width: 100%;
+                &__column {
+                    display: flex;
+                    flex-direction: column;
+                    margin: 0 16px 0 0;
+                    mat-form-field {
+                        max-width: 300px;
+                        width: 100%;
+                    }
+                }
+                &__actions {
+                    display: flex;
+                    margin: 36px 0 0 0;
+                    button {
+                        height: 36px;
+                        margin: 12px 0 0 0;
+                    }
+                    &--stroked {
+                        border: 2px solid $orange !important;
+                        margin: 12px 8px 0 0 !important;
+                    }
+                    &--raised {
+                        color: $white;
+                    }
                 }
             }
             input[type=number]::-webkit-inner-spin-button, 
@@ -133,6 +191,7 @@
                 &__description {
                     display: flex;
                     flex-direction: column;
+                    max-width: 560px;
                     &--sub-title {
                         font-size: 16px;
                         line-height: 20px;
@@ -140,12 +199,25 @@
                         margin: 0 0 24px 0;
                     }
                     mat-form-field {
-                        max-width: 560px;
                         width: 100%;
                     }
                     textarea {
                         height: 240px;
                         resize: none;
+                    }
+                    .actions {
+                        display: flex;
+                        margin: 0 0 0 auto;
+                        button {
+                            height: 36px;
+                        }
+                        &__stroked {
+                            border: 2px solid $orange !important;
+                            margin: 0 8px 0 0;
+                        }
+                        &__raised {
+                            color: $white;
+                        }
                     }
                 }
                 &__menu {
@@ -216,6 +288,8 @@
                 &__open-state {
                     display: flex;
                     flex-direction: column;
+                    max-width: 560px;
+                    width: 100%;
                     &--title {
                         font-size: 16px;
                         line-height: 20px;
@@ -270,6 +344,20 @@
                             }
                         }
                     }
+                    &--actions {
+                        display: flex;
+                        margin: 12px 0 0 auto;
+                        button {
+                            height: 36px;
+                        }
+                        .stroked {
+                            border: 2px solid $orange !important;
+                            margin: 0 8px 0 0;
+                        }
+                        .raised {
+                            color: $white;
+                        }
+                    }
                 }
                 &__address {
                     display: flex;
@@ -282,26 +370,19 @@
                         font-weight: bold;
                         margin: 0 0 24px 0;
                     }
-                }
-            }
-            .actions {
-                display: flex;
-                margin: 0 0 80px 0;
-                &__stroked {
-                    border: 2px solid $orange !important;
-                    margin: 0 8px 0 auto;
-                    height: 56px;
-                    padding: 0 48px;
-                    &:disabled {
-                        border: 2px solid rgba(255, 255, 255, 0.3) !important;
-                    }
-                }
-                &__raised {
-                    color: $white;
-                    height: 56px;
-                    padding: 0 48px;
-                    &:disabled {
-                        color: rgba(255, 255, 255, 0.3);
+                    &--actions {
+                        display: flex;
+                        margin: 12px 0 0 auto;
+                        button {
+                            height: 36px;
+                        }
+                        .stroked {
+                            border: 2px solid $orange !important;
+                            margin: 0 8px 0 0;
+                        }
+                        .raised {
+                            color: $white;
+                        }
                     }
                 }
             }

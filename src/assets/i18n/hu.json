@@ -112,6 +112,8 @@
     "admin.reservations": "Foglalások",
     "admin.profile.save": "Mentés",
     "admin.company.pub.name": "A szórakozóhely neve",
+    "admin.company.add.number": "Nővel",
+    "admin.company.delete.number": "Csökkent",
     "admin.company.open.state": "Add meg a nyitvatartási órarendet",
     "admin.company.address": "Add meg, hogy hol található a szórakozóhely",
     "admin.company.save.success": "Minden változtatást sikeresen elmentettünk!",
