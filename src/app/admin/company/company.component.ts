@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 import { ApiService } from 'src/app/api.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Pub } from 'src/app/shared/models';
@@ -16,10 +17,23 @@ export class CompanyComponent implements OnInit {
 
   pub: Pub;
   editForm: FormGroup;
+  aperitivForm: FormGroup;
+  mainMenuForm: FormGroup;
+  desertForm: FormGroup;
+  drinkForm: FormGroup;
+  newAperitiv: boolean = false;
+  newMainMenu: boolean = false;
+  newDessert: boolean = false;
+  newDrink: boolean = false;
+  aperitivMenu = [];
+  mainMenu = [];
+  desertMenu = [];
+  drinkMenu = [];
   imgURL1;
   imgURL2;
   imgURL3;
   imageList = [];
+  formSub: Subscription;
 
   constructor(
     private location: Location,
@@ -62,6 +76,29 @@ export class CompanyComponent implements OnInit {
       city: ['', Validators.required],
       address: ['', Validators.required]
     });
+    this.aperitivForm = this.fb.group({
+      name: ['', Validators.required],
+      size: ['', Validators.required],
+      price: ['', Validators.required],
+      make: ['', Validators.required]
+    });
+    this.mainMenuForm = this.fb.group({
+      name: ['', Validators.required],
+      size: ['', Validators.required],
+      price: ['', Validators.required],
+      make: ['', Validators.required]
+    });
+    this.desertForm = this.fb.group({
+      name: ['', Validators.required],
+      size: ['', Validators.required],
+      price: ['', Validators.required],
+      make: ['', Validators.required]
+    });
+    this.drinkForm = this.fb.group({
+      name: ['', Validators.required],
+      size: ['', Validators.required],
+      price: ['', Validators.required]
+    });
     this.authService.user$.subscribe(user => {
       if (user) {
         this.apiService.loadPub(user.pubUid);
@@ -73,6 +110,10 @@ export class CompanyComponent implements OnInit {
         this.imgURL1 = data.imageSrc0;
         this.imgURL2 = data.imageSrc1;
         this.imgURL3 = data.imageSrc2;
+        this.aperitivMenu = data.aperitivMenu;
+        this.mainMenu = data.mainMenu;
+        this.desertMenu = data.desertMenu;
+        this.drinkMenu = data.drinkMenu;
         if (data.length == undefined) {
           this.editForm.setValue({
             companyName: data.companyName,
@@ -107,6 +148,28 @@ export class CompanyComponent implements OnInit {
           });
         }
       }
+    });
+  }
+
+  disableImageButtons() {
+    if (this.pub && this.imgURL1 && this.imgURL2 && this.imgURL3) {
+      if (this.imgURL1 == this.pub.imageSrc0 && this.imgURL2 == this.pub.imageSrc1 && this.imgURL3 == this.pub.imageSrc2) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
+  cancelImageUpload() {
+    this.imgURL1 = this.pub.imageSrc0;
+    this.imgURL2 = this.pub.imageSrc1;
+    this.imgURL3 = this.pub.imageSrc2;
+  }
+
+  imageUpload() {
+    this.imageList.forEach((image, index) => {
+      this.authService.uploadImage(image[0], this.pub.uid, this.pub.companyName, index);
     });
   }
 
@@ -263,5 +326,81 @@ export class CompanyComponent implements OnInit {
     this.translate.get('admin.company.save.success').subscribe(data => {
       this.snackBar.open(data, '', { horizontalPosition: 'start', verticalPosition: 'bottom', duration: 5000 });
     });
+  }
+
+  saveAperitiv() {
+    this.aperitivMenu.push(this.aperitivForm.value);
+    this.apiService.addAperitivMenuToPub(this.pub, this.aperitivMenu);
+    this.aperitivForm.reset();
+    this.newAperitiv = false;
+  }
+
+  deleteAperitiv(index) {
+    this.aperitivMenu = this.aperitivMenu.filter(element => {
+      return element !== this.aperitivMenu[index];
+    });
+    this.apiService.addAperitivMenuToPub(this.pub, this.aperitivMenu);
+  }
+
+  saveMainMenu() {
+    this.mainMenu.push(this.mainMenuForm.value);
+    this.apiService.addMainMenuToPub(this.pub, this.mainMenu);
+    this.mainMenuForm.reset();
+    this.newMainMenu = false;
+  }
+
+  deleteMain(index) {
+    this.mainMenu = this.mainMenu.filter(element => {
+      return element !== this.mainMenu[index];
+    });
+    this.apiService.addMainMenuToPub(this.pub, this.mainMenu);
+  }
+
+  saveDessert() {
+    this.desertMenu.push(this.desertForm.value);
+    this.apiService.addDesertMenuToPub(this.pub, this.desertMenu);
+    this.desertForm.reset();
+    this.newDessert = false;
+  }
+
+  deleteDesert(index) {
+    this.desertMenu = this.desertMenu.filter(element => {
+      return element !== this.desertMenu[index];
+    });
+    this.apiService.addDesertMenuToPub(this.pub, this.desertMenu);
+  }
+
+  saveDrink() {
+    this.drinkMenu.push(this.drinkForm.value);
+    this.apiService.addDrinkMenuToPub(this.pub, this.drinkMenu);
+    this.drinkForm.reset();
+    this.newDrink = false;
+  }
+
+  deleteDrink(index) {
+    this.drinkMenu = this.drinkMenu.filter(element => {
+      return element !== this.drinkMenu[index];
+    });
+    this.apiService.addDrinkMenuToPub(this.pub, this.drinkMenu);
+  }
+
+  cancelAperitiv() {
+    this.aperitivForm.reset();
+    this.newAperitiv = false;
+  }
+
+  cancelMainMenu() {
+    this.mainMenuForm.reset();
+    this.newMainMenu = false;
+  }
+
+  cancelDessert() {
+    this.desertForm.reset();
+    this.newDessert = false;
+  }
+
+  cancelDrink() {
+    this.drinkForm.reset();
+    this.newDrink = false;
   }
 }

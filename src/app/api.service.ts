@@ -63,10 +63,14 @@ export class ApiService {
               const endingHourSaturday = pub.endingHourSaturday;
               const startingHourSunday = pub.startingHourSunday;
               const endingHourSunday = pub.endingHourSunday;
+              const aperitivMenu = pub.aperitivMenu;
+              const mainMenu = pub.mainMenu;
+              const desertMenu = pub.desertMenu;
+              const drinkMenu = pub.drinkMenu;
               return { uid, imageSrc0, imageSrc1, imageSrc2, companyName, country, contry, city, address, twoPerson, fourPerson, tables, space, currentSpace, description, openStateMonday, openStateTuesday, openStateWednesday,
                 openStateThursday, openStateFriday, openStateSaturday, openStateSunday, startingHourMonday, endingHourMonday, startingHourTuesday, endingHourTuesday,
                 startingHourWednesday, endingHourWednesday, startingHourThursday, endingHourThursday, startingHourFriday, endingHourFriday, startingHourSaturday,
-                endingHourSaturday, startingHourSunday, endingHourSunday};
+                endingHourSaturday, startingHourSunday, endingHourSunday, aperitivMenu, mainMenu, desertMenu, drinkMenu };
             });
         }
       ))
@@ -117,10 +121,14 @@ export class ApiService {
             const endingHourSaturday = pub.endingHourSaturday;
             const startingHourSunday = pub.startingHourSunday;
             const endingHourSunday = pub.endingHourSunday;
+            const aperitivMenu = pub.aperitivMenu;
+            const mainMenu = pub.mainMenu;
+            const desertMenu = pub.desertMenu;
+            const drinkMenu = pub.drinkMenu;
             return { uid, imageSrc0, imageSrc1, imageSrc2, companyName, country, contry, city, address, twoPerson, fourPerson, tables, space, currentSpace, description, openStateMonday, openStateTuesday, openStateWednesday,
               openStateThursday, openStateFriday, openStateSaturday, openStateSunday, startingHourMonday, endingHourMonday, startingHourTuesday, endingHourTuesday,
               startingHourWednesday, endingHourWednesday, startingHourThursday, endingHourThursday, startingHourFriday, endingHourFriday, startingHourSaturday,
-              endingHourSaturday, startingHourSunday, endingHourSunday};
+              endingHourSaturday, startingHourSunday, endingHourSunday, aperitivMenu, mainMenu, desertMenu, drinkMenu };
           })
     ).subscribe((data: Pub) => {
       this.pubs$.next(data);
@@ -160,6 +168,46 @@ export class ApiService {
       endingHourSaturday: pub.endingHourSaturday,
       startingHourSunday: pub.startingHourSunday,
       endingHourSunday: pub.endingHourSunday
+    }
+    return pubRef.set(pubData, {
+      merge: true
+    });
+  }
+
+  addAperitivMenuToPub(pub, aperitivMenu) {
+    const pubRef: AngularFirestoreDocument<any> = this.db.doc(`pubs/${pub.uid}`);
+    const pubData = {
+      aperitivMenu: aperitivMenu
+    }
+    return pubRef.set(pubData, {
+      merge: true
+    });
+  }
+  
+  addMainMenuToPub(pub, mainMenu) {
+    const pubRef: AngularFirestoreDocument<any> = this.db.doc(`pubs/${pub.uid}`);
+    const pubData = {
+      mainMenu: mainMenu
+    }
+    return pubRef.set(pubData, {
+      merge: true
+    });
+  }
+  
+  addDesertMenuToPub(pub, desertMenu) {
+    const pubRef: AngularFirestoreDocument<any> = this.db.doc(`pubs/${pub.uid}`);
+    const pubData = {
+      desertMenu: desertMenu
+    }
+    return pubRef.set(pubData, {
+      merge: true
+    });
+  }
+  
+  addDrinkMenuToPub(pub, drinkMenu) {
+    const pubRef: AngularFirestoreDocument<any> = this.db.doc(`pubs/${pub.uid}`);
+    const pubData = {
+      drinkMenu: drinkMenu
     }
     return pubRef.set(pubData, {
       merge: true

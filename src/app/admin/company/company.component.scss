@@ -55,7 +55,7 @@
             .image-upload {
                 display: flex;
                 flex-wrap: wrap;
-                margin: 0 0 56px 0;
+                margin: 0 0 24px 0;
                 &__image-card {
                     cursor: pointer;
                     display: flex;
@@ -87,6 +87,25 @@
                             font-size: 14px;
                             color: $orange;
                         }
+                    }
+                }
+            }
+            .image-upload-actions {
+                display: flex;
+                max-width: 560px;
+                width: 100%;
+                margin: 0 0 56px 0;
+                &__stroked {
+                    border: 2px solid $orange !important;
+                    margin: 0 8px 0 auto;
+                    &:disabled {
+                        border: 2px solid rgba(255, 255, 255, 0.3) !important;
+                    }
+                }
+                &__raised {
+                    color: $white;
+                    &:disabled {
+                        color: rgba(255, 255, 255, 0.3);
                     }
                 }
             }
@@ -140,6 +159,58 @@
                     }
                     &--margin {
                         margin: 0 0 16px 0;
+                    }
+                    &--row {
+                        flex-direction: row !important;
+                        justify-content: space-between;
+                        align-items: center;
+                    }
+                    &--card {
+                        display: flex;
+                        flex-direction: column;
+                        padding: 16px;
+                        margin: 0 8px 16px 8px;
+                        box-sizing: border-box;
+                        .row {
+                            display: flex;
+                            justify-content: space-between;
+                            &__long {
+                                width: 560px;
+                            }
+                            &__short {
+                                width: 240px;
+                            }
+                        }
+                        .long {
+                            width: 560px;
+                        }
+                        textarea {
+                            height: 128px;
+                            resize: none;
+                        }
+                        .actions {
+                            margin: 0 0 0 auto;
+                            &__stroked {
+                                border: 2px solid  $orange !important;
+                                margin: 0 8px 0 auto;
+                            }
+                            button {
+                                height: 36px;
+                                padding: 0 16px;
+                            }
+                        }
+                    }
+                    &--button {
+                        margin: 0 0 48px 0;
+                        button {
+                            border: 2px solid  $orange !important;
+                            mat-icon {
+                                font-size: 18px;
+                                width: 18px;
+                                height: 18px;
+                                margin: 0 8px 0 0;
+                            }
+                        }
                     }
                 }
                 &__open-state {

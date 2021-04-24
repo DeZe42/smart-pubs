@@ -35,6 +35,10 @@ export interface Pub {
     endingHourSaturday: string,
     endingHourSunday: string,
     currentSpace: number,
+    aperitivMenu: [],
+    mainMenu: [],
+    desertMenu: [],
+    drinkMenu: []
 }
 
 export interface Pubs extends Array<Pub> {

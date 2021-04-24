@@ -38,8 +38,10 @@ export class HomeComponent implements OnInit {
     this.apiService.loadPubs();
     this.apiService.pubs$.subscribe((data: Pub[]) => {
       if (data) {
-        this.pubs = data;
-        this.originalPubs = data;
+        if (data.length != undefined) {
+          this.pubs = data;
+          this.originalPubs = data;
+        }
       }
     });
   }

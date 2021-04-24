@@ -142,7 +142,11 @@ export class AuthService {
                     startingHourSaturday: pub.startingHourSaturday,
                     endingHourSaturday: pub.endingHourSaturday,
                     startingHourSunday: pub.startingHourSunday,
-                    endingHourSunday: pub.endingHourSunday
+                    endingHourSunday: pub.endingHourSunday,
+                    aperitivMenu: [],
+                    mainMenu: [],
+                    desertMenu: [],
+                    drinkMenu: []
                 }
                 pubRef.add(pubData).then(newRef => {
                     let pubRef: AngularFirestoreDocument<any> = this.db.collection("pubs").doc(newRef.id);

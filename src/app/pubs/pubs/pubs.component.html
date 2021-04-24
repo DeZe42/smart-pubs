@@ -136,6 +136,36 @@
             </mat-tab>
             <mat-tab [label]="'pubs.menu' | translate">
                 <div class="empty"></div>
+                <div class="menu">
+                    <span *ngIf="pub.aperitivMenu.length != 0" class="menu__title">{{ 'admin.company.menu.aperitiv' | translate }}</span>
+                    <div class="menu__card mat-elevation-z4" *ngFor="let aperitiv of pub.aperitivMenu; let index = index">
+                        <span>{{ aperitiv.name }}</span>
+                        <span>{{ aperitiv.size }} g</span>
+                        <span>{{ aperitiv.price }} Ron</span>
+                        <span>{{ aperitiv.make }}</span>
+                    </div>
+                    <span *ngIf="pub.mainMenu.length != 0" class="menu__title">{{ 'admin.company.menu.main.menu' | translate }}</span>
+                    <div class="menu__card mat-elevation-z4" *ngFor="let main of pub.mainMenu; let index = index">
+                        <span>{{ main.name }}</span>
+                        <span>{{ main.size }} g</span>
+                        <span>{{ main.price }} Ron</span>
+                        <span>{{ main.make }}</span>
+                    </div>
+                    <span *ngIf="pub.desertMenu.length != 0" class="menu__title">{{ 'admin.company.menu.dessert' | translate }}</span>
+                    <div class="menu__card mat-elevation-z4" *ngFor="let desert of pub.desertMenu; let index = index">
+                        <span>{{ desert.name }}</span>
+                        <span>{{ desert.size }} g</span>
+                        <span>{{ desert.price }} Ron</span>
+                        <span>{{ desert.make }}</span>
+                    </div>
+                    <span *ngIf="pub.drinkMenu.length != 0" class="menu__title">{{ 'admin.company.menu.drink' | translate }}</span>
+                    <div class="menu__card mat-elevation-z4" *ngFor="let drink of pub.drinkMenu; let index = index">
+                        <span>{{ drink.name }}</span>
+                        <span>{{ drink.size }} g</span>
+                        <span>{{ drink.price }} Ron</span>
+                        <span>{{ drink.make }}</span>
+                    </div>
+                </div>
             </mat-tab>
             <mat-tab [label]="'pubs.open.state' | translate">
                 <div class="empty"></div>

@@ -40,6 +40,10 @@
                     <input class="image-upload__image-card--image-input" type="file" #fileInput3 (change)="preview(fileInput3.files, 3)"/>
                 </div>
             </div>
+            <div class="image-upload-actions">
+                <button mat-stroked-button color="primary" class="image-upload-actions__stroked" (click)="cancelImageUpload()" [disabled]="disableImageButtons()">{{ 'register.cancel' | translate }}</button>
+                <button mat-raised-button color="primary" class="image-upload-actions__raised" (click)="imageUpload()" [disabled]="disableImageButtons()">{{ 'admin.profile.save' | translate }}</button>
+            </div>
             <span class="sub-title">{{ 'register.table.number' | translate }}</span>
             <span class="image-description">{{ 'register.table.number.description' | translate }}</span>
             <div class="table-container">
@@ -71,6 +75,164 @@
                     <div class="description__menu">
                         <span class="description__menu--title">{{ 'admin.company.menu.title' | translate }}</span>
                         <span class="description__menu--title description__menu--margin">{{ 'admin.company.menu.aperitiv' | translate }}</span>
+                        <div class="description__menu--card description__menu--row mat-elevation-z4" *ngFor="let aperitiv of aperitivMenu; let index = index">
+                            <span>{{ aperitiv.name }}</span>
+                            <span>{{ aperitiv.size }} g</span>
+                            <span>{{ aperitiv.price }} Ron</span>
+                            <span>{{ aperitiv.make }}</span>
+                            <button mat-icon-button color="warn" (click)="deleteAperitiv(index)"><mat-icon>delete</mat-icon></button>
+                        </div>
+                        <div class="description__menu--card mat-elevation-z4" *ngIf="newAperitiv">
+                            <form [formGroup]="aperitivForm">
+                                <div class="row">
+                                    <mat-form-field appearance="outline" class="row__long">
+                                        <mat-label>{{ 'admin.company.menu.aperitiv.name' | translate }}</mat-label>
+                                        <input matInput type="text" formControlName="name">
+                                        <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" class="row__short">
+                                        <mat-label>{{ 'admin.company.menu.gramm' | translate }}</mat-label>
+                                        <input matInput type="text" formControlName="size">
+                                        <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" class="row__short">
+                                        <mat-label>{{ 'admin.company.menu.price' | translate }}</mat-label>
+                                        <input matInput type="text" formControlName="price">
+                                        <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <mat-form-field appearance="outline" class="long">
+                                    <mat-label>{{ 'admin.company.menu.make' | translate }}</mat-label>
+                                    <textarea matInput type="text" formControlName="make"></textarea>
+                                    <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                                </mat-form-field>
+                            </form>
+                            <div class="actions">
+                                <button class="actions__stroked" mat-stroked-button color="primary" (click)="cancelAperitiv()">{{ 'register.cancel' | translate | uppercase }}</button>
+                                <button mat-raised-button color="primary" (click)="saveAperitiv()" [disabled]="aperitivForm.invalid">{{ 'admin.profile.save' | translate | uppercase }}</button>
+                            </div>
+                        </div>
+                        <div class="description__menu--button" *ngIf="!newAperitiv">
+                            <button mat-stroked-button color="primary" (click)="newAperitiv = true"><mat-icon>add</mat-icon><span>{{ 'admin.company.menu.add.aperitiv' | translate | uppercase }}</span></button>
+                        </div>
+                        <span class="description__menu--title description__menu--margin">{{ 'admin.company.menu.main.menu' | translate }}</span>
+                        <div class="description__menu--card description__menu--row mat-elevation-z4" *ngFor="let main of mainMenu; let index = index">
+                            <span>{{ main.name }}</span>
+                            <span>{{ main.size }} g</span>
+                            <span>{{ main.price }} Ron</span>
+                            <span>{{ main.make }}</span>
+                            <button mat-icon-button color="warn" (click)="deleteMain(index)"><mat-icon>delete</mat-icon></button>
+                        </div>
+                        <div class="description__menu--card mat-elevation-z4" *ngIf="newMainMenu">
+                            <form [formGroup]="mainMenuForm">
+                                <div class="row">
+                                    <mat-form-field appearance="outline" class="row__long">
+                                        <mat-label>{{ 'admin.company.menu.aperitiv.name' | translate }}</mat-label>
+                                        <input matInput type="text" formControlName="name">
+                                        <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" class="row__short">
+                                        <mat-label>{{ 'admin.company.menu.gramm' | translate }}</mat-label>
+                                        <input matInput type="text" formControlName="size">
+                                        <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" class="row__short">
+                                        <mat-label>{{ 'admin.company.menu.price' | translate }}</mat-label>
+                                        <input matInput type="text" formControlName="price">
+                                        <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <mat-form-field appearance="outline" class="long">
+                                    <mat-label>{{ 'admin.company.menu.make' | translate }}</mat-label>
+                                    <textarea matInput type="text" formControlName="make"></textarea>
+                                    <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                                </mat-form-field>
+                            </form>
+                            <div class="actions">
+                                <button class="actions__stroked" mat-stroked-button color="primary" (click)="cancelMainMenu()">{{ 'register.cancel' | translate | uppercase }}</button>
+                                <button mat-raised-button color="primary" (click)="saveMainMenu()" [disabled]="mainMenuForm.invalid">{{ 'admin.profile.save' | translate | uppercase }}</button>
+                            </div>
+                        </div>
+                        <div class="description__menu--button" *ngIf="!newMainMenu">
+                            <button mat-stroked-button color="primary" (click)="newMainMenu = true"><mat-icon>add</mat-icon><span>{{ 'admin.company.menu.add.main.menu' | translate | uppercase }}</span></button>
+                        </div>
+                        <span class="description__menu--title description__menu--margin">{{ 'admin.company.menu.dessert' | translate }}</span>
+                        <div class="description__menu--card description__menu--row mat-elevation-z4" *ngFor="let desert of desertMenu; let index = index">
+                            <span>{{ desert.name }}</span>
+                            <span>{{ desert.size }} g</span>
+                            <span>{{ desert.price }} Ron</span>
+                            <span>{{ desert.make }}</span>
+                            <button mat-icon-button color="warn" (click)="deleteDesert(index)"><mat-icon>delete</mat-icon></button>
+                        </div>
+                        <div class="description__menu--card mat-elevation-z4" *ngIf="newDessert">
+                            <form [formGroup]="desertForm">
+                                <div class="row">
+                                    <mat-form-field appearance="outline" class="row__long">
+                                        <mat-label>{{ 'admin.company.menu.aperitiv.name' | translate }}</mat-label>
+                                        <input matInput type="text" formControlName="name">
+                                        <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" class="row__short">
+                                        <mat-label>{{ 'admin.company.menu.gramm' | translate }}</mat-label>
+                                        <input matInput type="text" formControlName="size">
+                                        <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" class="row__short">
+                                        <mat-label>{{ 'admin.company.menu.price' | translate }}</mat-label>
+                                        <input matInput type="text" formControlName="price">
+                                        <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <mat-form-field appearance="outline" class="long">
+                                    <mat-label>{{ 'admin.company.menu.make' | translate }}</mat-label>
+                                    <textarea matInput type="text" formControlName="make"></textarea>
+                                    <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                                </mat-form-field>
+                            </form>
+                            <div class="actions">
+                                <button class="actions__stroked" mat-stroked-button color="primary" (click)="cancelDessert()">{{ 'register.cancel' | translate | uppercase }}</button>
+                                <button mat-raised-button color="primary" (click)="saveDessert()" [disabled]="desertForm.invalid">{{ 'admin.profile.save' | translate | uppercase }}</button>
+                            </div>
+                        </div>
+                        <div class="description__menu--button" *ngIf="!newDessert">
+                            <button mat-stroked-button color="primary" (click)="newDessert = true"><mat-icon>add</mat-icon><span>{{ 'admin.company.menu.add.dessert' | translate | uppercase }}</span></button>
+                        </div>
+                        <span class="description__menu--title description__menu--margin">{{ 'admin.company.menu.drink' | translate }}</span>
+                        <div class="description__menu--card description__menu--row mat-elevation-z4" *ngFor="let drink of drinkMenu; let index = index">
+                            <span>{{ drink.name }}</span>
+                            <span>{{ drink.size }} g</span>
+                            <span>{{ drink.price }} Ron</span>
+                            <span>{{ drink.make }}</span>
+                            <button mat-icon-button color="warn" (click)="deleteDrink(index)"><mat-icon>delete</mat-icon></button>
+                        </div>
+                        <div class="description__menu--card mat-elevation-z4" *ngIf="newDrink">
+                            <form [formGroup]="drinkForm">
+                                <div class="row">
+                                    <mat-form-field appearance="outline" class="row__long">
+                                        <mat-label>{{ 'admin.company.menu.aperitiv.name' | translate }}</mat-label>
+                                        <input matInput type="text" formControlName="name">
+                                        <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" class="row__short">
+                                        <mat-label>{{ 'admin.company.menu.milli' | translate }}</mat-label>
+                                        <input matInput type="text" formControlName="size">
+                                        <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" class="row__short">
+                                        <mat-label>{{ 'admin.company.menu.price' | translate }}</mat-label>
+                                        <input matInput type="text" formControlName="price">
+                                        <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </form>
+                            <div class="actions">
+                                <button class="actions__stroked" mat-stroked-button color="primary" (click)="cancelDrink()">{{ 'register.cancel' | translate | uppercase }}</button>
+                                <button mat-raised-button color="primary" (click)="saveDrink()" [disabled]="drinkForm.invalid">{{ 'admin.profile.save' | translate | uppercase }}</button>
+                            </div>
+                        </div>
+                        <div class="description__menu--button" *ngIf="!newDrink">
+                            <button mat-stroked-button color="primary" (click)="newDrink = true"><mat-icon>add</mat-icon><span>{{ 'admin.company.menu.add.drink' | translate | uppercase }}</span></button>
+                        </div>
                     </div>
                 </mat-tab>
                 <mat-tab [label]="'pubs.open.state' | translate">

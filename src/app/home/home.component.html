@@ -53,9 +53,21 @@
             <span class="question-title">{{ 'home.questions.title' | translate }}</span>
             <span class="question-text">{{ 'home.questions.text' | translate }}</span>
             <form [formGroup]="questionForm">
-                <input type="text" formControlName="name" [placeholder]="'home.form.name.place.holder' | translate">
-                <input type="text" formControlName="email" [placeholder]="'home.form.email.place.holder' | translate">
-                <textarea formControlName="text" [placeholder]="'home.form.text.place.holder' | translate"></textarea>
+                <mat-form-field appearance="outline">
+                    <mat-label>{{ 'home.form.name.place.holder' | translate }}</mat-label>
+                    <input matInput type="text" formControlName="name">
+                    <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>{{ 'home.form.email.place.holder' | translate }}</mat-label>
+                    <input matInput type="text" formControlName="email">
+                    <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>{{ 'home.form.text.place.holder' | translate }}</mat-label>
+                    <textarea matInput type="text" formControlName="text"></textarea>
+                    <mat-error>{{ 'register.error.required' | translate }}</mat-error>
+                </mat-form-field>
             </form>
             <div class="question-button">
                 <button mat-flat-button color="primary" (click)="sendQuestion()" [disabled]="questionForm.invalid">{{ 'home.questions.button' | translate | uppercase }}</button>

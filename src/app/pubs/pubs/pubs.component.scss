@@ -277,6 +277,23 @@
                 font-size: 16px;
                 line-height: 24px;
             }
+            .menu {
+                display: flex;
+                flex-direction: column;
+                &__title {
+                    font-size: 16px;
+                    line-height: 22px;
+                    font-weight: bold;
+                    margin: 0 0 16px 0;
+                }
+                &__card {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 16px;
+                    box-sizing: border-box;
+                    margin: 0 8px 12px 8px;
+                }
+            }
             .opening-state {
                 display: flex;
                 flex-direction: column;
