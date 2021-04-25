@@ -92,6 +92,13 @@ export class AppComponent implements OnInit, OnDestroy {
     this.darkModeSub.unsubscribe();
   }
 
+  isHome() {
+    if (this.router.url == '/') {
+      return true
+    }
+    return false;
+  }
+
   onActivate(event) {
     document.getElementById('content').scrollTo(0, 0);
   }
@@ -108,6 +115,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   signOut() {
     this.authService.signOut();
+    this.router.navigateByUrl('/');
   }
 
   @HostBinding('class') className = '';
