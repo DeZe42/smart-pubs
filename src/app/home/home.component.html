@@ -5,10 +5,11 @@
             <div class="inline-flex">
                 <div class="search-container">
                     <div class="search-container__input-container">
-                        <input type="text" [placeholder]="'home.search.place.holder' | translate" (keyup)="search($event.target.value)" [formControl]="searchCtrl">
-                        <mat-icon color="primary">search</mat-icon>
+                        <input type="text" [placeholder]="'home.search.place.holder' | translate" (keydown.enter)="search()" [formControl]="searchCtrl">
+                        <mat-icon class="search-icon" color="primary">search</mat-icon>
+                        <mat-icon *ngIf="searchCtrl.value != ''" class="cancel-icon" color="primary" (click)="cancelSearch()">cancel</mat-icon>
                     </div>
-                    <button class="search-container__search-button" mat-flat-button color="primary">{{ 'home.search' | translate | uppercase }}</button>
+                    <button class="search-container__search-button" mat-flat-button color="primary" (click)="search()">{{ 'home.search' | translate | uppercase }}</button>
                 </div>
             </div>
         </div>
@@ -16,7 +17,7 @@
     <div class="home__content">
         <span class="home__content--title">{{ 'home.all.pubs' | translate }}</span>
         <div class="home__content--card-container" [ngClass]="{'active': pubs?.length == 0}">
-            <span class="empty-text" *ngIf="pubs?.length == 0">{{ 'home.pubs.is.empty.1' | translate }} "<b>{{ searchCtrl.value }}</b>" {{ 'home.pubs.is.empty.2' | translate }}<b style="color: #E57A00;">{{ 'home.pubs.is.empty.3' | translate }}</b> {{ 'home.pubs.is.empty.4' | translate }}</span>
+            <span class="empty-text" *ngIf="pubs?.length == 0">{{ 'home.pubs.is.empty.1' | translate }} "<b>{{ searchedValue }}</b>" {{ 'home.pubs.is.empty.2' | translate }}<b style="color: #E57A00;">{{ 'home.pubs.is.empty.3' | translate }}</b> {{ 'home.pubs.is.empty.4' | translate }}</span>
             <mat-card class="card" *ngFor="let pub of pubs" [routerLink]="'/pubs/' + pub.uid">
                 <div class="card__image">
                     <img [src]="pub.imageSrc0 == null ? 'assets/images/no_image.png' : pub.imageSrc0 | safe">

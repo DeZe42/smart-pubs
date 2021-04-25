@@ -16,7 +16,6 @@ import { ApiService } from './api.service';
 import { SafePipe } from './shared/safe.pipe';
 import { ErrorDialogComponent } from './shared/dialogs/error-dialog/error-dialog.component';
 import { InformationalDialogComponent } from './shared/dialogs/informational-dialog/informational-dialog.component';
-import { OverlayContainer } from '@angular/cdk/overlay';
 import { AuthService } from './auth/auth.service';
 import { AdminGuardService } from './admin/admin-guard.service';
 import { AuthGuardService } from './auth/auth-guard.service';
@@ -62,8 +61,4 @@ export function createTranslateLoader(http: HttpClient) {
     AppComponent
   ]
 })
-export class AppModule {
-  constructor(overlayContainer: OverlayContainer) {
-    overlayContainer.getContainerElement().classList.add('dark-mode');
-  }
-}
+export class AppModule { }

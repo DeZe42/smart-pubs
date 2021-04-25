@@ -90,10 +90,16 @@
                     ::-ms-input-placeholder {
                         color: $orange;
                     }
-                    mat-icon {
+                    .search-icon {
                         position: absolute;
                         top: 20px;
                         left: 16px;
+                    }
+                    .cancel-icon {
+                        position: absolute;
+                        top: 20px;
+                        right: 16px;
+                        cursor: pointer;
                     }
                 }
                 &__search-button {

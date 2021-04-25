@@ -20,6 +20,7 @@ export class AppComponent implements OnInit, OnDestroy {
   isLoggedIn: Observable<any>;
   user;
   userSub: Subscription;
+  darkModeSub: Subscription;
 
   constructor(
     private translate: TranslateService,
@@ -37,6 +38,10 @@ export class AppComponent implements OnInit, OnDestroy {
       this.className = localStorage.getItem('mode');
       if (this.className != '') {
         this.darkModeCtrl.setValue(true);
+        this.overlay.getContainerElement().classList.add('dark-mode');
+      } else {
+        this.darkModeCtrl.setValue(false);
+        this.overlay.getContainerElement().classList.remove('');
       }
     }
     this.router.events.subscribe((event: Event) => {
@@ -70,7 +75,7 @@ export class AppComponent implements OnInit, OnDestroy {
     } else {
       this.currentLanguage = 'hu';
     }
-    this.darkModeCtrl.valueChanges.subscribe((darkMode) => {
+    this.darkModeSub = this.darkModeCtrl.valueChanges.subscribe((darkMode) => {
       const darkClassName = 'dark-mode';
       this.className = darkMode ? darkClassName : '';
       localStorage.setItem('mode', this.className);
@@ -84,6 +89,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.userSub.unsubscribe();
+    this.darkModeSub.unsubscribe();
   }
 
   onActivate(event) {

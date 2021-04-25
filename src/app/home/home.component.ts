@@ -21,6 +21,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   originalPubs: Pub[] = [];
   numberOfDay: number = 0;
   user;
+  searchedValue: string = '';
   pubsSub: Subscription;
 
   constructor(
@@ -50,14 +51,21 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.pubsSub.unsubscribe();
   }
 
-  search(value) {
+  search() {
+    this.searchedValue = this.searchCtrl.value;
     this.pubs = this.originalPubs.filter(e=>{
       const string: string = e.companyName;
-      if (string.toUpperCase().includes(value.toUpperCase())) {
+      if (string.toUpperCase().includes(this.searchCtrl.value.toUpperCase())) {
         return true;
       }
       return false;
     });
+  }
+
+  cancelSearch() {
+    this.searchedValue = '';
+    this.searchCtrl.setValue('');
+    this.pubs = this.originalPubs;
   }
 
   getOpenState(pub: Pub) {
