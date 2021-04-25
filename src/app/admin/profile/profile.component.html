@@ -7,15 +7,15 @@
         <form [formGroup]="profileForm">
             <mat-form-field appearance="outline">
                 <mat-label>{{ 'pubs.name.placeholder' | translate }}</mat-label>
-                <input matInput formControlName="name">
+                <input matInput text="name" formControlName="name">
             </mat-form-field>
             <mat-form-field appearance="outline">
                 <mat-label>{{ 'pubs.email.placeholder' | translate }}</mat-label>
-                <input matInput formControlName="email">
+                <input matInput text="text" formControlName="email">
             </mat-form-field>
             <mat-form-field appearance="outline">
                 <mat-label>{{ 'pubs.phone.number.placeholder' | translate }}</mat-label>
-                <input matInput formControlName="phoneNumber">
+                <input matInput text="text" formControlName="phoneNumber" (input)="justNumbers($event)">
             </mat-form-field>
         </form>
         <div class="profile__content--actions">

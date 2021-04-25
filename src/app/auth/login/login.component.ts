@@ -27,12 +27,10 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.authService.signIn(this.loginForm.controls.email.value, this.loginForm.controls.password.value);
-  }
-  
-  keyEvent(event: KeyboardEvent): void {
-    if (event.key == "Enter") {
-      this.login();
+    if (this.router.url == '/auth/private_login') {
+      this.authService.signIn(this.loginForm.controls.email.value, this.loginForm.controls.password.value, false);
+    } else if (this.router.url == '/auth/legal_login') {
+      this.authService.signIn(this.loginForm.controls.email.value, this.loginForm.controls.password.value, true);
     }
   }
 

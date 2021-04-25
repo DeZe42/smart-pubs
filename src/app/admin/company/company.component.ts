@@ -1,17 +1,17 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ApiService } from 'src/app/api.service';
 import { AuthService } from 'src/app/auth/auth.service';
-import { Pub } from 'src/app/shared/models';
+import { Pub, User } from 'src/app/shared/models';
 
 @Component({
   selector: 'app-company',
   templateUrl: './company.component.html',
   styleUrls: ['./company.component.scss']
 })
-export class CompanyComponent implements OnInit {
+export class CompanyComponent implements OnInit, OnDestroy {
 
   pub: Pub;
   companyName = new FormControl('', Validators.required);
@@ -37,6 +37,8 @@ export class CompanyComponent implements OnInit {
   imgURL2;
   imgURL3;
   imageList = [];
+  userSub: Subscription;
+  pubSub: Subscription;
   formSub: Subscription;
 
   constructor(
@@ -103,61 +105,64 @@ export class CompanyComponent implements OnInit {
       city: ['', Validators.required],
       address: ['', Validators.required]
     });
-    this.authService.user$.subscribe(user => {
+    this.userSub = this.authService.user$.subscribe((user: User) => {
       if (user) {
         this.apiService.loadPub(user.pubUid);
       }
     });
-    this.apiService.pubs$.subscribe(data => {
-      if (data) {
-        this.pub = data;
+    this.pubSub = this.apiService.pub$.subscribe((pub: Pub) => {
+      if (pub) {
+        this.pub = pub;
         this.currentSpace = this.pub.currentSpace;
-        this.imgURL1 = data.imageSrc0;
-        this.imgURL2 = data.imageSrc1;
-        this.imgURL3 = data.imageSrc2;
-        this.aperitivMenu = data.aperitivMenu;
-        this.mainMenu = data.mainMenu;
-        this.desertMenu = data.desertMenu;
-        this.drinkMenu = data.drinkMenu;
-        if (data.length == undefined) {
-          this.companyName.setValue(data.companyName);
-          this.description.setValue(data.description);
-          this.tableForm.setValue({
-            twoPerson: data.twoPerson,
-            fourPerson: data.fourPerson
-          });
-          this.dateForm.setValue({
-            openStateMonday: data.openStateMonday,
-            openStateTuesday: data.openStateTuesday,
-            openStateWednesday: data.openStateWednesday,
-            openStateThursday: data.openStateThursday,
-            openStateFriday: data.openStateFriday,
-            openStateSaturday: data.openStateSaturday,
-            openStateSunday: data.openStateSunday,
-            startingHourMonday: data.startingHourMonday,
-            endingHourMonday: data.endingHourMonday,
-            startingHourTuesday: data.startingHourTuesday,
-            endingHourTuesday: data.endingHourTuesday,
-            startingHourWednesday: data.startingHourWednesday,
-            endingHourWednesday: data.endingHourWednesday,
-            startingHourThursday: data.startingHourThursday,
-            endingHourThursday: data.endingHourThursday,
-            startingHourFriday: data.startingHourFriday,
-            endingHourFriday: data.endingHourFriday,
-            startingHourSaturday: data.startingHourSaturday,
-            endingHourSaturday: data.endingHourSaturday,
-            startingHourSunday: data.startingHourSunday,
-            endingHourSunday: data.endingHourSunday
-          });
-          this.addressForm.setValue({
-            country: data.country,
-            contry: data.contry,
-            city: data.city,
-            address: data.address
-          });
-        }
+        this.imgURL1 = pub.imageSrc0;
+        this.imgURL2 = pub.imageSrc1;
+        this.imgURL3 = pub.imageSrc2;
+        this.aperitivMenu = pub.aperitivMenu;
+        this.mainMenu = pub.mainMenu;
+        this.desertMenu = pub.desertMenu;
+        this.drinkMenu = pub.drinkMenu;
+        this.companyName.setValue(pub.companyName);
+        this.description.setValue(pub.description);
+        this.tableForm.setValue({
+          twoPerson: pub.twoPerson,
+          fourPerson: pub.fourPerson
+        });
+        this.dateForm.setValue({
+          openStateMonday: pub.openStateMonday,
+          openStateTuesday: pub.openStateTuesday,
+          openStateWednesday: pub.openStateWednesday,
+          openStateThursday: pub.openStateThursday,
+          openStateFriday: pub.openStateFriday,
+          openStateSaturday: pub.openStateSaturday,
+          openStateSunday: pub.openStateSunday,
+          startingHourMonday: pub.startingHourMonday,
+          endingHourMonday: pub.endingHourMonday,
+          startingHourTuesday: pub.startingHourTuesday,
+          endingHourTuesday: pub.endingHourTuesday,
+          startingHourWednesday: pub.startingHourWednesday,
+          endingHourWednesday: pub.endingHourWednesday,
+          startingHourThursday: pub.startingHourThursday,
+          endingHourThursday: pub.endingHourThursday,
+          startingHourFriday: pub.startingHourFriday,
+          endingHourFriday: pub.endingHourFriday,
+          startingHourSaturday: pub.startingHourSaturday,
+          endingHourSaturday: pub.endingHourSaturday,
+          startingHourSunday: pub.startingHourSunday,
+          endingHourSunday: pub.endingHourSunday
+        });
+        this.addressForm.setValue({
+          country: pub.country,
+          contry: pub.contry,
+          city: pub.city,
+          address: pub.address
+        });
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.userSub.unsubscribe();
+    this.pubSub.unsubscribe();
   }
 
   back() {

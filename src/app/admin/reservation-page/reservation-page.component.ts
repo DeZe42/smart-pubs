@@ -1,17 +1,21 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { ApiService } from 'src/app/api.service';
+import { Pub, Reservation } from 'src/app/shared/models';
 
 @Component({
   selector: 'app-reservation-page',
   templateUrl: './reservation-page.component.html',
   styleUrls: ['./reservation-page.component.scss']
 })
-export class ReservationPageComponent implements OnInit {
+export class ReservationPageComponent implements OnInit, OnDestroy {
 
-  reservation;
-  pub;
+  reservation: Reservation;
+  pub: Pub;
+  reservationSub: Subscription;
+  pubSub: Subscription;
 
   constructor(
     private location: Location,
@@ -22,9 +26,9 @@ export class ReservationPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.apiService.loadReservations();
-    this.apiService.reservations$.subscribe(data => {
-      if (data) {
-        data.forEach(element => {
+    this.apiService.reservations$.subscribe((reservations: Reservation[]) => {
+      if (reservations) {
+        reservations.forEach(element => {
           if (element.uid == this.route.snapshot.params['id']) {
             this.reservation = element;
             this.apiService.loadPub(element.pub);
@@ -32,11 +36,16 @@ export class ReservationPageComponent implements OnInit {
         });
       }
     });
-    this.apiService.pubs$.subscribe(data => {
-      if (data) {
-        this.pub = data;
+    this.apiService.pub$.subscribe((pub: Pub) => {
+      if (pub) {
+        this.pub = pub;
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.reservationSub.unsubscribe();
+    this.pubSub.unsubscribe();
   }
 
   back() {

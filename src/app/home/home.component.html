@@ -15,8 +15,8 @@
     </div>
     <div class="home__content">
         <span class="home__content--title">{{ 'home.all.pubs' | translate }}</span>
-        <div class="home__content--card-container" [ngClass]="{'active': pubs.length == 0}">
-            <span class="empty-text" *ngIf="pubs.length == 0">{{ 'home.pubs.is.empty.1' | translate }} "<b>{{ searchCtrl.value }}</b>" {{ 'home.pubs.is.empty.2' | translate }}<b style="color: #E57A00;">{{ 'home.pubs.is.empty.3' | translate }}</b> {{ 'home.pubs.is.empty.4' | translate }}</span>
+        <div class="home__content--card-container" [ngClass]="{'active': pubs?.length == 0}">
+            <span class="empty-text" *ngIf="pubs?.length == 0">{{ 'home.pubs.is.empty.1' | translate }} "<b>{{ searchCtrl.value }}</b>" {{ 'home.pubs.is.empty.2' | translate }}<b style="color: #E57A00;">{{ 'home.pubs.is.empty.3' | translate }}</b> {{ 'home.pubs.is.empty.4' | translate }}</span>
             <mat-card class="card" *ngFor="let pub of pubs" [routerLink]="'/pubs/' + pub.uid">
                 <div class="card__image">
                     <img [src]="pub.imageSrc0 == null ? 'assets/images/no_image.png' : pub.imageSrc0 | safe">

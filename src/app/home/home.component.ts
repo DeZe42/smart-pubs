@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { ApiService } from '../api.service';
 import { EMAIL_REGEX } from '../auth/utils';
 import { InformationalDialogComponent } from '../shared/dialogs/informational-dialog/informational-dialog.component';
@@ -12,14 +13,15 @@ import { Pub } from '../shared/models';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   
   pubs: Pub[] = [];
-  originalPubs: Pub[] = [];
-  questionForm: FormGroup;
   searchCtrl = new FormControl('');
+  questionForm: FormGroup;
+  originalPubs: Pub[] = [];
   numberOfDay: number = 0;
   user;
+  pubsSub: Subscription;
 
   constructor(
     private fb: FormBuilder,
@@ -36,14 +38,16 @@ export class HomeComponent implements OnInit {
       text: ['', Validators.required]
     });
     this.apiService.loadPubs();
-    this.apiService.pubs$.subscribe((data: Pub[]) => {
-      if (data) {
-        if (data.length != undefined) {
-          this.pubs = data;
-          this.originalPubs = data;
-        }
+    this.pubsSub = this.apiService.pubs$.subscribe((pub: Pub[]) => {
+      if (pub) {
+        this.pubs = pub;
+        this.originalPubs = pub;
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.pubsSub.unsubscribe();
   }
 
   search(value) {

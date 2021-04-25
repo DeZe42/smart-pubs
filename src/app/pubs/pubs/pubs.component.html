@@ -10,14 +10,14 @@
                 <span><b>{{ pub?.currentSpace }}/{{ pub?.space }}</b></span>
             </div>
         </div>
-        <span class="pubs__content--opening-state" *ngIf="numberOfDay == 1">{{ 'home.opening.hours' | translate }}: {{ pub?.startingHourMonday }} - {{ pub?.endingHourMonday }}</span>
-        <span class="pubs__content--opening-state" *ngIf="numberOfDay == 2">{{ 'home.opening.hours' | translate }}: {{ pub?.startingHourTuesday }} - {{ pub?.endingHourTuesday }}</span>
-        <span class="pubs__content--opening-state" *ngIf="numberOfDay == 3">{{ 'home.opening.hours' | translate }}: {{ pub?.startingHourWednesday }} - {{ pub?.endingHourWednesday }}</span>
-        <span class="pubs__content--opening-state" *ngIf="numberOfDay == 4">{{ 'home.opening.hours' | translate }}: {{ pub?.startingHourThursday }} - {{ pub?.endingHourThursday }}</span>
-        <span class="pubs__content--opening-state" *ngIf="numberOfDay == 5">{{ 'home.opening.hours' | translate }}: {{ pub?.startingHourFriday }} - {{ pub?.endingHourFriday }}</span>
-        <span class="pubs__content--opening-state" *ngIf="numberOfDay == 6">{{ 'home.opening.hours' | translate }}: {{ pub?.startingHourSaturday }} - {{ pub?.endingHourSaturday }}</span>
-        <span class="pubs__content--opening-state" *ngIf="numberOfDay == 7">{{ 'home.opening.hours' | translate }}: {{ pub?.startingHourSunday }} - {{ pub?.endingHourSunday }}</span>
-        <span class="pubs__content--opening-state" *ngIf="!getOpenState(pub)">{{ 'register.open.state.close' | translate }}</span>
+        <span class="pubs__content--opening-state" *ngIf="numberOfDay == 1 && getOpenState(pub)">{{ 'home.opening.hours' | translate }}: {{ pub?.startingHourMonday }} - {{ pub?.endingHourMonday }}</span>
+        <span class="pubs__content--opening-state" *ngIf="numberOfDay == 2 && getOpenState(pub)">{{ 'home.opening.hours' | translate }}: {{ pub?.startingHourTuesday }} - {{ pub?.endingHourTuesday }}</span>
+        <span class="pubs__content--opening-state" *ngIf="numberOfDay == 3 && getOpenState(pub)">{{ 'home.opening.hours' | translate }}: {{ pub?.startingHourWednesday }} - {{ pub?.endingHourWednesday }}</span>
+        <span class="pubs__content--opening-state" *ngIf="numberOfDay == 4 && getOpenState(pub)">{{ 'home.opening.hours' | translate }}: {{ pub?.startingHourThursday }} - {{ pub?.endingHourThursday }}</span>
+        <span class="pubs__content--opening-state" *ngIf="numberOfDay == 5 && getOpenState(pub)">{{ 'home.opening.hours' | translate }}: {{ pub?.startingHourFriday }} - {{ pub?.endingHourFriday }}</span>
+        <span class="pubs__content--opening-state" *ngIf="numberOfDay == 6 && getOpenState(pub)">{{ 'home.opening.hours' | translate }}: {{ pub?.startingHourSaturday }} - {{ pub?.endingHourSaturday }}</span>
+        <span class="pubs__content--opening-state" *ngIf="numberOfDay == 0 && getOpenState(pub)">{{ 'home.opening.hours' | translate }}: {{ pub?.startingHourSunday }} - {{ pub?.endingHourSunday }}</span>
+        <span class="pubs__content--opening-state-red" *ngIf="!getOpenState(pub)">{{ 'register.open.state.close' | translate }}</span>
         <div class="pubs__content--layout">
             <div class="picture">
                 <div class="picture__main">
@@ -46,7 +46,7 @@
                 <span class="reservate__date" [ngClass]="{'active': stage != 1}">{{ 'pubs.date' | translate }}:</span>
                 <mat-form-field appearance="outline" *ngIf="stage == 1">
                     <mat-label>{{ 'pubs.date.choose' | translate }}</mat-label>
-                    <input matInput [matDatepicker]="picker" [formControl]="dateCtrl" [min]="today">
+                    <input matInput [matDatepicker]="picker" [matDatepickerFilter]="disableDays" [formControl]="dateCtrl" [min]="today">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
@@ -112,15 +112,15 @@
                 <form [formGroup]="personalData" *ngIf="stage == 3">
                     <mat-form-field appearance="outline">
                         <mat-label>{{ 'pubs.name.placeholder' | translate }}</mat-label>
-                        <input matInput formControlName="name">
+                        <input matInput type="text" formControlName="name">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{ 'pubs.email.placeholder' | translate }}</mat-label>
-                        <input matInput formControlName="email">
+                        <input matInput type="text" formControlName="email">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{ 'pubs.phone.number.placeholder' | translate }}</mat-label>
-                        <input matInput formControlName="phoneNumber">
+                        <input matInput type="text" formControlName="phoneNumber" (input)="justNumbers($event)">
                     </mat-form-field>
                 </form>
                 <div class="next" *ngIf="stage == 3">
@@ -137,29 +137,29 @@
             <mat-tab [label]="'pubs.menu' | translate">
                 <div class="empty"></div>
                 <div class="menu">
-                    <span *ngIf="pub.aperitivMenu.length != 0" class="menu__title">{{ 'admin.company.menu.aperitiv' | translate }}</span>
-                    <div class="menu__card mat-elevation-z4" *ngFor="let aperitiv of pub.aperitivMenu; let index = index">
+                    <span *ngIf="pub?.aperitivMenu?.length != 0" class="menu__title">{{ 'admin.company.menu.aperitiv' | translate }}</span>
+                    <div class="menu__card mat-elevation-z4" *ngFor="let aperitiv of pub?.aperitivMenu; let index = index">
                         <span>{{ aperitiv.name }}</span>
                         <span>{{ aperitiv.size }} g</span>
                         <span>{{ aperitiv.price }} Ron</span>
                         <span>{{ aperitiv.make }}</span>
                     </div>
-                    <span *ngIf="pub.mainMenu.length != 0" class="menu__title">{{ 'admin.company.menu.main.menu' | translate }}</span>
-                    <div class="menu__card mat-elevation-z4" *ngFor="let main of pub.mainMenu; let index = index">
+                    <span *ngIf="pub?.mainMenu?.length != 0" class="menu__title">{{ 'admin.company.menu.main.menu' | translate }}</span>
+                    <div class="menu__card mat-elevation-z4" *ngFor="let main of pub?.mainMenu; let index = index">
                         <span>{{ main.name }}</span>
                         <span>{{ main.size }} g</span>
                         <span>{{ main.price }} Ron</span>
                         <span>{{ main.make }}</span>
                     </div>
-                    <span *ngIf="pub.desertMenu.length != 0" class="menu__title">{{ 'admin.company.menu.dessert' | translate }}</span>
-                    <div class="menu__card mat-elevation-z4" *ngFor="let desert of pub.desertMenu; let index = index">
+                    <span *ngIf="pub?.desertMenu?.length != 0" class="menu__title">{{ 'admin.company.menu.dessert' | translate }}</span>
+                    <div class="menu__card mat-elevation-z4" *ngFor="let desert of pub?.desertMenu; let index = index">
                         <span>{{ desert.name }}</span>
                         <span>{{ desert.size }} g</span>
                         <span>{{ desert.price }} Ron</span>
                         <span>{{ desert.make }}</span>
                     </div>
-                    <span *ngIf="pub.drinkMenu.length != 0" class="menu__title">{{ 'admin.company.menu.drink' | translate }}</span>
-                    <div class="menu__card mat-elevation-z4" *ngFor="let drink of pub.drinkMenu; let index = index">
+                    <span *ngIf="pub?.drinkMenu?.length != 0" class="menu__title">{{ 'admin.company.menu.drink' | translate }}</span>
+                    <div class="menu__card mat-elevation-z4" *ngFor="let drink of pub?.drinkMenu; let index = index">
                         <span>{{ drink.name }}</span>
                         <span>{{ drink.size }} g</span>
                         <span>{{ drink.price }} Ron</span>
@@ -200,7 +200,7 @@
                         <span *ngIf="pub?.openStateSaturday">{{ pub?.startingHourSaturday }} - {{ pub?.endingHourSaturday }}</span>
                         <span *ngIf="!pub?.openStateSaturday">{{ 'register.open.state.close' | translate }}</span>
                     </div>
-                    <div class="opening-state__row" [ngClass]="{'active': numberOfDay == 7}">
+                    <div class="opening-state__row" [ngClass]="{'active': numberOfDay == 0}">
                         <span class="opening-state__row--day">{{ 'register.open.state.sunday' | translate }}</span>
                         <span *ngIf="pub?.openStateSunday">{{ pub?.startingHourSunday }} - {{ pub?.endingHourSunday }}</span>
                         <span *ngIf="!pub?.openStateSunday">{{ 'register.open.state.close' | translate }}</span>

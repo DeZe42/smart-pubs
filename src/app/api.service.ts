@@ -11,6 +11,7 @@ import { map } from 'rxjs/operators';
 export class ApiService {
 
   pubs$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  pub$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   reservations$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   constructor(
@@ -131,7 +132,7 @@ export class ApiService {
               endingHourSaturday, startingHourSunday, endingHourSunday, aperitivMenu, mainMenu, desertMenu, drinkMenu };
           })
     ).subscribe((data: Pub) => {
-      this.pubs$.next(data);
+      this.pub$.next(data);
     });
   }
 

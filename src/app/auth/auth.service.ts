@@ -8,6 +8,7 @@ import { AngularFireStorage } from "@angular/fire/storage";
 import { MatDialog } from "@angular/material/dialog";
 import { ErrorDialogComponent } from "../shared/dialogs/error-dialog/error-dialog.component";
 import { InformationalDialogComponent } from "../shared/dialogs/informational-dialog/informational-dialog.component";
+import { User } from "../shared/models";
 
 @Injectable({
     providedIn: 'root'
@@ -30,16 +31,20 @@ export class AuthService {
     loadUser() {
         this.afAuth.authState.subscribe(user => {
             if (user) {
-                this.db.collection("users").doc(user.uid).valueChanges().subscribe((localeUser: any) => {
-                    this.user$.next({
-                        uid: localeUser.uid,
-                        name: localeUser.name,
-                        email: localeUser.email,
-                        phoneNumber: localeUser.phoneNumber,
-                        legalUser: localeUser.legalUser,
-                        emailVerified: localeUser.emailVerified,
-                        pubUid: localeUser.pubUid
-                    });
+                this.db.collection("users").doc(user.uid).snapshotChanges().pipe(map(a =>
+                    {
+                        const user: User = a.payload.data() as User;
+                        const uid = user.uid;
+                        const name = user.name;
+                        const email = user.email;
+                        const emailVerified = user.emailVerified;
+                        const legalUser = user.legalUser;
+                        const phoneNumber = user.phoneNumber;
+                        const pubUid = user.pubUid;
+                        return { uid, name, email, emailVerified, legalUser, phoneNumber, pubUid };
+                    })
+                ).subscribe((user: User) => {
+                    this.user$.next(user);
                 });
             }
         });
@@ -56,10 +61,40 @@ export class AuthService {
         });
     }
 
-    signIn(email, password) {
+    signIn(email, password, logInByLegalUser) {
         return this.afAuth.signInWithEmailAndPassword(email, password).then((result) => {
-            this.router.navigateByUrl('/');
-            this.setUserData(result.user);
+            let userSub = this.db.collection("users").doc(result.user.uid).snapshotChanges().pipe(map(a =>
+                {
+                    const user: User = a.payload.data() as User;
+                    const legalUser = user.legalUser;
+                    return { legalUser }
+                })
+            ).subscribe(data => {
+                if (data.legalUser && logInByLegalUser) {
+                    this.router.navigateByUrl('/');
+                    this.setUserData(result.user);
+                } else if (data.legalUser && !logInByLegalUser) {
+                    this.dialog.open(ErrorDialogComponent, {
+                        panelClass: "error-dialog",
+                        disableClose: true,
+                        data: "error.dialog.no.legal.user"
+                    });
+                    this.signOut();
+                } else if (!data.legalUser && logInByLegalUser) {
+                    this.dialog.open(ErrorDialogComponent, {
+                        panelClass: "error-dialog",
+                        disableClose: true,
+                        data: "error.dialog.no.private.user"
+                    });
+                    this.signOut();
+                } else if (!data.legalUser && !logInByLegalUser) {
+                    this.router.navigateByUrl('/');
+                    this.setUserData(result.user);
+                }
+                setTimeout(() => {
+                    userSub.unsubscribe();
+                }, 100);
+            })
         }).catch((error) => {
             this.dialog.open(ErrorDialogComponent, {
                 panelClass: "error-dialog",
@@ -85,6 +120,7 @@ export class AuthService {
                 userRef.set(userData, {
                     merge: true
                 });
+                this.loading$.next(false);
                 this.router.navigateByUrl('/auth/verify_email');
             }).catch((error) => {
                 this.dialog.open(ErrorDialogComponent, {
@@ -245,8 +281,7 @@ export class AuthService {
 
     signOut() {
         return this.afAuth.signOut().then(() => {
-            localStorage.removeItem('user');
-            this.router.navigateByUrl('/');
+            this.user$.next(null);
         });
     }
 }

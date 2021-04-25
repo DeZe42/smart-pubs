@@ -56,6 +56,13 @@
             margin: 0 0 32px 0;
             color: $orange;
         }
+        &--opening-state-red {
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 20px;
+            margin: 0 0 32px 0;
+            color: $red;
+        }
         &--layout {
             display: flex;
             .picture {
@@ -195,10 +202,16 @@
                     margin: 24px 0 32px 0;
                     .raised {
                         color: $white;
+                        &:disabled {
+                            color: rgba(255, 255, 255, 0.3);
+                        }
                     }
                     .stroked {
                         border: 2px solid $orange !important;
                         margin: 0 8px 0 0;
+                        &:disabled {
+                            border-color: rgba(255, 255, 255, 0.3) !important;
+                        }
                     }
                 }
                 &__tables {
@@ -264,6 +277,9 @@
                     height: 56px;
                     color: $white;
                     margin: 16px 0 0 0;
+                    &:disabled {
+                        color: rgba(255, 255, 255, 0.3);
+                    }
                 }
             }
         }

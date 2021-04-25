@@ -1,18 +1,21 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { EMAIL_REGEX, PHONE_REGEX } from 'src/app/auth/utils';
+import { User } from 'src/app/shared/models';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
 
   profileForm: FormGroup;
   user;
+  userSub: Subscription;
 
   constructor(
     private fb: FormBuilder,
@@ -26,16 +29,32 @@ export class ProfileComponent implements OnInit {
       email: [{value: '', disabled: true}, [Validators.required, Validators.pattern(EMAIL_REGEX)]],
       phoneNumber: ['', [Validators.required, Validators.pattern(PHONE_REGEX)]]
     });
-    this.authServvice.user$.subscribe(data => {
-      if (data) {
-        this.user = data;
+    this.userSub = this.authServvice.user$.subscribe((user: User) => {
+      if (user) {
+        this.user = user;
         this.profileForm.setValue({
-          name: data.name,
-          email: data.email,
-          phoneNumber: data.phoneNumber
+          name: user.name,
+          email: user.email,
+          phoneNumber: user.phoneNumber
         });
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.userSub.unsubscribe();
+  }
+  
+  back() {
+    this.location.back();
+  }
+
+  justNumbers(x) {
+    if (x.data >= '0' && x.data <= '9') {
+      this.profileForm.controls.phoneNumber.setValue(x.target.value);
+    } else {
+      this.profileForm.controls.phoneNumber.setValue(this.profileForm.controls.phoneNumber.value.slice(0, -1));
+    }
   }
 
   isOldData() {
@@ -46,10 +65,6 @@ export class ProfileComponent implements OnInit {
         return false;
       }
     }
-  }
-
-  back() {
-    this.location.back();
   }
 
   cancel() {

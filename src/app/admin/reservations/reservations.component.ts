@@ -1,24 +1,28 @@
 import { Location } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { ApiService } from 'src/app/api.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { Reservation, User } from 'src/app/shared/models';
 
 @Component({
   selector: 'app-reservations',
   templateUrl: './reservations.component.html',
   styleUrls: ['./reservations.component.scss']
 })
-export class ReservationsComponent implements OnInit {
+export class ReservationsComponent implements OnInit, OnDestroy {
 
-  reservations = [];
+  reservations: Reservation[] = [];
   displayedColumns: string[] = ['date', 'space', 'phoneNumber', 'status'];
   dataSource;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  reservationsSub: Subscription;
+  userSub: Subscription;
   
   constructor(
     private location: Location,
@@ -29,12 +33,12 @@ export class ReservationsComponent implements OnInit {
 
   ngOnInit(): void {
     this.apiService.loadReservations();
-    this.apiService.reservations$.subscribe(data => {
-      if (data) {
-        this.authService.user$.subscribe(user => {
+    this.reservationsSub = this.apiService.reservations$.subscribe((reservations: Reservation[]) => {
+      if (reservations) {
+        this.userSub = this.authService.user$.subscribe((user: User) => {
           if (user) {
             this.reservations = [];
-            data.forEach(element => {
+            reservations.forEach(element => {
               if (element.pub == user.pubUid) {
                 this.reservations.push(element);
               }
@@ -46,6 +50,11 @@ export class ReservationsComponent implements OnInit {
         });
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.reservationsSub.unsubscribe();
+    this.userSub.unsubscribe();
   }
 
   back() {

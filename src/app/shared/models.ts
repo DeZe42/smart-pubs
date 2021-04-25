@@ -1,3 +1,13 @@
+export interface User {
+    uid: string,
+    email: string,
+    emailVerified: boolean,
+    legalUser: boolean,
+    name: string,
+    phoneNumber: string,
+    pubUid?: string
+}
+
 export interface Pub {
     uid: string,
     imageSrc0,

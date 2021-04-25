@@ -1,9 +1,9 @@
 import { OverlayContainer } from '@angular/cdk/overlay';
-import { Component, HostBinding, OnInit } from '@angular/core';
+import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Event, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterOutlet } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { AuthService } from './auth/auth.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { AuthService } from './auth/auth.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
 
   currentLanguage;
   showFiller = false;
@@ -19,6 +19,7 @@ export class AppComponent implements OnInit {
   darkModeCtrl = new FormControl(false);
   isLoggedIn: Observable<any>;
   user;
+  userSub: Subscription;
 
   constructor(
     private translate: TranslateService,
@@ -58,7 +59,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authService.user$.subscribe(data => {
+    this.userSub = this.authService.user$.subscribe(data => {
       this.user = data;
     });
     this.translate.onLangChange.subscribe(data => {
@@ -79,6 +80,14 @@ export class AppComponent implements OnInit {
         this.overlay.getContainerElement().classList.remove(darkClassName);
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.userSub.unsubscribe();
+  }
+
+  onActivate(event) {
+    document.getElementById('content').scrollTo(0, 0);
   }
 
   prepareRoute(routerOutlet: RouterOutlet): string {

@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
 import { ApiService } from 'src/app/api.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { InformationalDialogComponent } from 'src/app/shared/dialogs/informational-dialog/informational-dialog.component';
-import { Pub, Reservation } from 'src/app/shared/models';
+import { Pub, Reservation, User } from 'src/app/shared/models';
 
 @Component({
   selector: 'app-pubs',
@@ -19,20 +19,24 @@ export class PubsComponent implements OnInit, OnDestroy {
 
   pub: Pub;
   reservations: Reservation[];
-  numberOfDay: number = 0;
   dateCtrl = new FormControl('', Validators.required);
   hoursCtrl = new FormControl('', Validators.required);
   minutesCtrl = new FormControl('', Validators.required);
+  personalData: FormGroup;
+  numberOfDay: number;
+  hours = [];
+  minutes = [];
+  tables;
   stage: number = 1;
   activeTable = null;
-  personalData: FormGroup;
   today = new Date();
+  dateFilter;
   imageSrc0;
   imageSrc1;
   imageSrc2;
-  tables;
-  minutes = [];
-  hours = [];
+  pubsSub: Subscription;
+  reservationsSub: Subscription;
+  userSub: Subscription;
   dateChanges: Subscription;
 
   constructor(
@@ -67,7 +71,7 @@ export class PubsComponent implements OnInit, OnDestroy {
     }
     this.numberOfDay = new Date().getDay();
     this.apiService.loadPub(this.route.snapshot.params['id']);
-    this.apiService.pubs$.subscribe((data: Pub) => {
+    this.pubsSub = this.apiService.pub$.subscribe((data: Pub) => {
       if (data) {
         this.pub = data;
         this.tables = data.tables;
@@ -77,17 +81,17 @@ export class PubsComponent implements OnInit, OnDestroy {
       }
     });
     this.apiService.loadReservations();
-    this.apiService.reservations$.subscribe(data => {
-      if (data) {
-        this.reservations = data;
+    this.reservationsSub = this.apiService.reservations$.subscribe((reservations: Reservation[]) => {
+      if (reservations) {
+        this.reservations = reservations;
       }
     });
-    this.authService.user$.subscribe(data => {
-      if (data) {
+    this.userSub = this.authService.user$.subscribe((user: User) => {
+      if (user) {
         this.personalData.setValue({
-          name: data.name,
-          email: data.email,
-          phoneNumber: data.phoneNumber
+          name: user.name,
+          email: user.email,
+          phoneNumber: user.phoneNumber
         });
       }
     });
@@ -142,7 +146,7 @@ export class PubsComponent implements OnInit, OnDestroy {
               this.hours.push(index);
             }
           }
-        } else if (data.getDay() == 7) {
+        } else if (data.getDay() == 0) {
           for (let index = Number(this.pub.startingHourSunday.slice(0, 2)); index < Number(this.pub.endingHourSunday.slice(0, 2)); index++) {
             if (index < 10) {
               this.hours.push('0' + index);
@@ -170,7 +174,14 @@ export class PubsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.pubsSub.unsubscribe();
+    this.reservationsSub.unsubscribe();
+    this.userSub.unsubscribe();
     this.dateChanges.unsubscribe();
+  }
+
+  back() {
+    this.location.back();
   }
 
   getOpenState(pub: Pub) {
@@ -187,19 +198,9 @@ export class PubsComponent implements OnInit, OnDestroy {
         return pub.openStateFriday;
       } else if (this.numberOfDay == 6) {
         return pub.openStateSaturday;
-      } else if (this.numberOfDay == 7) {
+      } else if (this.numberOfDay == 0) {
         return pub.openStateSunday;
       }
-    }
-  }
-
-  back() {
-    this.location.back();
-  }
-
-  chooseTable(table) {
-    if (!table.reserved) {
-      this.activeTable = table;
     }
   }
 
@@ -215,6 +216,54 @@ export class PubsComponent implements OnInit, OnDestroy {
     this.imageSrc0 = this.imageSrc1;
     this.imageSrc1 = this.imageSrc2;
     this.imageSrc2 = first;
+  }
+
+  disableDays = (d: Date): boolean => {
+    if (this.pub && d != null) {
+      let closeMonday = null;
+      let closeTuesDay = null;
+      let closeWednesDay = null;
+      let closeThursDay = null;
+      let closeFridayDay = null;
+      let closeSaturDay = null;
+      let closeSunDay = null;
+      if (!this.pub.openStateMonday) {
+        closeMonday = 1;
+      }
+      if (!this.pub.openStateTuesday) {
+        closeTuesDay = 2;
+      }
+      if (!this.pub.openStateWednesday) {
+        closeWednesDay = 3;
+      }
+      if (!this.pub.openStateThursday) {
+        closeThursDay = 4;
+      }
+      if (!this.pub.openStateFriday) {
+        closeFridayDay = 5;
+      }
+      if (!this.pub.startingHourSaturday) {
+        closeSaturDay = 6;
+      }
+      if (!this.pub.openStateSunday) {
+        closeSunDay = 0;
+      }
+      return d.getDay() !== closeMonday && d.getDay() !== closeTuesDay && d.getDay() !== closeWednesDay && d.getDay() !== closeThursDay && d.getDay() !== closeFridayDay && d.getDay() !== closeSaturDay && d.getDay() !== closeSunDay;
+    }
+  }
+
+  chooseTable(table) {
+    if (!table.reserved) {
+      this.activeTable = table;
+    }
+  }
+
+  justNumbers(x) {
+    if (x.data >= '0' && x.data <= '9') {
+      this.personalData.controls.phoneNumber.setValue(x.target.value);
+    } else {
+      this.personalData.controls.phoneNumber.setValue(this.personalData.controls.phoneNumber.value.slice(0, -1));
+    }
   }
 
   reservate() {

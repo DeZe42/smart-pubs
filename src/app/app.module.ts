@@ -16,6 +16,10 @@ import { ApiService } from './api.service';
 import { SafePipe } from './shared/safe.pipe';
 import { ErrorDialogComponent } from './shared/dialogs/error-dialog/error-dialog.component';
 import { InformationalDialogComponent } from './shared/dialogs/informational-dialog/informational-dialog.component';
+import { OverlayContainer } from '@angular/cdk/overlay';
+import { AuthService } from './auth/auth.service';
+import { AdminGuardService } from './admin/admin-guard.service';
+import { AuthGuardService } from './auth/auth-guard.service';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -48,11 +52,18 @@ export function createTranslateLoader(http: HttpClient) {
     })
   ],
   providers: [
+    AuthService,
     ApiService,
+    AuthGuardService,
+    AdminGuardService
     // { provide: LOCALE_ID, useValue: 'hu-HU'}
   ],
   bootstrap: [
     AppComponent
   ]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(overlayContainer: OverlayContainer) {
+    overlayContainer.getContainerElement().classList.add('dark-mode');
+  }
+}
