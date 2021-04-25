@@ -26,7 +26,7 @@ export class ReservationPageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.apiService.loadReservations();
-    this.apiService.reservations$.subscribe((reservations: Reservation[]) => {
+    this.reservationSub = this.apiService.reservations$.subscribe((reservations: Reservation[]) => {
       if (reservations) {
         reservations.forEach(element => {
           if (element.uid == this.route.snapshot.params['id']) {
@@ -36,7 +36,7 @@ export class ReservationPageComponent implements OnInit, OnDestroy {
         });
       }
     });
-    this.apiService.pub$.subscribe((pub: Pub) => {
+    this.pubSub = this.apiService.pub$.subscribe((pub: Pub) => {
       if (pub) {
         this.pub = pub;
       }
