@@ -19,9 +19,22 @@
             </div>
             <span class="sub-title">{{ 'pubs.space' | translate }}</span>
             <div class="space-number-container">
-                <span class="space-number-container__numbers">{{ currentSpace }}/{{ pub?.space }}</span>
-                <button mat-stroked-button color="primary" class="space-number-container__stroked" (click)="changeSpaceNumber('delete')" [disabled]="currentSpace == 0">{{ 'admin.company.delete.number' | translate | uppercase }}</button>
-                <button mat-raised-button color="primary" class="space-number-container__raised" (click)="changeSpaceNumber('add')" [disabled]="currentSpace == pub?.space">{{ 'admin.company.add.number' | translate | uppercase }}</button>
+                <span class="space-number-container__numbers">{{ pub?.space - currentSpace }}/{{ pub?.space }}</span>
+                <div class="space-number-container__tables">
+                    <div class="space-number-container__tables--person-card" *ngFor="let table of tables" (click)="chooseTable(table)" [ngClass]="{'normal': !table.reserved, 'active': activeTable == table, 'disabled': table.reserved}">
+                        <div class="reserved" *ngIf="table.reserved">
+                            <span>{{ 'pubs.reserved' | translate }}</span>
+                        </div>
+                        <img *ngIf="table.persons == 2" src="assets/images/2_person.png">
+                        <img *ngIf="table.persons == 4" src="assets/images/4_person.png">
+                        <span *ngIf="table.persons == 2">{{ 'pubs.two.person' | translate }}</span>
+                        <span *ngIf="table.persons == 4">{{ 'pubs.four.person' | translate }}</span>
+                    </div>
+                </div>
+                <div class="space-number-container__actions" *ngIf="activeTable != null">
+                    <button class="space-number-container__actions--stroked" mat-stroked-button color="primary" (click)="cancelChooseTable()">{{ 'register.cancel' | translate | uppercase }}</button>
+                    <button class="space-number-container__actions--raised" mat-raised-button color="primary" (click)="saveChooseTable()">{{ 'admin.profile.save' | translate | uppercase }}</button>
+                </div>
             </div>
             <span class="sub-title">{{ 'register.images.from.pubs' | translate }}</span>
             <span class="image-description">{{ 'register.images.text' | translate }}</span>

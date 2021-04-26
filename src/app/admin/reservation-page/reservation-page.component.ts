@@ -48,9 +48,6 @@ export class ReservationPageComponent implements OnInit, OnDestroy {
 
   setDone(value) {
     this.apiService.editReservation(this.reservation, value);
-    if (value == 'declined') {
-      this.apiService.changeCurrentSpacePub(this.pub, this.pub.currentSpace + this.reservation.spaceNumber);
-    }
     this.router.navigateByUrl('/admin/reservations');
   }
 }

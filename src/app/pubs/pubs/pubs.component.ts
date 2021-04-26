@@ -18,12 +18,14 @@ import { Pub, Reservation, User } from 'src/app/shared/models';
 export class PubsComponent implements OnInit, OnDestroy {
 
   pub: Pub;
-  reservations: Reservation[];
+  reservations: Reservation[] = [];
+  reservationsToday: Reservation[] = [];
   dateCtrl = new FormControl('', Validators.required);
   hoursCtrl = new FormControl('', Validators.required);
   minutesCtrl = new FormControl('', Validators.required);
   personalData: FormGroup;
   numberOfDay: number;
+  currentSpace: number = 0;
   hours = [];
   minutes = [];
   tables;
@@ -83,7 +85,21 @@ export class PubsComponent implements OnInit, OnDestroy {
     this.apiService.loadReservations();
     this.reservationsSub = this.apiService.reservations$.subscribe((reservations: Reservation[]) => {
       if (reservations) {
-        this.reservations = reservations;
+        this.reservationsToday = [];
+        reservations.forEach(element => {
+          if (element.pub == this.route.snapshot.params['id']) {
+            this.reservations.push(element);
+            if (element.date == this.date.transform(new Date(), 'yyyy-LL-dd')) {
+              this.reservationsToday.push(element);
+            }
+          }
+        });
+        this.currentSpace = 0;
+        this.reservationsToday.forEach(e => {
+          if (e.status == 'accepted' || e.status == 'pending') {
+            this.currentSpace += e.table.persons;
+          }
+        });
       }
     });
     this.userSub = this.authService.user$.subscribe((user: User) => {
@@ -275,7 +291,6 @@ export class PubsComponent implements OnInit, OnDestroy {
                                       this.personalData.controls.name.value,
                                       this.personalData.controls.email.value,
                                       this.personalData.controls.phoneNumber.value);
-    this.apiService.changeCurrentSpacePub(this.pub, this.pub.currentSpace - this.activeTable.persons)
     this.dialog.open(InformationalDialogComponent, {
       disableClose: true,
       data: 'informational.dialog.reservation.send.success',

@@ -142,6 +142,7 @@
     "admin.reservations.status.true": "Aprobat",
     "admin.reservations.status.false": "Neaprobat",
     "admin.reservations.status.pending": "În aşteptare",
+    "admin.reservations.status.leaved": "A plecat",
     "admin.reservations.empty": "Momentan nu există rezervări.",
     "admin.reservation.page.title" : "Formular de rezervare",
     "admin.reservation.page.date" : "Data rezervată",

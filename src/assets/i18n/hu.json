@@ -142,6 +142,7 @@
     "admin.reservations.status.true": "Jóváhagyva",
     "admin.reservations.status.false": "Elutasítva",
     "admin.reservations.status.pending": "Függőben",
+    "admin.reservations.status.leaved": "Távozott",
     "admin.reservations.empty": "Jelenleg nincsenek foglalások.",
     "admin.reservation.page.title" : "A foglalás adatlapja",
     "admin.reservation.page.date" : "A lefoglalt időpont",

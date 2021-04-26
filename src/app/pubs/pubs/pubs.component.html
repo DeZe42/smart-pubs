@@ -7,7 +7,7 @@
             <span class="title">{{ pub?.companyName }}</span>
             <div class="space">
                 <span>{{ 'pubs.space' | translate }}:</span>
-                <span><b>{{ pub?.currentSpace }}/{{ pub?.space }}</b></span>
+                <span><b>{{ pub?.space - currentSpace }}/{{ pub?.space }}</b></span>
             </div>
         </div>
         <span class="pubs__content--opening-state" *ngIf="numberOfDay == 1 && getOpenState(pub)">{{ 'home.opening.hours' | translate }}: {{ pub?.startingHourMonday }} - {{ pub?.endingHourMonday }}</span>

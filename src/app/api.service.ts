@@ -68,10 +68,11 @@ export class ApiService {
               const mainMenu = pub.mainMenu;
               const desertMenu = pub.desertMenu;
               const drinkMenu = pub.drinkMenu;
+              const reservationsToday = pub.reservationsToday;
               return { uid, imageSrc0, imageSrc1, imageSrc2, companyName, country, contry, city, address, twoPerson, fourPerson, tables, space, currentSpace, description, openStateMonday, openStateTuesday, openStateWednesday,
                 openStateThursday, openStateFriday, openStateSaturday, openStateSunday, startingHourMonday, endingHourMonday, startingHourTuesday, endingHourTuesday,
                 startingHourWednesday, endingHourWednesday, startingHourThursday, endingHourThursday, startingHourFriday, endingHourFriday, startingHourSaturday,
-                endingHourSaturday, startingHourSunday, endingHourSunday, aperitivMenu, mainMenu, desertMenu, drinkMenu };
+                endingHourSaturday, startingHourSunday, endingHourSunday, aperitivMenu, mainMenu, desertMenu, drinkMenu, reservationsToday };
             });
         }
       ))
@@ -140,16 +141,6 @@ export class ApiService {
     const pubRef: AngularFirestoreDocument<any> = this.db.doc(`pubs/${pub.uid}`);
     const pubData = {
       companyName: companyName
-    }
-    return pubRef.set(pubData, {
-      merge: true
-    });
-  }
-
-  editSpaceNumberToPub(pub, currentSpace) {
-    const pubRef: AngularFirestoreDocument<any> = this.db.doc(`pubs/${pub.uid}`);
-    const pubData = {
-      currentSpace: currentSpace
     }
     return pubRef.set(pubData, {
       merge: true
@@ -261,16 +252,6 @@ export class ApiService {
     });
   }
 
-  changeCurrentSpacePub(pub, currentSpace) {
-    const pubRef: AngularFirestoreDocument<any> = this.db.doc(`pubs/${pub.uid}`);
-    const pubData = {
-      currentSpace: currentSpace
-    }
-    return pubRef.set(pubData, {
-      merge: true
-    });
-  }
-
   loadReservations() {
     this.db.collection("reservations")
       .snapshotChanges()
@@ -298,7 +279,7 @@ export class ApiService {
       });
   }
 
-  createReservation(pub, pubName, date, time, table, name, email, phoneNumber) {
+  createReservation(pub, pubName, date, time, table, name, email, phoneNumber, accepted?) {
     const dataRef: AngularFirestoreCollection<any> = this.db.collection("reservations");
     const data = {
       pub: pub,
@@ -310,7 +291,7 @@ export class ApiService {
       name: name,
       email: email,
       phoneNumber: phoneNumber,
-      status: 'pending'
+      status: accepted ? accepted : 'pending'
     }
     dataRef.add(data).then(newRef => {
       let reservationRef: AngularFirestoreDocument<any> = this.db.collection("reservations").doc(newRef.id);
@@ -331,6 +312,10 @@ export class ApiService {
     return pubRef.set(pubData, {
       merge: true
     });
+  }
+
+  deleteReservation(uid) {
+    this.db.collection("reservations").doc(uid).delete();
   }
 
   createQuestion(name, email, question) {

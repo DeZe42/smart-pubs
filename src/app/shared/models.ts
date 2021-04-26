@@ -48,7 +48,8 @@ export interface Pub {
     aperitivMenu: [],
     mainMenu: [],
     desertMenu: [],
-    drinkMenu: []
+    drinkMenu: [],
+    reservationsToday?: Reservation[]
 }
 
 export interface Pubs extends Array<Pub> {

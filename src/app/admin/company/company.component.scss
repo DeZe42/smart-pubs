@@ -61,28 +61,73 @@
             }
             .space-number-container {
                 display: flex;
-                align-items: center;
+                flex-direction: column;
                 margin: 0 0 32px 0;
                 &__numbers {
-                    font-size: 18px;
+                    font-size: 20px;
                     line-height: 26px;
                     font-weight: bold;
-                    margin: 0 16px 0 0;
+                    color: $orange;
+                    margin: 0 0 24px 0;
                 }
-                button {
-                    height: 36px;
-                }
-                &__stroked {
-                    border: 2px solid $orange !important;
-                    margin: 0 12px 0 0;
-                    &:disabled {
-                        border-color:rgba(255, 255, 255, 0.3) !important;
+                &__tables {
+                    display: flex;
+                    flex-wrap: wrap;
+                    &--person-card {
+                        display: flex;
+                        flex-direction: column;
+                        width: 160px;
+                        height: 185px;
+                        padding: 16px;
+                        box-sizing: border-box;
+                        border: 1px solid #CCCCCC;
+                        margin: 2px;
+                        cursor: pointer;
+                        position: relative;
+                        &.normal {
+                            &:hover {
+                                border-color: $orange;
+                                box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.3);
+                            }
+                        }
+                        &.active {
+                            border: 2px solid #E57A00;
+                            background-color: #F8D2AD;
+                            box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.3);
+                        }
+                        &.disabled {
+                            border: none;
+                        }
+                        .reserved {
+                            position: absolute;
+                            top: 64px;
+                            left: 40px;
+                            display: flex;
+                            padding: 8px 16px;
+                            box-sizing: border-box;
+                            border-radius: 16px;
+                            background-color: #FDF1E5;
+                            color: $orange;
+                        }
+                        img {
+                            width: 100%;
+                            margin: auto;
+                        }
+                        span {
+                            font-size: 14px;
+                            font-weight: 500;
+                            margin: 0 auto;
+                        }
                     }
                 }
-                &__raised {
-                    color: $white;
-                    &:disabled {
-                        color: rgba(255, 255, 255, 0.3);
+                &__actions {
+                    margin: 16px 0 8px 0;
+                    &--stroked {
+                        border: 2px solid $orange !important;
+                        margin: 0 8px 0 auto;
+                    }
+                    &--raised {
+                        color: $white;
                     }
                 }
             }

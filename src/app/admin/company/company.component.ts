@@ -1,18 +1,21 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ApiService } from 'src/app/api.service';
 import { AuthService } from 'src/app/auth/auth.service';
-import { Pub, User } from 'src/app/shared/models';
+import { Pub, Reservation, User } from 'src/app/shared/models';
 
 @Component({
   selector: 'app-company',
   templateUrl: './company.component.html',
-  styleUrls: ['./company.component.scss']
+  styleUrls: ['./company.component.scss'],
+  providers: [DatePipe]
 })
 export class CompanyComponent implements OnInit, OnDestroy {
 
   pub: Pub;
+  reservationsToday: Reservation[] = [];
   companyName = new FormControl('', Validators.required);
   description = new FormControl('', Validators.required);
   tableForm: FormGroup;
@@ -30,7 +33,10 @@ export class CompanyComponent implements OnInit, OnDestroy {
   mainMenu = [];
   desertMenu = [];
   drinkMenu = [];
+  tables = [];
+  pubUid: string = '';
   currentSpace: number = 0;
+  activeTable = null;
   delayTimer = null;
   imgURL1;
   imgURL2;
@@ -38,12 +44,13 @@ export class CompanyComponent implements OnInit, OnDestroy {
   imageList = [];
   userSub: Subscription;
   pubSub: Subscription;
-  formSub: Subscription;
+  reservationsSub: Subscription;
 
   constructor(
     private authService: AuthService,
     private apiService: ApiService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private date: DatePipe
   ) { }
 
   ngOnInit(): void {
@@ -103,15 +110,48 @@ export class CompanyComponent implements OnInit, OnDestroy {
       city: ['', Validators.required],
       address: ['', Validators.required]
     });
+    this.apiService.loadReservations();
     this.userSub = this.authService.user$.subscribe((user: User) => {
       if (user) {
-        this.apiService.loadPub(user.pubUid);
+        this.pubUid = user.pubUid;
+        this.apiService.loadPub(this.pubUid);
+      }
+    });
+    this.reservationsSub = this.apiService.reservations$.subscribe((reservations: Reservation[]) => {
+      if (reservations) {
+        this.reservationsToday = [];
+        reservations.forEach(element => {
+          if (this.pubUid != '') {
+            if (element.pub == this.pubUid) {
+              if (element.date == this.date.transform(new Date(), 'yyyy-LL-dd')) {
+                this.reservationsToday.push(element);
+              }
+            }
+          }
+        });
+        this.currentSpace = 0;
+        this.reservationsToday.forEach(e => {
+          if (e.status == 'accepted' || e.status == 'pending') {
+            this.currentSpace += e.table.persons;
+          }
+          if (e.date == this.date.transform(new Date(), 'yyyy-LL-dd')) {
+            this.tables.forEach(element => {
+              if (e.table.id == element.id && e.table.persons == element.persons && (e.status == 'accepted' || e.status == 'pending')) {
+                element.reserved = true;
+              }
+            });
+          } else {
+            this.tables.forEach(element => {
+              element.reserved = false;
+            });
+          }
+        });
       }
     });
     this.pubSub = this.apiService.pub$.subscribe((pub: Pub) => {
       if (pub) {
         this.pub = pub;
-        this.currentSpace = this.pub.currentSpace;
+        this.tables = pub.tables;
         this.imgURL1 = pub.imageSrc0;
         this.imgURL2 = pub.imageSrc1;
         this.imgURL3 = pub.imageSrc2;
@@ -154,6 +194,19 @@ export class CompanyComponent implements OnInit, OnDestroy {
           city: pub.city,
           address: pub.address
         });
+        this.reservationsToday.forEach(e => {
+          if (e.date == this.date.transform(new Date(), 'yyyy-LL-dd')) {
+            this.tables.forEach(element => {
+              if (e.table.id == element.id && e.table.persons == element.persons && (e.status == 'accepted' || e.status == 'pending')) {
+                element.reserved = true;
+              }
+            });
+          } else {
+            this.tables.forEach(element => {
+              element.reserved = false;
+            });
+          }
+        });
       }
     });
   }
@@ -161,6 +214,7 @@ export class CompanyComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.userSub.unsubscribe();
     this.pubSub.unsubscribe();
+    this.reservationsSub.unsubscribe();
   }
 
   justNumbersForAperitivSize(x) {
@@ -245,16 +299,25 @@ export class CompanyComponent implements OnInit, OnDestroy {
     this.apiService.editCompanyNameToPub(this.pub, this.companyName.value);
   }
 
-  changeSpaceNumber(value) {
-    if (value == 'delete') {
-      this.currentSpace -= 1;
-    } else if (value == 'add') {
-      this.currentSpace += 1;
+  chooseTable(table) {
+    this.activeTable = table;
+  }
+
+  cancelChooseTable() {
+    this.activeTable = null;
+  }
+
+  saveChooseTable() {
+    if (this.activeTable.reserved) {
+      let reservation = this.reservationsToday.filter(reservation => reservation.table.id == this.activeTable.id && reservation.table.persons == this.activeTable.persons)[0];
+      this.apiService.deleteReservation(reservation.uid);
+      this.activeTable = null;
+      this.apiService.loadReservations();
+    } else {
+      this.activeTable.reserved = true;
+      this.apiService.createReservation(this.pub.uid, this.pub.companyName, this.date.transform(new Date(), 'yyyy-LL-dd'), '10:00', this.activeTable, 'admin', 'admin', 'admin', 'accepted');
+      this.activeTable = null;
     }
-    clearTimeout(this.delayTimer);
-    this.delayTimer = setTimeout(() => {
-      this.apiService.editSpaceNumberToPub(this.pub, this.currentSpace);
-    }, 2000);
   }
 
   showImageButtons() {

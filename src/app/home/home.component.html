@@ -34,10 +34,10 @@
                         <span class="opening-hours" *ngIf="numberOfDay == 7">{{ 'home.opening.hours' | translate }}:<br>{{ pub.startingHourSunday }} - {{ pub.endingHourSunday }}</span>
                         <span class="opening-state" *ngIf="!getOpenState(pub)">{{ 'register.open.state.close' | translate }}</span>
                     </div>
-                    <div class="card__details--space">
+                    <!-- <div class="card__details--space">
                         <span class="space-number">{{ pub.currentSpace }}/{{ pub.space }}</span>
                         <span class="space-text">{{ 'home.current.space' | translate }}</span>
-                    </div>
+                    </div> -->
                 </div>
             </mat-card>
         </div>
