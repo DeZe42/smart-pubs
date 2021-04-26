@@ -93,7 +93,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   isHome() {
-    if (this.router.url == '/') {
+    if (this.router.url == '/' || this.router.url.startsWith('/pubs')) {
       return true
     }
     return false;
@@ -105,6 +105,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
   prepareRoute(routerOutlet: RouterOutlet): string {
     return routerOutlet && routerOutlet.activatedRouteData && routerOutlet.activatedRouteData[ 'animation' ];
+  }
+
+  useLanguagePanel(language: string, panel) {
+    panel.close();
+    this.translate.use(language);
+    this.currentLanguage = this.translate.currentLang;
+    localStorage.setItem('language', language);
   }
 
   useLanguage(language: string) {
