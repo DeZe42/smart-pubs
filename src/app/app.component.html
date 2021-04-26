@@ -6,7 +6,7 @@
         </div>
         <mat-list-item class="container__sidenav--items" (click)="drawer.close()" routerLink="/" [ngClass]="{'active': isHome()}"><mat-icon>home</mat-icon>{{ 'header.home' | translate }}</mat-list-item>
         <mat-list-item *ngIf="(isLoggedIn | async)" class="container__sidenav--items" (click)="drawer.close()" routerLink="/admin" [routerLinkActive]="['active']"><mat-icon>dashboard</mat-icon><span>{{ 'header.dashboard' | translate }}</span></mat-list-item>
-        <mat-list-item *ngIf="(!isLoggedIn | async)" class="container__sidenav--items" (click)="drawer.close()" routerLink="/auth" [routerLinkActive]="['active']"><mat-icon>account_circle</mat-icon><span>{{ 'header.login' | translate }}</span></mat-list-item>
+        <mat-list-item *ngIf="!(isLoggedIn | async)"  class="container__sidenav--items" (click)="drawer.close()" routerLink="/auth" [routerLinkActive]="['active']"><mat-icon>account_circle</mat-icon><span>{{ 'header.login' | translate }}</span></mat-list-item>
         <mat-list-item class="container__sidenav--items"><mat-icon>bedtime</mat-icon><span>{{ 'header.dark.mode' | translate }}</span><mat-slide-toggle  color="primary" [formControl]="darkModeCtrl"></mat-slide-toggle></mat-list-item>
         <mat-accordion>
           <mat-expansion-panel>
@@ -19,7 +19,7 @@
             <a mat-list-item [ngClass]="{'active': currentLanguage == 'ro'}" (click)="useLanguage('hu')"><span>{{ 'header.languages.ro' | translate }}</span><mat-icon>checked</mat-icon></a>
           </mat-expansion-panel>
         </mat-accordion>
-        <mat-list-item *ngIf="(isLoggedIn | async)" class="container__sidenav--items" (click)="signOut()"><mat-icon>logout</mat-icon><span>{{ 'header.logout' | translate }}</span></mat-list-item>
+        <mat-list-item *ngIf="(isLoggedIn | async)" (click)="drawer.close()" class="container__sidenav--items" (click)="signOut()"><mat-icon>logout</mat-icon><span>{{ 'header.logout' | translate }}</span></mat-list-item>
       </mat-nav-list>
     </mat-drawer>
     <mat-drawer-content class="container__content">

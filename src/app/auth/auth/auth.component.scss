@@ -164,3 +164,100 @@
         }
     }
 }
+
+@media only screen and (max-width: 768px) {
+    .auth {
+        .private {
+            position: absolute;
+            background-color: $white;
+            transition: all 0.5s;
+            top: 0%;
+            &.close {
+                position: fixed;
+                top: -100%;
+            }
+        }
+        .legal {
+            position: absolute;
+            color: $white;
+            background-color: $orange;
+            transition: all 0.5s;
+            bottom: 0%;
+            &.close {
+                position: fixed;
+                bottom: -50%;
+            }
+        }
+        &__back {
+            height: 36px;
+            top: 16px;
+            left: 16px;
+            font-size: 14px;
+        }
+        &__content {
+            padding: 16px 16px 16px 16px;
+            width: 100%;
+            height: 50%;
+            &--login {
+                height: unset;
+                margin: auto 0;
+                .login-private {
+                    font-size: 20px;
+                    line-height: 24px;
+                    margin: 0 0 8px 0;
+                }
+                .login-private-text {
+                    font-size: 16px;
+                    margin: 0 0 8px 0;
+                }
+                .login {
+                    height: 36px;
+                    font-size: 14px;
+                    margin: 0 0 8px 0;
+                }
+                .login-legal {
+                    height: 36px;
+                    font-size: 14px;
+                    margin: 0 0 8px 0;
+                }
+                .register-text {
+                    font-size: 14px;
+                    line-height: 18px;
+                    margin: 0 0 8px 0;
+                }
+                .register {
+                    height: 36px;
+                    margin: 0;
+                    font-size: 14px;
+                    margin: 0 0 0 0;
+                }
+                .register-legal {
+                    height: 36px;
+                    margin: 0 0 0 0;
+                    font-size: 14px;
+                }
+            }
+        }
+        &__logo {
+            display: none;
+        }
+        &__footer-text {
+            display: none;
+        }
+        &__router {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-y: auto;
+            width: 0;
+            height: 0;
+            opacity: 0;
+            transition: all 0.5s;
+            &.active {
+                width: 100%;
+                height: 100%;
+                opacity: 1;
+            }
+        }
+    }
+}

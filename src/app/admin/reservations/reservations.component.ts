@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -25,7 +24,6 @@ export class ReservationsComponent implements OnInit, OnDestroy {
   userSub: Subscription;
   
   constructor(
-    private location: Location,
     private apiService: ApiService,
     private authService: AuthService,
     private router: Router
@@ -55,10 +53,6 @@ export class ReservationsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.reservationsSub.unsubscribe();
     this.userSub.unsubscribe();
-  }
-
-  back() {
-    this.location.back();
   }
 
   navigateToEditPage(uid) {

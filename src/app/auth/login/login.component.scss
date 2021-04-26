@@ -8,6 +8,7 @@
     text-align: center;
     margin: auto;
     padding: 160px 0;
+    box-sizing: border-box;
     &__container {
         display: flex;
         flex-direction: column;
@@ -53,8 +54,51 @@
             margin: 0 0 32px 0;
         }
         .register {
+            margin: 0 0 16px 0;
+        }
+        .back {
             border: 2px solid $orange !important;
             margin: 0 0 auto 0;
+        }
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .login {
+        padding: 0 16px 16px 16px;
+        margin: 16px 0 0 0;
+        &__container {
+            &--private {
+                font-size: 20px;
+                line-height: 24px;
+                margin: 0 0 16px 0;
+            }
+            &--private-text {
+                font-size: 16px;
+                margin: 0 0 36px 0;
+            }
+            form {
+                margin: 0 !important;
+            }
+            button {
+                font-size: 14px;
+                height: 36px;
+                margin: 0 0 8px 0;
+            }
+            .register-text {
+                font-size: 16px;
+                margin: auto 0 16px 0;
+            }
+            .white-button {
+                margin: 0 0 8px 0 !important;
+            }
+            .register {
+                margin: 0 0 8px 0;
+            }
+            .back {
+                border: 2px solid $orange !important;
+                margin: 0 0 auto 0;
+            }
         }
     }
 }

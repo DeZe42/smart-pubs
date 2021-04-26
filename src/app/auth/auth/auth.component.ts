@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { fader } from 'src/app/route-animations';
@@ -16,7 +15,6 @@ export class AuthComponent implements OnInit {
 
   constructor(
     public router: Router,
-    private location: Location,
     public authService: AuthService
   ) { }
 
@@ -25,9 +23,5 @@ export class AuthComponent implements OnInit {
 
   prepareRoute(routerOutlet: RouterOutlet): string {
     return routerOutlet && routerOutlet.activatedRouteData && routerOutlet.activatedRouteData[ 'animation' ];
-  }
-
-  back() {
-    this.location.back();
   }
 }

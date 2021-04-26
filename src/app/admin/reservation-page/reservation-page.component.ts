@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -18,7 +17,6 @@ export class ReservationPageComponent implements OnInit, OnDestroy {
   pubSub: Subscription;
 
   constructor(
-    private location: Location,
     private apiService: ApiService,
     private route: ActivatedRoute,
     private router: Router
@@ -46,10 +44,6 @@ export class ReservationPageComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.reservationSub.unsubscribe();
     this.pubSub.unsubscribe();
-  }
-
-  back() {
-    this.location.back();
   }
 
   setDone(value) {

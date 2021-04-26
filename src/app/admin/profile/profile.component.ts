@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -19,8 +18,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private authServvice: AuthService,
-    private location: Location
+    private authServvice: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -43,10 +41,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.userSub.unsubscribe();
-  }
-  
-  back() {
-    this.location.back();
   }
 
   justNumbers(x) {

@@ -1,7 +1,7 @@
 <section class="profile">
     <div class="profile__content">
         <div>
-            <button mat-stroked-button color="primary" class="profile__content--back" (click)="back()"><mat-icon>arrow_back</mat-icon>{{ 'auth.back.button' | translate | uppercase }}</button>
+            <button mat-stroked-button color="primary" class="profile__content--back" routerLink="/admin"><mat-icon>arrow_back</mat-icon>{{ 'auth.back.button' | translate | uppercase }}</button>
         </div>
         <span class="profile__content--title">{{ 'admin.profile' | translate }}</span>
         <form [formGroup]="profileForm">

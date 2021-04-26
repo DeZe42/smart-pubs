@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -42,7 +41,6 @@ export class CompanyComponent implements OnInit, OnDestroy {
   formSub: Subscription;
 
   constructor(
-    private location: Location,
     private authService: AuthService,
     private apiService: ApiService,
     private fb: FormBuilder
@@ -165,8 +163,68 @@ export class CompanyComponent implements OnInit, OnDestroy {
     this.pubSub.unsubscribe();
   }
 
-  back() {
-    this.location.back();
+  justNumbersForAperitivSize(x) {
+    if (x.data >= '0' && x.data <= '9') {
+      this.aperitivForm.controls.size.setValue(x.target.value);
+    } else {
+      this.aperitivForm.controls.size.setValue(this.aperitivForm.controls.size.value.slice(0, -1));
+    }
+  }
+
+  justNumbersForAperitivPrice(x) {
+    if (x.data >= '0' && x.data <= '9') {
+      this.aperitivForm.controls.price.setValue(x.target.value);
+    } else {
+      this.aperitivForm.controls.price.setValue(this.aperitivForm.controls.price.value.slice(0, -1));
+    }
+  }
+
+  justNumbersForMainSize(x) {
+    if (x.data >= '0' && x.data <= '9') {
+      this.mainMenuForm.controls.size.setValue(x.target.value);
+    } else {
+      this.mainMenuForm.controls.size.setValue(this.mainMenuForm.controls.size.value.slice(0, -1));
+    }
+  }
+
+  justNumbersForMainPrice(x) {
+    if (x.data >= '0' && x.data <= '9') {
+      this.mainMenuForm.controls.price.setValue(x.target.value);
+    } else {
+      this.mainMenuForm.controls.price.setValue(this.mainMenuForm.controls.price.value.slice(0, -1));
+    }
+  }
+
+  justNumbersForDesertSize(x) {
+    if (x.data >= '0' && x.data <= '9') {
+      this.desertForm.controls.size.setValue(x.target.value);
+    } else {
+      this.desertForm.controls.size.setValue(this.desertForm.controls.size.value.slice(0, -1));
+    }
+  }
+
+  justNumbersForDesertPrice(x) {
+    if (x.data >= '0' && x.data <= '9') {
+      this.desertForm.controls.price.setValue(x.target.value);
+    } else {
+      this.desertForm.controls.price.setValue(this.desertForm.controls.price.value.slice(0, -1));
+    }
+  }
+
+  justNumbersForDrinkSize(x) {
+    if (x.data >= '0' && x.data <= '9') {
+      this.drinkForm.controls.size.setValue(x.target.value);
+    } else {
+      this.drinkForm.controls.size.setValue(this.drinkForm.controls.size.value.slice(0, -1));
+    }
+  }
+
+  justNumbersForDrinkPrice(x) {
+    if (x.data >= '0' && x.data <= '9') {
+      this.drinkForm.controls.price.setValue(x.target.value);
+    } else {
+      this.drinkForm.controls.price.setValue(this.drinkForm.controls.price.value.slice(0, -1));
+    }
   }
 
   showCompanyButtons() {

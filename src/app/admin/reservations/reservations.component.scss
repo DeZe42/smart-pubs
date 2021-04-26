@@ -10,6 +10,7 @@
         max-width: 1440px;
         width: 100%;
         margin: 0 auto;
+        box-sizing: border-box;
         &--back {
             border: 2px solid $orange !important;
             margin: 56px 0;
@@ -29,7 +30,7 @@
         &--table {
             display: flex;
             flex-direction: column;
-            table {
+            .mat-table {
                 width: 100%;
                 .mat-row {
                     cursor: pointer;
@@ -43,6 +44,29 @@
                 font-size: 30px;
                 line-height: 40px;
                 margin: 56px auto;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .reservation {
+        &__content {
+            padding: 16px;
+            &--back {
+                margin: 0 0 24px 0;
+            }
+            &--title {
+                font-size: 20px;
+                line-height: 24px;
+                margin: 0 0 24px 0;
+            }
+            &--empty {
+                .empty {
+                    font-size: 16px;
+                    line-height: 20px;
+                    margin: 24px auto;
+                }
             }
         }
     }

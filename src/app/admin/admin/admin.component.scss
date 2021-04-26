@@ -4,6 +4,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    box-sizing: border-box;
     &__content {
         display: flex;
         max-width: 1440px;
@@ -54,6 +55,49 @@
                 line-height: 30px;
                 font-weight: 500;
                 margin: 16px 0 0 0;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .admin {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 16px;
+        &__content {
+            flex-direction: column;
+            margin: auto;
+            justify-content: space-between;
+            &--button-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                &:first-child {
+                    margin: 0 0 24px 0;
+                }
+                &:last-child {
+                    margin: 24px 0 0 0;
+                }
+                &.active {
+                    margin: 0 auto;
+                }
+                .button {
+                    width: 60px;
+                    height: 60px;
+                    mat-icon {
+                        font-size: 40px;
+                        height: 40px;
+                        width: 40px;
+                    }
+                }
+                .title {
+                    font-size: 16px;
+                    line-height: 24px;
+                    margin: 8px 0 0 0;
+                }
             }
         }
     }

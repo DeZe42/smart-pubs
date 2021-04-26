@@ -20,6 +20,7 @@
         <button class="white-button" mat-stroked-button color="primary" routerLink="/auth/forgot_password">{{ 'login.cant.login' | translate | uppercase }}</button>
         <span *ngIf="router.url == '/auth/private_login'" class="register-text">{{ 'auth.login.private.no.account' | translate }}</span>
         <span *ngIf="router.url == '/auth/legal_login'" class="register-text">{{ 'auth.login.legal.no.account' | translate }}</span>
-        <button class="register" mat-stroked-button color="primary" routerLink="/auth/private_register">{{ 'register' | translate | uppercase }}</button>
+        <button class="register" mat-raised-button color="primary" routerLink="/auth/private_register">{{ 'register' | translate | uppercase }}</button>
+        <button class="back" mat-stroked-button color="primary" routerLink="/auth">{{ 'register.cancel' | translate | uppercase }}</button>
     </div>
 </section>

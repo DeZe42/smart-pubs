@@ -2,8 +2,8 @@
     <mat-spinner color="primary"></mat-spinner>
 </div>
 <section class="auth" [ngClass]="{'active': router.url.startsWith('/auth')}">
-    <div class="auth__back">
-        <button mat-stroked-button color="primary" (click)="back()"><mat-icon>arrow_back</mat-icon>{{ 'auth.back.button' | translate | uppercase }}</button>
+    <div class="auth__back" *ngIf="router.url == '/auth'">
+        <button mat-stroked-button color="primary" routerLink="/"><mat-icon>arrow_back</mat-icon>{{ 'auth.back.button' | translate | uppercase }}</button>
     </div>
     <div class="auth__content private" [ngClass]="{'close': router.url != '/auth'}">
         <div class="auth__content--login">

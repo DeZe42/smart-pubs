@@ -278,6 +278,7 @@
                 .footer {
                     padding: 0 16px;
                     &__footer-container {
+                        justify-content: center;
                         &--title {
                             display: none;
                         }

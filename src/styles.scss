@@ -91,6 +91,11 @@ $smart-pubs-dark-theme: mat-dark-theme($smart-pubs-app-primary, $smart-pubs-app-
       background-color: #303030 !important;
     }
   }
+  .auth {
+    &__back {
+      background-color: #303030 !important;
+    }
+  }
   .auth, .private, .home, .loading {
     background-color: #303030 !important;
   }
@@ -131,6 +136,12 @@ $custom-typography: mat-typography-config(
   border-radius: 0 !important;
 }
 
+.auth {
+  &__back {
+    background-color: #FFFFFF !important;
+  }
+}
+
 .mat-button,
 .mat-raised-button,
 .mat-flat-button,
@@ -142,10 +153,15 @@ $custom-typography: mat-typography-config(
 router-outlet + *:not(app-home, app-pubs, app-company) {
   display: flex;
   height: 100%;
-  width: 100%;
 }
 
 .error-dialog .mat-dialog-container {
   width: 560px;
   border-radius: 0;
+}
+
+@media only screen and (max-width: 768px) {
+  router-outlet + app-reservation-page {
+    height: unset;
+  }
 }

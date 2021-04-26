@@ -200,7 +200,7 @@
                     filter: invert(72%) sepia(69%) saturate(6076%) hue-rotate(9deg) brightness(98%) contrast(101%);
                 }
                 .next {
-                    margin: 24px 0 32px 0;
+                    margin: 12px 0 32px 0;
                     .raised {
                         color: $white;
                         &:disabled {
@@ -272,7 +272,6 @@
                 form {
                     display: flex;
                     flex-direction: column;
-                    margin: 32px 0 0 0;
                 }
                 &__button {
                     height: 56px;
@@ -402,6 +401,22 @@
                         &--person-card {
                             margin: 2px auto;
                         }
+                    }
+                }
+            }
+            &--description {
+                .opening-state {
+                    &__row {
+                        span {
+                            font-size: 16px;
+                            line-height: 20px;
+                        }
+                    }
+                }
+                .address {
+                    span {
+                        font-size: 16px;
+                        line-height: 20px;
                     }
                 }
             }

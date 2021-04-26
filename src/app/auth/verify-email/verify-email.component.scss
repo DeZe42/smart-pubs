@@ -33,3 +33,26 @@
         }
     }
 }
+
+@media only screen and (max-width: 768px) {
+    .verify-email {
+        margin: auto 0;
+        padding: 0 16px;
+        &__container {
+            &--title {
+                font-size: 20px;
+                line-height: 24px;
+                margin: 0 0 24px 0;
+            }
+            &--text {
+                font-size: 16px;
+                line-height: 20px;
+                margin: 0 0 24px 0;
+            }
+            button {
+                height: 36px;
+                font-size: 14px;
+            }
+        }
+    }
+}
