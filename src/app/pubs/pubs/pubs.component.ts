@@ -221,17 +221,29 @@ export class PubsComponent implements OnInit, OnDestroy {
   }
 
   previousPicture() {
-    let first = this.imageSrc2;
-    this.imageSrc2 = this.imageSrc1;
-    this.imageSrc1 = this.imageSrc0;
-    this.imageSrc0 = first;
+    if (this.imageSrc0 && this.imageSrc1 && !this.imageSrc2) {
+      let first = this.imageSrc1;
+      this.imageSrc1 = this.imageSrc0;
+      this.imageSrc0 = first;
+    } else if (this.imageSrc0 && this.imageSrc1 && this.imageSrc2) {
+      let first = this.imageSrc2;
+      this.imageSrc2 = this.imageSrc1;
+      this.imageSrc1 = this.imageSrc0;
+      this.imageSrc0 = first;
+    }
   }
 
   nextPicture() {
-    let first = this.imageSrc0;
-    this.imageSrc0 = this.imageSrc1;
-    this.imageSrc1 = this.imageSrc2;
-    this.imageSrc2 = first;
+    if (this.imageSrc0 && this.imageSrc1 && !this.imageSrc2) {
+      let first = this.imageSrc0;
+      this.imageSrc0 = this.imageSrc1;
+      this.imageSrc1 = first;
+    } else if (this.imageSrc0 && this.imageSrc1 && this.imageSrc2) {
+      let first = this.imageSrc0;
+      this.imageSrc0 = this.imageSrc1;
+      this.imageSrc1 = this.imageSrc2;
+      this.imageSrc2 = first;
+    }
   }
 
   disableDays = (d: Date): boolean => {
