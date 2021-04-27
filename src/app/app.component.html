@@ -68,7 +68,7 @@
           <mat-progress-bar *ngIf="loading" [ngClass]="{'hide': router.url.startsWith('/auth')}" mode="indeterminate" class="loading-bar"></mat-progress-bar>
         </div>
         <div id="content" class="container__content--content" [ngClass]="{'active': router.url.startsWith('/auth')}">
-          <div class="main-content" [ngClass]="{'padding': router.url != '/', 'height': router.url == '/admin' || router.url == '/admin/profile' || router.url.startsWith('/admin/reservations')}">
+          <div class="main-content" [ngClass]="{'padding': router.url != '/' && !router.url.startsWith('/auth')}">
             <router-outlet #outlet="outlet" (activate)="onActivate($event)"></router-outlet>
           </div>
           <div class="footer" *ngIf="!router.url.startsWith('/auth')">

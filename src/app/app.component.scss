@@ -137,9 +137,7 @@
                 width: 100%;
                 height: unset;
                 box-sizing: border-box;
-                &.height {
-                    height: 100%;
-                }
+                margin: 0 0 auto 0;
             }
             .footer {
                 display: flex;
