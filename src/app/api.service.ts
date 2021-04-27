@@ -152,7 +152,8 @@ export class ApiService {
     const pubData = {
       twoPerson: table.twoPerson,
       fourPerson: table.fourPerson,
-      space: table.space
+      space: table.space,
+      tables: table.tables
     }
     return pubRef.set(pubData, {
       merge: true

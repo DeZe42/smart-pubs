@@ -134,17 +134,6 @@ export class CompanyComponent implements OnInit, OnDestroy {
           if (e.status == 'accepted' || e.status == 'pending') {
             this.currentSpace += e.table.persons;
           }
-          if (e.date == this.date.transform(new Date(), 'yyyy-LL-dd')) {
-            this.tables.forEach(element => {
-              if (e.table.id == element.id && e.table.persons == element.persons && (e.status == 'accepted' || e.status == 'pending')) {
-                element.reserved = true;
-              }
-            });
-          } else {
-            this.tables.forEach(element => {
-              element.reserved = false;
-            });
-          }
         });
       }
     });
@@ -200,10 +189,6 @@ export class CompanyComponent implements OnInit, OnDestroy {
               if (e.table.id == element.id && e.table.persons == element.persons && (e.status == 'accepted' || e.status == 'pending')) {
                 element.reserved = true;
               }
-            });
-          } else {
-            this.tables.forEach(element => {
-              element.reserved = false;
             });
           }
         });
@@ -311,6 +296,7 @@ export class CompanyComponent implements OnInit, OnDestroy {
     if (this.activeTable.reserved) {
       let reservation = this.reservationsToday.filter(reservation => reservation.table.id == this.activeTable.id && reservation.table.persons == this.activeTable.persons)[0];
       this.apiService.deleteReservation(reservation.uid);
+      this.activeTable.reserved = false;
       this.activeTable = null;
       this.apiService.loadReservations();
     } else {
@@ -321,11 +307,25 @@ export class CompanyComponent implements OnInit, OnDestroy {
   }
 
   showImageButtons() {
-    if (this.pub && this.imgURL1 && this.imgURL2 && this.imgURL3) {
-      if (this.imgURL1 == this.pub.imageSrc0 && this.imgURL2 == this.pub.imageSrc1 && this.imgURL3 == this.pub.imageSrc2) {
-        return false;
-      } else {
-        return true;
+    if (this.pub) {
+      if (this.imgURL1 && !this.imgURL2 && !this.imgURL3) {
+        if (this.imgURL1 == this.pub.imageSrc0) {
+          return false;
+        } else {
+          return true;
+        }
+      } else if (this.imgURL1 && this.imgURL2 && !this.imgURL3) {
+        if (this.imgURL1 == this.pub.imageSrc0 && this.imgURL2 == this.pub.imageSrc1) {
+          return false;
+        } else {
+          return true;
+        }
+      } else if (this.imgURL1 && this.imgURL2 && this.imgURL3) {
+        if (this.imgURL1 == this.pub.imageSrc0 && this.imgURL2 == this.pub.imageSrc1 && this.imgURL3 == this.pub.imageSrc2) {
+          return false;
+        } else {
+          return true;
+        }
       }
     }
   }
@@ -351,6 +351,7 @@ export class CompanyComponent implements OnInit, OnDestroy {
     }
     var reader = new FileReader();
     this.imageList.push(files)
+    console.log(this.imageList)
     reader.readAsDataURL(files[0]);
     reader.onload = (_event) => {
       if (number == 1) this.imgURL1 = reader.result;
@@ -377,10 +378,21 @@ export class CompanyComponent implements OnInit, OnDestroy {
   }
 
   saveTableChange() {
+    let tables = [];
+    let id = 1;
+    for (let index = 0; index < this.tableForm.controls.twoPerson.value; index++) {
+        tables.push({id: id, persons: 2, reserved: false});
+        id++;
+    }
+    for (let index = 0; index < this.tableForm.controls.fourPerson.value; index++) {
+        tables.push({id: id, persons: 4, reserved: false});
+        id++
+    }
     let table = {
       twoPerson: this.tableForm.controls.twoPerson.value,
       fourPerson: this.tableForm.controls.fourPerson.value,
-      space: this.tableForm.controls.twoPerson.value * 2 + this.tableForm.controls.fourPerson.value * 4
+      space: this.tableForm.controls.twoPerson.value * 2 + this.tableForm.controls.fourPerson.value * 4,
+      tables: tables
     }
     this.apiService.editTableToPub(this.pub, table);
   }

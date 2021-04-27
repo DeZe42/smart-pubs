@@ -21,15 +21,15 @@
         <div class="pubs__content--layout">
             <div class="picture">
                 <div class="picture__main">
-                    <div class="picture__main--left" (click)="previousPicture()"><mat-icon>arrow_back_ios</mat-icon></div>
+                    <div class="picture__main--left" (click)="previousPicture()" *ngIf="pub?.imageSrc1"><mat-icon>arrow_back_ios</mat-icon></div>
                     <img [src]="imageSrc0">
-                    <div class="picture__main--left right" (click)="nextPicture()"><mat-icon>arrow_forward_ios</mat-icon></div>
+                    <div class="picture__main--left right" (click)="nextPicture()" *ngIf="pub?.imageSrc1"><mat-icon>arrow_forward_ios</mat-icon></div>
                 </div>
                 <div class="picture__more">
-                    <div class="picture__more--more">
+                    <div class="picture__more--more" *ngIf="pub?.imageSrc1">
                         <img [src]="imageSrc1">
                     </div>
-                    <div class="picture__more--more">
+                    <div class="picture__more--more" *ngIf="pub?.imageSrc2">
                         <img [src]="imageSrc2">
                     </div>
                 </div>
