@@ -118,6 +118,7 @@
         align-items: center;
         width: 100%;
         padding: 160px 0;
+        box-sizing: border-box;
         &--title {
             font-size: 24px;
             line-height: 28px;
@@ -291,6 +292,31 @@
                     font-weight: 500;
                     padding: 0 24px;
                     color: $white;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 1440px) {
+    .home {
+        &__header {
+            &--container {
+                .title {
+                    padding: 0 24px;
+                }
+            }
+        }
+        &__content {
+            &--title {
+                padding: 0 24px;
+            }
+            &--card-container {
+                padding: 0 24px;
+            }
+            &--register {
+                .container {
+                    padding: 0 24px;
                 }
             }
         }

@@ -202,6 +202,26 @@
     }
 }
 
+@media only screen and (max-width: 1440px) {
+    .container {
+        &__content {
+            &--header {
+                .toolbar {
+                    padding: 0 24px;
+                }
+            }
+            &--content {
+                &.padding {
+                    padding: 0 24px;
+                }
+                .footer {
+                    padding: 0 24px;
+                }
+            }
+        }
+    }
+}
+
 @media only screen and (max-width: 768px) {
     .container {
         &__sidenav {
@@ -275,6 +295,9 @@
                 }
             }
             &--content {
+                &.padding {
+                    padding: 0 16px;
+                }
                 .footer {
                     padding: 0 16px;
                     &__footer-container {
