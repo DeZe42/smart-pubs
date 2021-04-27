@@ -5,26 +5,26 @@
         </div>
         <span class="reservation__content--title">{{ 'admin.reservations' | translate }}</span>
         <div class="reservation__content--table mat-elevation-z8" *ngIf="reservations.length != 0">
-            <table mat-table [dataSource]="dataSource" matSort>
+            <mat-table [dataSource]="dataSource" matSort>
               <ng-container matColumnDef="date">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'admin.reservations.date' | translate }}</th>
-                <td mat-cell *matCellDef="let element" (click)="navigateToEditPage(element.uid)"> {{ element.date }} {{ element.time }}</td>
+                <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'admin.reservations.date' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let element" (click)="navigateToEditPage(element.uid)"><span class="header">{{ 'admin.reservations.date' | translate }}</span><span>{{ element.date }} {{ element.time }}</span></mat-cell>
               </ng-container>
               <ng-container matColumnDef="space">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'admin.reservations.space' | translate }}</th>
-                <td mat-cell *matCellDef="let element" (click)="navigateToEditPage(element.uid)"> {{ element.spaceNumber }} </td>
+                <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'admin.reservations.space' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let element" (click)="navigateToEditPage(element.uid)"><span class="header">{{ 'admin.reservations.space' | translate }}</span><span>{{ element.spaceNumber }}</span></mat-cell>
               </ng-container>
               <ng-container matColumnDef="phoneNumber">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'admin.reservations.phone.number' | translate }}</th>
-                <td mat-cell *matCellDef="let element" (click)="navigateToEditPage(element.uid)"> {{ element.phoneNumber }} </td>
+                <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'admin.reservations.phone.number' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let element" (click)="navigateToEditPage(element.uid)"><span class="header">{{ 'admin.reservations.phone.number' | translate }}</span><span>{{ element.phoneNumber }}</span></mat-cell>
               </ng-container>
               <ng-container matColumnDef="status">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'admin.reservations.status' | translate }}</th>
-                <td mat-cell *matCellDef="let element" (click)="navigateToEditPage(element.uid)"><span *ngIf="element.status == 'leaved'">{{ 'admin.reservations.status.leaved' | translate }}</span><span *ngIf="element.status == 'pending'">{{ 'admin.reservations.status.pending' | translate }}</span><span *ngIf="element.status == 'accepted'">{{ 'admin.reservations.status.true' | translate }}</span><span *ngIf="element.status == 'declined'">{{ 'admin.reservations.status.false' | translate }}</span></td>
+                <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'admin.reservations.status' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let element" (click)="navigateToEditPage(element.uid)"><span class="header">{{ 'admin.reservations.status' | translate }}</span><span *ngIf="element.status == 'leaved'">{{ 'admin.reservations.status.leaved' | translate }}</span><span *ngIf="element.status == 'pending'">{{ 'admin.reservations.status.pending' | translate }}</span><span *ngIf="element.status == 'accepted'">{{ 'admin.reservations.status.true' | translate }}</span><span *ngIf="element.status == 'declined'">{{ 'admin.reservations.status.false' | translate }}</span></mat-cell>
               </ng-container>
-              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row  *matRowDef="let row; columns: displayedColumns;"></mat-row >
+            </mat-table>
             <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
         </div>
         <div class="reservation__content--empty" *ngIf="reservations.length == 0">

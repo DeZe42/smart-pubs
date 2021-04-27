@@ -4,6 +4,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    line-height: 1.25em;
     &__content {
         display: flex;
         flex-direction: column;
@@ -30,6 +31,9 @@
         &--table {
             display: flex;
             flex-direction: column;
+            .header {
+                display: none;
+            }
             .mat-table {
                 width: 100%;
                 .mat-row {
@@ -52,7 +56,7 @@
 @media only screen and (max-width: 768px) {
     .reservation {
         &__content {
-            padding: 16px;
+            padding: 16px 0;
             &--back {
                 margin: 0 0 24px 0;
             }
@@ -60,6 +64,57 @@
                 font-size: 20px;
                 line-height: 24px;
                 margin: 0 0 24px 0;
+            }
+            &--table {
+                .header {
+                    display: inline;
+                    font-weight: bold;
+                }
+                .mat-table {
+                    border: 0;
+                    vertical-align: middle
+                }
+                .mat-table caption {
+                    font-size: 1em;
+                }
+                // .mat-table .mat-header-cell {
+                //     border: 10px solid;
+                //     clip: rect(0 0 0 0);
+                //     height: 1px;
+                //     margin: -1px;
+                //     padding: 0;
+                //     position: absolute;
+                //     width: 1px;
+                // }
+                .mat-table .mat-row {
+                    display: block;
+                    border-bottom: 2px solid #ddd;
+                    padding: 0 16px;
+                    &::after {
+                        display: none;
+                    }
+                }
+                mat-cell:last-of-type {
+                    padding: 0;
+                }
+                mat-cell:first-of-type {
+                    padding: 0;
+                }
+                .mat-table .mat-cell {
+                    border-bottom: 1px solid #ddd;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    font-size: 1em;
+                    height: 20px;
+                    margin-bottom: 8px;
+                }
+                .mat-table .mat-cell:last-child {
+                    border-bottom: 0;
+                }
+                .mat-table .mat-cell:first-child {
+                    margin-top: 8px;
+                }
             }
             &--empty {
                 .empty {
