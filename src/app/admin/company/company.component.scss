@@ -163,6 +163,11 @@
                     height: 180px;
                     margin: 0 10px 10px 0;
                     border: 1px dashed $light-gray;
+                    img {
+                        width: 180px;
+                        height: 180px;
+                        object-fit: cover;
+                    }
                     &:nth-child(3n) {
                         margin: 0;
                     }
