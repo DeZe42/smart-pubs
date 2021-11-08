@@ -5,13 +5,13 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: "AIzaSyDe9c_eLiL7AGME3NcQsrSWcLKT-NOTzE0",
-    authDomain: "smarter-pubs.firebaseapp.com",
-    projectId: "smarter-pubs",
-    storageBucket: "smarter-pubs.appspot.com",
-    messagingSenderId: "315823748320",
-    appId: "1:315823748320:web:6f4689a2cd178f5e904c85",
-    measurementId: "G-0598GFE343"
+    apiKey: "AIzaSyAKSjXqJWyT1rRUwZJNzHpsM6NrIGRmlyk",
+    authDomain: "smart-pubs-aded3.firebaseapp.com",
+    projectId: "smart-pubs-aded3",
+    storageBucket: "smart-pubs-aded3.appspot.com",
+    messagingSenderId: "1048279431425",
+    appId: "1:1048279431425:web:af26c505a209b4a0688300",
+    measurementId: "G-2KKS07PM14"
   }
 };
 
